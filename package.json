@@ -1,0 +1,19 @@
+{
+  "name": "enviro.care",
+  "version": "1.0.0",
+  "description": "An environment friendly web application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/project-7337/enviro.care.git"
+  },
+  "author": "neo7337",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/project-7337/enviro.care/issues"
+  },
+  "homepage": "https://github.com/project-7337/enviro.care#readme"
+}
