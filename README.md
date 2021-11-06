@@ -1,2 +1,2 @@
-# enviro.care
-An environment friendly web application
+# home.cooked
+A home cooked food delivery service for small upcoming businesses
