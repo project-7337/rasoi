@@ -10,7 +10,7 @@ CUR_DIR=`pwd`
 PROJECT_DIR=$CUR_DIR/..
 
 export APP_ENV=prod
-export REACT_APP_PUBLIC_URL=/enviro
+export REACT_APP_PUBLIC_URL=/rasoi
 
 cd "$PROJECT_DIR"
 rm -rf node_modules
