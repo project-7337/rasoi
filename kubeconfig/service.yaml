@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasoi-app
+  labels:
+    app: rasoi-app
+spec:
+  ports:
+    - name: "rasoi-app"
+      port: 9191
+  selector:
+    app: rasoi-app

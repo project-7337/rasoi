@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const port = 9191
+const configs = require('./app/config/config')
+const config = configs.config()
 
 const app = express()
 
@@ -10,13 +12,12 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+require('./app/routes/routes')(app)
+
 if (process.env.APP_ENV === "prod") {
     app.use('/rasoi', express.static(path.join(__dirname, 'client', 'build')))
-    app.get('/rasoi/*', (req, res) => {
+    app.get('/rasoi/!*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }
-
-require('./app/routes/routes')(app)
-
 app.listen(port, () => console.log(`Listening on port ${port}`))
