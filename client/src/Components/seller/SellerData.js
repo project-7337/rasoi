@@ -11,7 +11,8 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Rating from '@material-ui/lab/Rating';
-import {Box} from "@material-ui/core";
+import {Box, Card, CardContent, CardMedia, Grid} from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     column: {
-        flexBasis: '33.33%',
+        flexBasis: '100%',
     },
     helper: {
         borderLeft: `2px solid ${theme.palette.divider}`,
@@ -54,14 +55,14 @@ export default function SellerData(props) {
 
     return (
         <div className={classes.root}>
-            <Accordion defaultExpanded>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1c-content"
                     id="panel1c-header"
                 >
                     <div className={classes.column}>
-                        <Typography className={classes.heading}>Seller {props.propsData}</Typography>
+                        <Typography className={classes.heading}>{props.sellerName}</Typography>
                     </div>
                     <div className={classes.column}>
                         <Box component="fieldset" mb={3} borderColor="transparent">
@@ -70,28 +71,138 @@ export default function SellerData(props) {
                     </div>
                 </AccordionSummary>
                 <AccordionDetails className={classes.details}>
-                    <div className={classes.column} />
                     <div className={classes.column}>
-                        <Chip label="Barbados" onDelete={() => {}} />
-                    </div>
-                    <div className={clsx(classes.column, classes.helper)}>
-                        <Typography variant="caption">
-                            Select your destination of choice
-                            <br />
-                            <a href="#secondary-heading-and-columns" className={classes.link}>
-                                Learn more
-                            </a>
-                        </Typography>
+                    <Carousel
+                        navButtonsAlwaysVisible={true}
+                        animation="slide">
+                        {
+                            items.map((item, index) => {
+                                return <Banner item={item} key={index} contentPosition={item.contentPosition} />
+                            })
+                        }
+                    </Carousel>
                     </div>
                 </AccordionDetails>
                 <Divider />
                 <AccordionActions>
                     <Button size="small">Cancel</Button>
                     <Button size="small" color="primary">
-                        Save
+                        Add
                     </Button>
                 </AccordionActions>
             </Accordion>
         </div>
     );
 }
+
+const Banner = (props) => {
+
+    const contentPosition = props.contentPosition ? props.contentPosition : "left"
+    const totalItems = props.length ? props.length : 3;
+    const mediaLength = totalItems - 1;
+
+    let items = [];
+    const content = (
+        <Grid item xs={4} key="content">
+            <CardContent className="Content">
+                <Typography className="Title">
+                    {props.item.Name}
+                </Typography>
+
+                <Typography className="Caption">
+                    {props.item.Caption}
+                </Typography>
+
+                <Button variant="outlined" className="ViewButton">
+                    View Now
+                </Button>
+            </CardContent>
+        </Grid>
+    )
+
+
+    for (let i = 0; i < mediaLength; i++) {
+        const item = props.item.Items[i];
+
+        const media = (
+            <Grid item xs={4} key={item.Name}>
+                <CardMedia
+                    className="Media"
+                    image={item.Image}
+                    title={item.Name}
+                >
+                    <Typography className="MediaCaption">
+                        {item.Name}
+                    </Typography>
+                </CardMedia>
+
+            </Grid>
+        )
+
+        items.push(media);
+    }
+
+    if (contentPosition === "left") {
+        items.unshift(content);
+    } else if (contentPosition === "right") {
+        items.push(content);
+    } else if (contentPosition === "middle") {
+        items.splice(items.length / 2, 0, content);
+    }
+
+    return (
+        <Card raised className="Banner">
+            <Grid container spacing={0} className="BannerGrid">
+                {items}
+            </Grid>
+        </Card>
+    )
+}
+
+const items = [
+    {
+        Name: "Electronics",
+        Caption: "Electrify your friends!",
+        contentPosition: "left",
+        Items: [
+            {
+                Name: "Macbook Pro",
+                Image: "https://source.unsplash.com/featured/?macbook"
+            },
+            {
+                Name: "iPhone",
+                Image: "https://source.unsplash.com/featured/?iphone"
+            }
+        ]
+    },
+    {
+        Name: "Home Appliances",
+        Caption: "Say no to manual home labour!",
+        contentPosition: "middle",
+        Items: [
+            {
+                Name: "Washing Machine WX9102",
+                Image: "https://source.unsplash.com/featured/?washingmachine"
+            },
+            {
+                Name: "Learus Vacuum Cleaner",
+                Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
+            }
+        ]
+    },
+    {
+        Name: "Decoratives",
+        Caption: "Give style and color to your living room!",
+        contentPosition: "right",
+        Items: [
+            {
+                Name: "Living Room Lamp",
+                Image: "https://source.unsplash.com/featured/?lamp"
+            },
+            {
+                Name: "Floral Vase",
+                Image: "https://source.unsplash.com/featured/?vase"
+            }
+        ]
+    }
+]
