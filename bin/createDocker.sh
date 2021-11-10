@@ -27,5 +27,6 @@ rm -rf node_modules
 
 cd "$PROJECT_DIR"
 docker build -t neo73/enviro.care:"$1" .
+docker tag neo73/enviro.care:"$1" neo73/enviro.care:latest
 
 rm -rf node_modules
