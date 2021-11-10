@@ -261,6 +261,7 @@ export default function Seller() {
                             <Grid container spacing={3} key={index}>
                                 <Grid item xs={12}>
                                     <SellerData
+                                        type={'menu'}
                                         sellerName={data.name}
                                         amount={data.amount}
                                     />
@@ -274,6 +275,7 @@ export default function Seller() {
                             <Grid container spacing={3} key={index}>
                                 <Grid item xs={12}>
                                     <SellerData
+                                        type={'booking'}
                                         sellerName={data.bookingName}
                                         amount={data.bookingAmount}
                                     />
