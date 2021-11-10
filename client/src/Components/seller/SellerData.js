@@ -72,7 +72,7 @@ export default function SellerData(props) {
                 </AccordionSummary>
                 <AccordionDetails className={classes.details}>
                     <div className={classes.column}>
-                    <Carousel
+                    {/*<Carousel
                         navButtonsAlwaysVisible={true}
                         animation="slide">
                         {
@@ -80,7 +80,7 @@ export default function SellerData(props) {
                                 return <Banner item={item} key={index} contentPosition={item.contentPosition} />
                             })
                         }
-                    </Carousel>
+                    </Carousel>*/}
                     </div>
                 </AccordionDetails>
                 <Divider />

@@ -7,12 +7,13 @@ import {
     DialogTitle,
     Divider, FormControl,
     Grid,
-    IconButton, Input, InputAdornment, InputLabel, MenuItem, Select, TextField,
+    IconButton, Input, InputAdornment, InputLabel, MenuItem, Select, Tab, Tabs, TextField,
     Typography
 } from "@material-ui/core"
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import SellerData from "./SellerData";
 import SellerHeading from "./SellerHeading";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,7 +31,8 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3, 0)
     },
     sellerContent: {
-        flexGrow: 1
+        flexGrow: 1,
+        width: '100%'
     },
     formControl: {
         margin: theme.spacing(1),
@@ -41,13 +43,62 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
         width: 200,
     },
+    tabs: {
+        borderRight: `1px solid ${theme.palette.divider}`,
+    },
+    tabRoot: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        height: 224,
+    }
 }))
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
+            {...other}
+            style={{ width: '100%' }}
+        >
+            {value === index && (
+                <div>
+                    {children}
+                </div>
+            )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `vertical-tab-${index}`,
+        'aria-controls': `vertical-tabpanel-${index}`,
+    };
+}
 
 export default function Seller() {
     const classes = useStyles()
 
     const [sellerData, setSellerData] = React.useState([])
     const [open, setOpen] = React.useState(false);
+
+    const [tabValue, setTabValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
 
     // add all the values in the single object
     const [values, setValues] = React.useState({
@@ -95,9 +146,8 @@ export default function Seller() {
                         </Typography>
                     </Box>
                     <Box p={1} flexGrow={1}>
-                        <IconButton color="primary" aria-label="add to shopping cart">
-                            <AddCircleOutlineIcon
-                                onClick={handleClickOpen}/>
+                        <IconButton color="primary" aria-label="add to shopping cart" onClick={handleClickOpen}>
+                            <AddCircleOutlineIcon/>
                         </IconButton>
                     </Box>
                 </Box>
@@ -183,20 +233,34 @@ export default function Seller() {
             </Dialog>
             <Divider className={classes.divider}>
             </Divider>
-            <div className={classes.sellerContent}>
-                {undefined !== sellerData &&
-                sellerData.map((data, index) => (
-                    <Grid container spacing={3}>
-                        <Grid item xs={3}>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SellerData
-                                sellerName={data.name}/>
-                        </Grid>
-                        <Grid item xs={3}>
-                        </Grid>
-                    </Grid>
-                ))}
+            <div className={classes.tabRoot}>
+                <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={tabValue}
+                    onChange={handleChange}
+                    aria-label="Vertical tabs example"
+                    className={classes.tabs}
+                >
+                    <Tab label="Today's Menu" {...a11yProps(0)} />
+                    <Tab label="Today's Bookings" {...a11yProps(1)} />
+                </Tabs>
+
+                <TabPanel value={tabValue} index={0}>
+                        {undefined !== sellerData &&
+                        sellerData.map((data, index) => (
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <SellerData
+                                        key={index}
+                                        sellerName={data.name}/>
+                                </Grid>
+                            </Grid>
+                        ))}
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                    Item Two
+                </TabPanel>
             </div>
         </div>
     )
