@@ -14,6 +14,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import SellerData from "./SellerData";
 import SellerHeading from "./SellerHeading";
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -92,6 +93,9 @@ export default function Seller() {
     const classes = useStyles()
 
     const [sellerData, setSellerData] = React.useState([])
+    const [bookingsData, setBookingsData] = React.useState({
+        bookings: []
+    })
     const [open, setOpen] = React.useState(false);
 
     const [tabValue, setTabValue] = React.useState(0);
@@ -128,7 +132,12 @@ export default function Seller() {
     }
 
     React.useEffect(() => {
-
+        async function fetchBookings() {
+            const response = await axios.get("/api/v1/fetchBookings")
+            console.log(response)
+            setBookingsData((bookingsData) => ({...bookingsData, bookings: response.data}))
+        }
+        fetchBookings()
     }, [])
 
     const addSellerData = () => {
@@ -249,17 +258,29 @@ export default function Seller() {
                 <TabPanel value={tabValue} index={0}>
                         {undefined !== sellerData &&
                         sellerData.map((data, index) => (
-                            <Grid container spacing={3}>
+                            <Grid container spacing={3} key={index}>
                                 <Grid item xs={12}>
                                     <SellerData
-                                        key={index}
-                                        sellerName={data.name}/>
+                                        sellerName={data.name}
+                                        amount={data.amount}
+                                    />
                                 </Grid>
                             </Grid>
                         ))}
                 </TabPanel>
                 <TabPanel value={tabValue} index={1}>
-                    Item Two
+                    {undefined !== bookingsData &&
+                        bookingsData.bookings.map((data, index)=> (
+                            <Grid container spacing={3} key={index}>
+                                <Grid item xs={12}>
+                                    <SellerData
+                                        sellerName={data.bookingName}
+                                        amount={data.bookingAmount}
+                                    />
+                                </Grid>
+                            </Grid>
+                        ))
+                    }
                 </TabPanel>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from "@material-ui/core/styles";
-import {Box, Button, Card, CardContent, CardMedia, Divider, Grid, Paper, Typography} from "@material-ui/core";
+import { Button, Card, CardContent, CardMedia, Divider, Grid, Typography } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 

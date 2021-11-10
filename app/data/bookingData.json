@@ -1,7 +1,9 @@
 [
   {
     "bookingID": "",
-    "bookingName": "",
+    "bookingDateTime": "",
+    "bookingName": "Order-1",
+    "bookingAmount": 0,
     "bookingItems": [
       {
         "itemName": "",
@@ -26,7 +28,9 @@
   },
   {
     "bookingID": "",
-    "bookingName": "",
+    "bookingName": "Order-2",
+    "bookingDateTime": "",
+    "bookingAmount": 0,
     "bookingItems": [
       {
         "itemName": "",
@@ -51,7 +55,9 @@
   },
   {
     "bookingID": "",
-    "bookingName": "",
+    "bookingName": "Order-3",
+    "bookingDateTime": "",
+    "bookingAmount": 0,
     "bookingItems": [
       {
         "itemName": "",
@@ -76,7 +82,9 @@
   },
   {
     "bookingID": "",
-    "bookingName": "",
+    "bookingName": "Order-4",
+    "bookingDateTime": "",
+    "bookingAmount": 0,
     "bookingItems": [
       {
         "itemName": "",
