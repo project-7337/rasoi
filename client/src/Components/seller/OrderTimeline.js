@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-    return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+    return ['Order Accepted', 'Order Preparing', 'Order Prepared', 'Order Dispatched', 'Order Delivered'];
 }
 
 const QontoConnector = withStyles({
@@ -90,18 +90,6 @@ export default function OrderTimeline() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(1);
     const steps = getSteps();
-
-    /*const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };*/
 
     return (
         <div className={classes.root}>

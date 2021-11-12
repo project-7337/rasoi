@@ -276,8 +276,9 @@ export default function Seller() {
                                 <Grid item xs={12}>
                                     <SellerData
                                         type={'booking'}
-                                        sellerName={data.bookingName}
-                                        amount={data.bookingAmount}
+                                        bookingName={data.bookingName}
+                                        bookingAmount={data.bookingAmount}
+                                        bookingItems={data.bookingItems}
                                     />
                                 </Grid>
                             </Grid>

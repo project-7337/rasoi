@@ -8,7 +8,17 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import {Box} from "@material-ui/core";
+import KitchenIcon from '@material-ui/icons/Kitchen';
+import {
+    Avatar,
+    Box,
+    Grid, IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemText
+} from "@material-ui/core";
 import OrderTimeline from "./OrderTimeline";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,11 +54,36 @@ const useStyles = makeStyles((theme) => ({
             textDecoration: 'underline',
         },
     },
+    title: {
+        margin: theme.spacing(4, 0, 2),
+        padding: theme.spacing(1, 2)
+    },
+    demo: {
+        backgroundColor: theme.palette.background.paper,
+    },
 }));
 
 
+function FolderIcon() {
+    return null;
+}
+
+function DeleteIcon() {
+    return null;
+}
+
 export default function SellerData(props) {
     const classes = useStyles()
+    const [dense, setDense] = React.useState(true)
+    const [secondary, setSecondary] = React.useState(true)
+
+    function generate(element) {
+        return props.bookingItems.map((value) =>
+            React.cloneElement(element, {
+                key: value
+            })
+        )
+    }
 
     return (
         <div className={classes.root}>
@@ -81,11 +116,11 @@ export default function SellerData(props) {
                         id="panel1c-header"
                     >
                         <div className={classes.column}>
-                            <Typography className={classes.heading}>{props.sellerName}</Typography>
+                            <Typography className={classes.heading}>{props.bookingName}</Typography>
                         </div>
                         <div className={classes.column}>
                             <Box component="fieldset" mb={3} borderColor="transparent">
-                                <Typography className={classes.heading}>$ {props.amount}</Typography>
+                                <Typography className={classes.heading}>$ {props.bookingAmount}</Typography>
                             </Box>
                         </div>
                         <div className={classes.column}>
@@ -98,6 +133,32 @@ export default function SellerData(props) {
                         <div className={classes.column}>
                         </div>
                     </AccordionDetails>
+                    <Divider/>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h6" className={classes.title}>
+                            Booking items
+                        </Typography>
+                        <div>
+                            <List dense={dense}>
+                                {generate(
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <KitchenIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary="Single-line item"
+                                            secondary={secondary ? 'Secondary text' : null}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <Typography variant="h6">$</Typography>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>,
+                                )}
+                            </List>
+                        </div>
+                    </Grid>
                     <Divider/>
                     <AccordionActions>
                         <Button size="small">Deny</Button>
