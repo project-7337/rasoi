@@ -1,0 +1,20 @@
+[
+  {
+    "itemName": "dal makhani",
+    "itemQuantity": 25,
+    "itemType": "Veg",
+    "itemPrice": 3
+  },
+  {
+    "itemName": "french fries",
+    "itemQuantity": 45,
+    "itemType": "veg",
+    "itemPrice": 1.5
+  },
+  {
+    "itemName": "pizza",
+    "itemQuantity": 20,
+    "itemType": "non-veg",
+    "itemPrice": 2
+  }
+]
