@@ -1,8 +1,21 @@
 import React from 'react'
-import {makeStyles} from "@material-ui/core/styles";
-import { Button, Card, CardContent, CardMedia, Divider, Grid, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Paper, Typography } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import axios from 'axios';
+import SellerData from "../seller/SellerData";
+import RestaurantData from './RestaurantData';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,12 +31,47 @@ const useStyles = makeStyles(theme => ({
     },
     divider: {
         margin: theme.spacing(3, 0)
-    }
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
 }))
+
+
 
 export default function Customer() {
     const classes = useStyles()
+    const [expanded, setExpanded] = React.useState(false);
+    const [restaurantData, setRestaurantData] = React.useState({
+        details: []
+    })
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
+    React.useEffect(() => {
+        async function fetchRestaurants() {
+            const response = await axios.get("/api/v1/fetchRestaurantData")
+            console.log(response)
+            setRestaurantData(restaurantData => ({ ...restaurantData, details: response.data }))
+        }
+
+        fetchRestaurants()
+    }, [])
     return (
         <div className={classes.root}>
             <Carousel
@@ -35,8 +83,12 @@ export default function Customer() {
                     })
                 }
             </Carousel>
-            <Divider className={classes.divider}>
-            </Divider>
+            {undefined !== restaurantData &&
+                restaurantData.details.map((data, index) => (
+                    <RestaurantData
+                        fullData={data}
+                        menuItems={data.menuItems}
+                    />))}
         </div>
     )
 }
@@ -107,47 +159,32 @@ const Banner = (props) => {
 
 const items = [
     {
-        Name: "Electronics",
-        Caption: "Electrify your friends!",
+        Name: "DEAL OF THE DAY",
+        Caption: "Grab it now",
         contentPosition: "left",
         Items: [
             {
-                Name: "Macbook Pro",
-                Image: "https://source.unsplash.com/featured/?macbook"
+                Name: "Dal Makhni",
+                Image: "https://www.vegrecipesofindia.com/wp-content/uploads/2015/01/dal-makhani-recipe-1.jpg"
             },
             {
-                Name: "iPhone",
-                Image: "https://source.unsplash.com/featured/?iphone"
+                Name: "Paneer butter masala",
+                Image: "https://www.ruchiskitchen.com/wp-content/uploads/2020/12/Paneer-butter-masala-recipe-3-500x500.jpg"
             }
         ]
     },
     {
-        Name: "Home Appliances",
-        Caption: "Say no to manual home labour!",
+        Name: "Top Picks",
+        Caption: "We know whats best for you",
         contentPosition: "middle",
         Items: [
             {
-                Name: "Washing Machine WX9102",
-                Image: "https://source.unsplash.com/featured/?washingmachine"
+                Name: "khandani Pakode",
+                Image: "https://media-cdn.tripadvisor.com/media/photo-s/16/b2/35/30/photo0jpg.jpg"
             },
             {
-                Name: "Learus Vacuum Cleaner",
-                Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
-            }
-        ]
-    },
-    {
-        Name: "Decoratives",
-        Caption: "Give style and color to your living room!",
-        contentPosition: "right",
-        Items: [
-            {
-                Name: "Living Room Lamp",
-                Image: "https://source.unsplash.com/featured/?lamp"
-            },
-            {
-                Name: "Floral Vase",
-                Image: "https://source.unsplash.com/featured/?vase"
+                Name: "Bittu Tikki Vala",
+                Image: "https://i.ytimg.com/vi/3MgsACjRq9E/hqdefault.jpg"
             }
         ]
     }

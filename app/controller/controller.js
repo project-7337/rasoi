@@ -3,6 +3,7 @@ const configs = require('../config/config')
 const config = configs.config()
 const bookingData = require('../data/bookingData.json')
 const dishesData = require('../data/dishesData.json')
+const restaurantData = require('../data/restaurantData.json')
 
 controllers.ping = (req, res)=> {
     res.send("The server is up and running")
@@ -23,5 +24,7 @@ controllers.fetchBookings = (req, res) => {
 controllers.fetchDishes = (req, res) => {
     res.json(dishesData)
 }
-
+controllers.getRestaurants = (req, res) => {
+    res.json(restaurantData)
+}
 module.exports = controllers
