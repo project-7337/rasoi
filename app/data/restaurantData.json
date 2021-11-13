@@ -1,0 +1,126 @@
+[
+  {
+    "restaurantId": "1",
+    "restaurantName": "Geeta ki Rasoi",
+    "restaurantAddress": "Jamrudpur",
+    "restaurantTiming": "10 am - 2 pm",
+    "rating": 5,
+    "type": "Indian",
+    "menuItems": [
+      {
+        "itemName": "Dal Makhni",
+        "itemQuantity": "10",
+        "itemType": "Veg",
+        "itemPrice": 60,
+        "itemImage": "https://www.cookwithmanali.com/wp-content/uploads/2019/04/Restaurant-Style-Dal-Makhani-500x500.jpg"
+      },
+      {
+        "itemName": "Aloo Gobhi",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 40,
+        "itemImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F7667872.jpg&q=85"
+      },
+      {
+        "itemName": "Aloo parantha",
+        "itemQuantity": "40",
+        "itemType": "veg",
+        "itemPrice": 20,
+        "itemImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Aloo_Paratha1.jpg/140px-Aloo_Paratha1.jpg"
+      }
+    ]
+  },
+  {
+    "restaurantId": "2",
+    "restaurantName": "Ramesh Dhaba",
+    "restaurantAddress": "Govindpuri",
+    "restaurantTiming": "10 am - 2 pm",
+    "rating": 3.5,
+    "type": "Indian",
+    "menuItems": [
+      {
+        "itemName": "Dal Tadka",
+        "itemQuantity": "10",
+        "itemType": "Veg",
+        "itemPrice": 60,
+        "itemImage": "https://i.ytimg.com/vi/EU3kkqZF2vU/maxresdefault.jpg"
+      },
+      {
+        "itemName": "Aloo Palak",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 40,
+        "itemImage": "https://i0.wp.com/www.bharatzkitchen.com/wp-content/uploads/2020/08/Aloo-PALAK.jpg?fit=640%2C361&ssl=1"
+      },
+      {
+        "itemName": "Butter roti",
+        "itemQuantity": "40",
+        "itemType": "veg",
+        "itemPrice": 20,
+        "itemImage": "https://i0.wp.com/www.bharatzkitchen.com/wp-content/uploads/2020/08/Aloo-PALAK.jpg?fit=640%2C361&ssl=1"
+      }
+    ]
+  },
+  {
+    "restaurantId": "3",
+    "restaurantName": "Sita Rani home kitchen",
+    "restaurantAddress": "Gurgaon sector 56",
+    "restaurantTiming": "10 am - 2 pm",
+    "rating": 4,
+    "type": "Indian",
+    "menuItems": [
+      {
+        "itemName": "dal kolhapuri",
+        "itemQuantity": "10",
+        "itemType": "Veg",
+        "itemPrice": 60,
+        "itemImage": "https://img-global.cpcdn.com/recipes/c41768ff89d22302/680x482cq70/%E0%A4%95%E0%A4%B2%E0%A4%B9%E0%A4%AA%E0%A4%B0-%E0%A4%A6%E0%A4%B2-kolhapuri-recipe-in-hindi-%E0%A4%B0%E0%A4%B8%E0%A4%AA-%E0%A4%AE%E0%A4%96%E0%A4%AF-%E0%A4%A4%E0%A4%B8%E0%A4%B5%E0%A4%B0.jpg"
+      },
+      {
+        "itemName": "sabji dal",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 40,
+        "itemImage": "https://www.archanaskitchen.com//images/archanaskitchen/1-Author/Pooja_Thakur/badi_ki_sabzi.jpg"
+      },
+      {
+        "itemName": "Aloo parantha",
+        "itemQuantity": "40",
+        "itemType": "veg",
+        "itemPrice": 20,
+        "itemImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Aloo_Paratha1.jpg/640px-Aloo_Paratha1.jpg"
+      }
+    ]
+  },
+  {
+    "restaurantId": "4",
+    "restaurantName": "Soni Tiffin service",
+    "restaurantAddress": "Geeta Colony",
+    "restaurantTiming": "10 am - 2 pm",
+    "rating": 2,
+    "type": "Indian",
+    "menuItems": [
+      {
+        "itemName": "Dal Makhni",
+        "itemQuantity": "10",
+        "itemType": "Veg",
+        "itemPrice": 60,
+        "itemImage": "https://www.cookwithmanali.com/wp-content/uploads/2019/04/Restaurant-Style-Dal-Makhani-500x500.jpg"
+      },
+      {
+        "itemName": "Aloo Gobhi",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 40,
+        "itemImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F7667872.jpg&q=85"
+      },
+      {
+        "itemName": "Aloo parantha",
+        "itemQuantity": "40",
+        "itemType": "veg",
+        "itemPrice": 20,
+        "itemImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Aloo_Paratha1.jpg/640px-Aloo_Paratha1.jpg"
+      }
+    ]
+  }
+]

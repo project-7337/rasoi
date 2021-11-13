@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prodServer": "set APP_ENV=prod&& nodemon server.js",
     "serverMac": "nodemon server.js --ignore '**/client/**'",
+    "server":"nodemon server.js --ignore client/*",
     "serverInstall": "yarn install",
     "clientInstall": "cd client &&  yarn install"
   },

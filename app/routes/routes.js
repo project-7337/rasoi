@@ -6,4 +6,5 @@ module.exports = (app) => {
     app.get('/api/v1/getSellers', controller.getSellers)
     app.get('/api/v1/fetchBookings', controller.fetchBookings)
     app.get('/api/v1/fetchDishes', controller.fetchDishes)
+    app.get('/api/v1/fetchRestaurantData', controller.getRestaurants)
 }
