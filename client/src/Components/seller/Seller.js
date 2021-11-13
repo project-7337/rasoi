@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -65,7 +65,7 @@ function TabPanel(props) {
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
         >
             {value === index && (
                 <div>
@@ -92,7 +92,9 @@ function a11yProps(index) {
 export default function Seller() {
     const classes = useStyles()
 
-    const [sellerData, setSellerData] = React.useState([])
+    const [sellerData, setSellerData] = React.useState({
+        menu: []
+    })
     const [bookingsData, setBookingsData] = React.useState({
         bookings: []
     })
@@ -106,12 +108,12 @@ export default function Seller() {
 
     // add all the values in the single object
     const [values, setValues] = React.useState({
-        name: '',
-        type: '',
-        quantity: 0,
-        startTime: '',
-        endTime: '',
-        amount: ''
+        itemName: '',
+        itemType: '',
+        itemQuantity: 0,
+        itemStartTime: '',
+        itemEndTime: '',
+        itemPrice: 0
     });
 
     const handleClickOpen = () => {
@@ -137,11 +139,21 @@ export default function Seller() {
             console.log(response)
             setBookingsData((bookingsData) => ({...bookingsData, bookings: response.data}))
         }
+
+        async function fetchDishes() {
+            const response = await axios.get("/api/v1/fetchDishes")
+            console.log(response)
+            setSellerData(sellerData => ({...sellerData, menu: response.data}))
+        }
+
+        fetchDishes()
         fetchBookings()
     }, [])
 
     const addSellerData = () => {
-        setSellerData(sellerData => [...sellerData, values])
+        let oldData = sellerData.menu
+        oldData.push(values)
+        setSellerData(sellerData => ({...sellerData, menu: oldData}))
     }
 
     return (
@@ -167,18 +179,18 @@ export default function Seller() {
                     <TextField className={classes.formControl}
                                autoFocus
                                margin="dense"
-                               id="name"
+                               id="itemName"
                                label="Enter Name of the Dish"
                                type="text"
-                               onChange={onChangeHandler('name')}
+                               onChange={onChangeHandler('itemName')}
                     />
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Veg/Non-Veg</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={values.type}
-                            onChange={onChangeHandler('type')}
+                            value={values.itemType}
+                            onChange={onChangeHandler('itemType')}
                         >
                             <MenuItem value="veg">Veg</MenuItem>
                             <MenuItem value="non-veg">Non-Veg</MenuItem>
@@ -187,13 +199,13 @@ export default function Seller() {
                     <TextField className={classes.formControl}
                                autoFocus
                                margin="dense"
-                               id="quantity"
+                               id="itemQuantity"
                                label="Enter Quantity Present"
                                type="number"
-                               onChange={onChangeHandler('quantity')}
+                               onChange={onChangeHandler('itemQuantity')}
                     />
                     <TextField
-                        id="time"
+                        id="itemStartTime"
                         label="Dish Time (Start)"
                         type="time"
                         defaultValue="10:30"
@@ -204,10 +216,10 @@ export default function Seller() {
                         inputProps={{
                             step: 300, // 5 min
                         }}
-                        onChange={onChangeHandler('startTime')}
+                        onChange={onChangeHandler('itemStartTime')}
                     />
                     <TextField
-                        id="time"
+                        id="itemEndTime"
                         label="Dish Time (End)"
                         type="time"
                         defaultValue="16:30"
@@ -218,14 +230,14 @@ export default function Seller() {
                         inputProps={{
                             step: 300, // 5 min
                         }}
-                        onChange={onChangeHandler('endTime')}
+                        onChange={onChangeHandler('itemEndTime')}
                     />
                     <FormControl fullWidth className={classes.formControl}>
                         <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
                         <Input
                             id="standard-adornment-amount"
-                            value={values.amount}
-                            onChange={onChangeHandler('amount')}
+                            value={values.itemPrice}
+                            onChange={onChangeHandler('itemPrice')}
                             type="number"
                             startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         />
@@ -256,32 +268,34 @@ export default function Seller() {
                 </Tabs>
 
                 <TabPanel value={tabValue} index={0}>
-                        {undefined !== sellerData &&
-                        sellerData.map((data, index) => (
+                    {
+                        undefined !== sellerData && sellerData.menu.map((data, index) => (
                             <Grid container spacing={3} key={index}>
                                 <Grid item xs={12}>
                                     <SellerData
                                         type={'menu'}
-                                        sellerName={data.name}
-                                        amount={data.amount}
-                                    />
-                                </Grid>
-                            </Grid>
-                        ))}
-                </TabPanel>
-                <TabPanel value={tabValue} index={1}>
-                    {undefined !== bookingsData &&
-                        bookingsData.bookings.map((data, index)=> (
-                            <Grid container spacing={3} key={index}>
-                                <Grid item xs={12}>
-                                    <SellerData
-                                        type={'booking'}
-                                        sellerName={data.bookingName}
-                                        amount={data.bookingAmount}
+                                        sellerName={data.itemName}
+                                        amount={data.itemPrice}
                                     />
                                 </Grid>
                             </Grid>
                         ))
+                    }
+                </TabPanel>
+                <TabPanel value={tabValue} index={1}>
+                    {undefined !== bookingsData &&
+                    bookingsData.bookings.map((data, index) => (
+                        <Grid container spacing={3} key={index}>
+                            <Grid item xs={12}>
+                                <SellerData
+                                    type={'booking'}
+                                    bookingName={data.bookingName}
+                                    bookingAmount={data.bookingAmount}
+                                    bookingItems={data.bookingItems}
+                                />
+                            </Grid>
+                        </Grid>
+                    ))
                     }
                 </TabPanel>
             </div>

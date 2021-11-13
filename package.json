@@ -1,5 +1,5 @@
 {
-  "name": "enviro.care",
+  "name": "home.cooked",
   "version": "1.0.0",
   "description": "An environment friendly web application",
   "main": "server.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/project-7337/enviro.care.git"
+    "url": "git+https://github.com/project-7337/home.cooked.git"
   },
   "author": "neo7337",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/project-7337/enviro.care/issues"
+    "url": "https://github.com/project-7337/home.cooked/issues"
   },
-  "homepage": "https://github.com/project-7337/enviro.care#readme",
+  "homepage": "https://github.com/project-7337/home.cooked#readme",
   "dependencies": {
     "axios": "^0.24.0",
     "body-parser": "^1.19.0",
