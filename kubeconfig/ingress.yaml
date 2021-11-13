@@ -8,7 +8,17 @@ metadata:
   name: rasoi-app-ingress
 spec:
   rules:
-    - host: {{host}}
+    - host: { { host } }
+      http:
+        paths:
+          - backend:
+              service:
+                name: rasoi-app
+                port:
+                  number: 9191
+            path: /
+            pathType: "Prefix"
+    - host: rasoi-app.com
       http:
         paths:
           - backend:

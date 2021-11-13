@@ -2,19 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-require('dotenv').config()
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
-/*ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);*/
+require('dotenv').config()
 
 ReactDOM.render((<BrowserRouter>
     <Switch>
-        {/*<Route path={process.env.REACT_APP_PUBLIC_URL + "/customer"} component={}/>*/}
         <Route component={App}/>
     </Switch>
 </BrowserRouter>), document.getElementById('root'))

@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import KitchenIcon from '@material-ui/icons/Kitchen';
 import {
     Avatar,
-    Box,
+    Box, Chip,
     Grid, IconButton,
     List,
     ListItem,
@@ -20,6 +20,12 @@ import {
     ListItemText
 } from "@material-ui/core";
 import OrderTimeline from "./OrderTimeline";
+import {loadCSS} from "fg-loadcss";
+import Icon from "@material-ui/core/Icon";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,54 +67,85 @@ const useStyles = makeStyles((theme) => ({
     demo: {
         backgroundColor: theme.palette.background.paper,
     },
+    paperDiv: {
+        padding: theme.spacing(3),
+        flexGrow: 1,
+        display: 'flex',
+        height: '100%',
+    },
+    menuItemsImages: {
+        height: '150px',
+        width: '180px'
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
 }));
-
-
-function FolderIcon() {
-    return null;
-}
-
-function DeleteIcon() {
-    return null;
-}
 
 export default function SellerData(props) {
     const classes = useStyles()
-    const [dense, setDense] = React.useState(true)
-    const [secondary, setSecondary] = React.useState(true)
+    const [dense] = React.useState(true)
 
-    function generate(element) {
-        return props.bookingItems.map((value) =>
-            React.cloneElement(element, {
-                key: value
-            })
-        )
-    }
+    React.useEffect(() => {
+        const node = loadCSS(
+            'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+            document.querySelector('#font-awesome-css'),
+        );
+        return () => {
+            node.parentNode.removeChild(node);
+        };
+    }, []);
 
     return (
         <div className={classes.root}>
             {(props.type === 'menu') ?
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon/>}
-                        aria-controls="panel1c-content"
-                        id="panel1c-header"
-                    >
-                        <div className={classes.column}>
-                            <Typography className={classes.heading}>{props.sellerName}</Typography>
-                        </div>
-                        <div className={classes.column}>
+                <div className={classes.paperDiv}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={3}>
+                            {(undefined !== props.fullData.itemImage) ?
+                            <img alt={props.fullData.itemName} className={classes.menuItemsImages} src={props.fullData.itemImage}/>
+                            : <img alt={props.fullData.itemName} className={classes.menuItemsImages} src="https://cdn2.iconfinder.com/data/icons/food-restaurant-1/128/flat-11-512.png"/>}
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography variant="h6">{props.fullData.itemName}</Typography>
+                            <Chip variant="outlined" color="default" icon={<FiberManualRecordIcon
+                                style={{color: (props.fullData.itemType === 'veg' || props.fullData.itemType === 'Veg') ? 'green' : 'red'}}/>}
+                                  label={props.fullData.itemType}/>
+                        </Grid>
+                        <Grid item xs={2}>
                             <Box component="fieldset" mb={3} borderColor="transparent">
-                                <Typography className={classes.heading}>$ {props.amount}</Typography>
+                                <Chip variant="outlined" color="default" label={"quantity :" + props.fullData.itemQuantity}/>
                             </Box>
-                        </div>
-                    </AccordionSummary>
-                    <AccordionDetails className={classes.details}>
-                        <div className={classes.column}>
-                        </div>
-                    </AccordionDetails>
-                    <Divider/>
-                </Accordion>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Box component="fieldset" mb={3} borderColor="transparent">
+                                <Chip variant="outlined" color="default"
+                                      icon={<Icon className="fas fa-rupee-sign" style={{fontSize: 15}}/>}
+                                      label={props.amount}/>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Box component="fieldset" mb={3} borderColor="transparent">
+                                <Button
+                                    variant="contained"
+                                    color="default"
+                                    className={classes.button}
+                                    startIcon={<EditIcon />}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.button}
+                                    startIcon={<DeleteIcon />}
+                                >
+                                    Delete
+                                </Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </div>
                 : <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon/>}
@@ -117,15 +154,18 @@ export default function SellerData(props) {
                     >
                         <div className={classes.column}>
                             <Typography className={classes.heading}>{props.bookingName}</Typography>
-                        </div>
-                        <div className={classes.column}>
-                            <Box component="fieldset" mb={3} borderColor="transparent">
-                                <Typography className={classes.heading}>$ {props.bookingAmount}</Typography>
-                            </Box>
+                            <Typography variant="subtitle1">{props.bookingAddress}</Typography>
                         </div>
                         <div className={classes.column}>
                             <Box component="fieldset" mb={3} borderColor="transparent">
                                 <OrderTimeline/>
+                            </Box>
+                        </div>
+                        <div className={classes.column} style={{textAlign: 'right'}}>
+                            <Box component="fieldset" mb={3} borderColor="transparent">
+                                <Typography className={classes.heading}><Icon className="fas fa-rupee-sign"
+                                                                              style={{fontSize: 15}}/> {props.bookingAmount}
+                                </Typography>
                             </Box>
                         </div>
                     </AccordionSummary>
@@ -134,36 +174,41 @@ export default function SellerData(props) {
                         </div>
                     </AccordionDetails>
                     <Divider/>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <Typography variant="h6" className={classes.title}>
                             Booking items
                         </Typography>
                         <div>
                             <List dense={dense}>
-                                {generate(
+                                {undefined !== props.bookingItems && props.bookingItems.map((data, index) => (
                                     <ListItem>
                                         <ListItemAvatar>
                                             <Avatar>
-                                                <KitchenIcon />
+                                                <FastfoodIcon/>
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary="Single-line item"
-                                            secondary={secondary ? 'Secondary text' : null}
+                                            primary={data.itemName}
+                                            secondary={<Chip variant="outlined" color="default" icon={<FiberManualRecordIcon
+                                                style={{color: (data.itemType === 'veg' || data.itemType === 'Veg') ? 'green' : 'red'}}/>}
+                                                             label={data.itemType}/>}
                                         />
+                                        <ListItemText
+                                            primary={<Chip variant="outlined" color="default" label={"quantity :" + data.itemQuantity}/>}/>
                                         <ListItemSecondaryAction>
-                                            <Typography variant="h6">$</Typography>
+                                            <Typography variant="h6"><Icon className="fas fa-rupee-sign"
+                                                                           style={{fontSize: 15}}/> {data.itemPrice}
+                                            </Typography>
                                         </ListItemSecondaryAction>
-                                    </ListItem>,
-                                )}
+                                    </ListItem>
+                                ))}
                             </List>
                         </div>
                     </Grid>
                     <Divider/>
                     <AccordionActions>
-                        <Button size="small">Deny</Button>
                         <Button size="small" color="primary">
-                            Accept
+                            Order Prepared
                         </Button>
                     </AccordionActions>
                 </Accordion>}

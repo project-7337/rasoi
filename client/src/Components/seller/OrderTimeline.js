@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -72,7 +72,7 @@ const useQontoStepIconStyles = makeStyles({
 
 function QontoStepIcon(props) {
     const classes = useQontoStepIconStyles();
-    const { active, completed } = props;
+    const {active, completed} = props;
 
     return (
         <div
@@ -80,7 +80,7 @@ function QontoStepIcon(props) {
                 [classes.active]: active,
             })}
         >
-            {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
+            {completed ? <Check className={classes.completed}/> : <div className={classes.circle}/>}
         </div>
     );
 }
@@ -88,12 +88,12 @@ function QontoStepIcon(props) {
 export default function OrderTimeline() {
 
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(1);
+    const [activeStep] = React.useState(1);
     const steps = getSteps();
 
     return (
         <div className={classes.root}>
-            <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
+            <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector/>}>
                 {steps.map((label) => (
                     <Step key={label}>
                         <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
