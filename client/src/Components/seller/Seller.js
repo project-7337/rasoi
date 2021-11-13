@@ -15,10 +15,13 @@ import SellerData from "./SellerData";
 import SellerHeading from "./SellerHeading";
 import PropTypes from 'prop-types';
 import axios from "axios";
+import {loadCSS} from "fg-loadcss";
+import Icon from "@material-ui/core/Icon";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+        padding: theme.spacing(2)
     },
     align: {
         textAlign: 'center'
@@ -148,6 +151,14 @@ export default function Seller() {
 
         fetchDishes()
         fetchBookings()
+
+        const node = loadCSS(
+            'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+            document.querySelector('#font-awesome-css'),
+        );
+        return () => {
+            node.parentNode.removeChild(node);
+        };
     }, [])
 
     const addSellerData = () => {
@@ -239,7 +250,7 @@ export default function Seller() {
                             value={values.itemPrice}
                             onChange={onChangeHandler('itemPrice')}
                             type="number"
-                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            startAdornment={<InputAdornment position="start"><Icon className="fas fa-rupee-sign" style={{fontSize: 15}}/></InputAdornment>}
                         />
                     </FormControl>
                 </DialogContent>
@@ -274,6 +285,7 @@ export default function Seller() {
                                 <Grid item xs={12}>
                                     <SellerData
                                         type={'menu'}
+                                        fullData={data}
                                         sellerName={data.itemName}
                                         amount={data.itemPrice}
                                     />
@@ -292,6 +304,7 @@ export default function Seller() {
                                     bookingName={data.bookingName}
                                     bookingAmount={data.bookingAmount}
                                     bookingItems={data.bookingItems}
+                                    bookingAddress={data.bookingAddress}
                                 />
                             </Grid>
                         </Grid>

@@ -15,8 +15,9 @@ app.use(cookieParser())
 require('./app/routes/routes')(app)
 
 if (process.env.APP_ENV === "prod") {
+    console.log(`running ${process.env.APP_ENV} server`)
     app.use('/rasoi', express.static(path.join(__dirname, 'client', 'build')))
-    app.get('/rasoi/!*', (req, res) => {
+    app.get('/rasoi/*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }

@@ -1,110 +1,110 @@
 [
   {
-    "bookingID": "",
-    "bookingDateTime": "",
+    "bookingID": "1311202101",
+    "bookingDateTime": "13-11-2021",
     "bookingName": "Order-1",
-    "bookingAmount": 0,
+    "bookingAmount": 500,
     "bookingItems": [
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Dal Makhni",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 250
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Roti",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 125
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Aloo Paneer",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 125
       }
     ],
-    "bookingAddress": ""
+    "bookingAddress": "Kalkaji double storey new delhi"
   },
   {
-    "bookingID": "",
+    "bookingID": "1311202102",
     "bookingName": "Order-2",
-    "bookingDateTime": "",
-    "bookingAmount": 0,
+    "bookingDateTime": "12-11-2021",
+    "bookingAmount": 1000,
     "bookingItems": [
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Chicken Seekh Kebab",
+        "itemQuantity": "1",
+        "itemType": "Non Veg",
+        "itemPrice": 750
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Roti",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 125
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Aloo Paneer",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 125
       }
     ],
-    "bookingAddress": ""
+    "bookingAddress": "Gurugram sector 57"
   },
   {
-    "bookingID": "",
+    "bookingID": "1311202103",
     "bookingName": "Order-3",
-    "bookingDateTime": "",
-    "bookingAmount": 0,
+    "bookingDateTime": "11-11-2021",
+    "bookingAmount": 1200,
     "bookingItems": [
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Paneer Makhni",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 300
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Mutton Rogan",
+        "itemQuantity": "1",
+        "itemType": "Non Veg",
+        "itemPrice": 600
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Roti",
+        "itemQuantity": "20",
+        "itemType": "Veg",
+        "itemPrice": 300
       }
     ],
-    "bookingAddress": ""
+    "bookingAddress": "Reethala 5 block ground floor"
   },
   {
-    "bookingID": "",
+    "bookingID": "1311202104",
     "bookingName": "Order-4",
-    "bookingDateTime": "",
+    "bookingDateTime": "10-11-2021",
     "bookingAmount": 0,
     "bookingItems": [
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Dal Makhni",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 250
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Roti",
+        "itemQuantity": "5",
+        "itemType": "Veg",
+        "itemPrice": 125
       },
       {
-        "itemName": "",
-        "itemQuantity": "",
-        "itemType": "",
-        "itemPrice": 0
+        "itemName": "Aloo Paneer",
+        "itemQuantity": "1",
+        "itemType": "Veg",
+        "itemPrice": 125
       }
     ],
-    "bookingAddress": ""
+    "bookingAddress": "Kullu Manali"
   }
 ]

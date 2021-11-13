@@ -13,5 +13,5 @@ spec:
         app: rasoi-app
     spec:
       containers:
-        - image: neo73/enviro.care:v1.0
+        - image: neo73/enviro.care:latest
           name: rasoi-app

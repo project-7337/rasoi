@@ -1,25 +1,16 @@
 import React from 'react'
-import { makeStyles } from "@material-ui/core/styles";
-import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Paper, Typography } from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {red} from '@material-ui/core/colors';
 import axios from 'axios';
-import SellerData from "../seller/SellerData";
 import RestaurantData from './RestaurantData';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+        padding: theme.spacing(2)
     },
     align: {
         textAlign: 'center'
@@ -52,26 +43,22 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-
 export default function Customer() {
     const classes = useStyles()
-    const [expanded, setExpanded] = React.useState(false);
     const [restaurantData, setRestaurantData] = React.useState({
         details: []
     })
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     React.useEffect(() => {
         async function fetchRestaurants() {
             const response = await axios.get("/api/v1/fetchRestaurantData")
             console.log(response)
-            setRestaurantData(restaurantData => ({ ...restaurantData, details: response.data }))
+            setRestaurantData(restaurantData => ({...restaurantData, details: response.data}))
         }
 
         fetchRestaurants()
     }, [])
+
     return (
         <div className={classes.root}>
             <Carousel
@@ -79,16 +66,16 @@ export default function Customer() {
                 animation="slide">
                 {
                     items.map((item, index) => {
-                        return <Banner item={item} key={index} contentPosition={item.contentPosition} />
+                        return <Banner item={item} key={index} contentPosition={item.contentPosition}/>
                     })
                 }
             </Carousel>
             {undefined !== restaurantData &&
-                restaurantData.details.map((data, index) => (
-                    <RestaurantData
-                        fullData={data}
-                        menuItems={data.menuItems}
-                    />))}
+            restaurantData.details.map((data, index) => (
+                <RestaurantData
+                    fullData={data}
+                    menuItems={data.menuItems}
+                />))}
         </div>
     )
 }
@@ -117,7 +104,6 @@ const Banner = (props) => {
             </CardContent>
         </Grid>
     )
-
 
     for (let i = 0; i < mediaLength; i++) {
         const item = props.item.Items[i];
