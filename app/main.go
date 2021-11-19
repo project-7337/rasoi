@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"rasoi/database"
 	"rasoi/handlers"
 	"syscall"
 	"time"
@@ -18,8 +19,11 @@ func main() {
 
 	logger.Info("Starting up the app server")
 
+	database.SetMongoConnectionPool(logger)
+
 	router := turbo.NewRouter()
 	router.Get("/ap1/v1/health", handlers.HealthCheck)
+	router.Post("/api/v1/insertData", handlers.InsertData)
 
 	srv := &http.Server{
 		Handler:      router,
@@ -43,7 +47,10 @@ func waitForShutdown(srv *http.Server) {
 	<-interruptChan
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
-	srv.Shutdown(ctx)
+	err := srv.Shutdown(ctx)
+	if err != nil {
+		return
+	}
 	logger.Info("Shutting Down")
 	os.Exit(0)
 }
