@@ -19,7 +19,7 @@ func GetConnection() *mongo.Client  {
 
 func SetMongoConnectionPool(logger *logging.Logger) {
 	// Connection URI
-	const uri = "mongodb+srv://root:root@cluster0.5jmw2.mongodb.net/?retryWrites=true&w=majority"
+	const uri = ""
 
 	client, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 

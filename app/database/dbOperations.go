@@ -18,12 +18,15 @@ func InsertData(data models.SellerData) *models.GenericResponse {
 	logger.Info("Insert Data Func")
 	jsonData, err := json.Marshal(data)
 	if err != nil {
+		logger.Info("json unmarshal error")
 		logger.Error(err)
 	}
+	logger.Info(jsonData)
 	var bdoc interface{}
-	coll := client.Database("db01").Collection("cl01")
+	coll := client.Database("sellerData").Collection("sellerInfo")
 	err = bson.Unmarshal(jsonData, &bdoc)
 	if err != nil {
+		logger.Info("Bson unmarshalling issue")
 		logger.Error(err)
 	}
 

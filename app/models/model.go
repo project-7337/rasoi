@@ -6,12 +6,12 @@ type HealthCheckResponse struct {
 }
 
 type SellerData struct {
-	SName string `json:"SName"`
-	SAge int `json:"SAge"`
-	SGender string `json:"SGender"`
-	SAddress string `json:"SAddress"`
-	SMobile int64 `json:"SMobile"`
-	SEmailId string `json:"SEmailId"`
+	SName string `json:"sName"`
+	SAge int `json:"sAge"`
+	SGender string `json:"sGender"`
+	SAddress string `json:"sAddress"`
+	SMobile int64 `json:"sMobile"`
+	SEmailId string `json:"sEmailId"`
 }
 
 type GenericResponse struct {
