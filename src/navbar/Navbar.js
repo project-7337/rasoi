@@ -9,6 +9,7 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,7 +74,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Navbar() {
     const classes = useStyles()
-
+	const login = async ()=>{
+		const response = await axios.get("/auth/google")
+            console.log(response)
+	}
     return (
         <div className={classes.root}>
             <AppBar position="fixed">
@@ -118,6 +122,7 @@ export default function Navbar() {
                             aria-label="account of current user"
                             aria-haspopup="true"
                             color="inherit"
+							onClick={login}
                         >
                             <AccountCircle/>
                         </IconButton>
