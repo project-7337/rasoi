@@ -13,18 +13,10 @@ export const axiosApiCall = (url, method, body = {}) => axios({
 export default function Login() {
 
 	const onGoogleSuccess = (response) => {
+		console.log(response)
 		const access_token = response.accessToken;
-		axiosApiCall(
-		  '/auth/google',
-		  'post',
-		  { access_token }
-		).then((res) => {
-		  const { user, token } = res.data;
-		  // Save the JWT inside a cookie
-		  Cookie.set('token', token);
-		}).catch((err) => {
-		  throw new Error(err);
-		})
+		console.log(access_token)
+		
 	  }
 	  
 	const onGoogleFailure = (err) => {
@@ -51,6 +43,7 @@ export default function Login() {
 				onSuccess={onGoogleSuccess}
 				onFailure={onGoogleFailure}
 				className="google-login-button"
+				cookiePolicy={'single_host_origin'}
 			/>
 		</div>
 	);
