@@ -9,7 +9,7 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
-import axios from 'axios';
+import SessionInfo from '../Components/utils/SessionInfo';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -69,20 +69,21 @@ const useStyles = makeStyles(theme => ({
         },
     },
     logo: {
-    }
+    },
+	sessionInfo: {
+		position: 'fixed',
+		right: '1%'
+	}
 }))
 
 export default function Navbar() {
     const classes = useStyles()
-	const login = async ()=>{
-		const response = await axios.get("/auth/google")
-            console.log(response)
-	}
+
     return (
         <div className={classes.root}>
             <AppBar position="fixed">
                 <Toolbar>
-                    <Typography variant="option" sx={{flexGrow: 1}}>
+                    <Typography variant="caption" sx={{flexGrow: 1}}>
                         <img src={Logo} className={classes.logo} width="90" height="70"/>
                     </Typography>
                     <div className={classes.search}>
@@ -117,15 +118,9 @@ export default function Navbar() {
                                 <NotificationsIcon/>
                             </Badge>
                         </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            color="inherit"
-							onClick={login}
-                        >
-                            <AccountCircle/>
-                        </IconButton>
+                        <div>
+							<SessionInfo />
+						</div>
                     </div>
                 </Toolbar>
             </AppBar>

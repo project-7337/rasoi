@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import {makeStyles} from "@material-ui/core/styles";
 import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
@@ -45,19 +46,26 @@ const useStyles = makeStyles(theme => ({
 
 export default function Customer() {
     const classes = useStyles()
+	const history = useHistory()
+
     const [restaurantData, setRestaurantData] = React.useState({
         details: []
     })
 
     React.useEffect(() => {
-        async function fetchRestaurants() {
-            const response = await axios.get("/api/v1/fetchRestaurantData")
-            console.log(response)
-            setRestaurantData(restaurantData => ({...restaurantData, details: response.data}))
-        }
-
-        fetchRestaurants()
-    }, [])
+           	fetch("/api/v1/fetchRestaurantData", {
+			   method: 'GET'
+			   }).then(response => {
+				   if (response.status === 403) {
+					   console.log(response)
+					   history.push('login')
+				   }
+				   return response.json()
+			   }).then(resp => {
+				setRestaurantData(restaurantData => ({...restaurantData, details: resp.data}))
+			   })
+        
+    }, [history])
 
     return (
         <div className={classes.root}>

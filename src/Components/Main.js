@@ -6,7 +6,7 @@ import Seller from "./seller/Seller";
 export default function Main() {
     return <main>
         <Switch>
-            <Route path={process.env.REACT_APP_PUBLIC_URL + "/customer"} component={Customer} />
+            <Route exact path={process.env.REACT_APP_PUBLIC_URL + "/"} component={Customer} />
             <Route path={process.env.REACT_APP_PUBLIC_URL + "/seller"} component={Seller} />
         </Switch>
     </main>
