@@ -70,6 +70,10 @@ const useStyles = makeStyles(theme => ({
     },
     logo: {
     },
+	notifications: {
+		position: 'fixed',
+		right: '10%'
+	},
 	sessionInfo: {
 		position: 'fixed',
 		right: '1%'
@@ -112,16 +116,16 @@ export default function Navbar() {
                         Kalkaji Double storey new delhi
                     </Typography>
                     </div>
-                    <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
+					<div className={classes.notifications}>
+						<IconButton aria-label="show 17 new notifications" color="inherit">
                             <Badge badgeContent={17} color="secondary">
                                 <NotificationsIcon/>
                             </Badge>
                         </IconButton>
-                        <div>
-							<SessionInfo />
-						</div>
-                    </div>
+					</div>
+					<div className={classes.sessionInfo}>
+						<SessionInfo />
+					</div>
                 </Toolbar>
             </AppBar>
             <main className={clsx(classes.content)}>

@@ -1,4 +1,5 @@
 import { Icon, IconButton, Menu, MenuItem, Toolbar } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
@@ -50,7 +51,7 @@ export default function SessionInfo() {
 					aria-controls="primary-search-account-name"
 					aria-haspopup="true"
 					color="inherit">
-						<Icon>account_circle</Icon>
+						<AccountCircleIcon/>
 					</IconButton>
 			</MenuItem>
 			<Menu
