@@ -1,35 +1,51 @@
 import React from 'react'
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import { GoogleLogin } from 'react-google-login';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Button from '@material-ui/core/Button';
+import { GoogleLogin } from 'react-google-login';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 
-export const axiosApiCall = (url, method, body = {}) => axios({
-	method,
-	url: `${url}`,
-	data: body,
-});
+const useStyles = makeStyles((theme) => ({
+	button: {
+		margin: theme.spacing(1),
+	},
+}));
 
 export default function Login() {
 
+	const classes = useStyles();
+	const history = useHistory()
+
 	const onGoogleSuccess = (response) => {
-		const access_token = response.accessToken;
-		axiosApiCall(
-		  '/auth/google',
-		  'post',
-		  { access_token }
+		console.log(response)
+		const access_token = response.tokenId;
+		console.log(access_token)
+		fetch(
+			'/googleLogin', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenId: access_token })
+		}
 		).then((res) => {
-		  const { user, token } = res.data;
-		  // Save the JWT inside a cookie
-		  Cookie.set('token', token);
+			//const { user, token } = res.data;
+			//console.log(user)
+			// Save the JWT inside a cookie
+			//Cookie.set('token', token);
+			if (res.status === 200) {
+				history.push('/')
+			} else {
+				history.push('login')
+			}
 		}).catch((err) => {
-		  throw new Error(err);
+			throw new Error(err);
 		})
-	  }
-	  
+	}
+
 	const onGoogleFailure = (err) => {
 		console.log(err)
-	 };
+	};
 
 	return (
 		<div
@@ -51,6 +67,7 @@ export default function Login() {
 				onSuccess={onGoogleSuccess}
 				onFailure={onGoogleFailure}
 				className="google-login-button"
+				cookiePolicy={'single_host_origin'}
 			/>
 		</div>
 	);
