@@ -53,7 +53,7 @@ export default function Customer() {
     })
 
     React.useEffect(() => {
-           	fetch("/api/v1/fetchRestaurantData", {
+           	fetch("/api/v1/fetchRestaurantData", { 
 			   method: 'GET'
 			   }).then(response => {
 				   if (response.status === 403) {
