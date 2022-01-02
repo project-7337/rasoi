@@ -3,6 +3,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles(theme => ({
 	toolbarIcon: {
@@ -14,6 +15,12 @@ export default function SessionInfo() {
 
 	const classes = useStyles()
 	const history = useHistory()
+
+	const [state, setState] = React.useState({
+		username: '',
+		email: '',
+		profilePic: ''
+	})
 
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -32,11 +39,23 @@ export default function SessionInfo() {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
+				'Authorization': 'Bearer ' + Cookies.get('token')
 			}
 		})
-		.then(response => response.json())
 		.then(response => {
-			console.log(response)
+			if (response.status === 403)
+				history.push('login')
+			return response.json()
+		})
+		.then(response => {
+			if (!unmounted) {
+				setState(state => ({
+					...state,
+					username: response.username,
+					email: response.email,
+					profilePic: response.profilePic
+				}))
+			}
 		})
 		return () => {
 			unmounted = true
@@ -63,7 +82,7 @@ export default function SessionInfo() {
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				transformOrigin={{ vertical: "top", horizontal:"center" }}
 				onClose={handleClose}>
-					<MenuItem onClick={handleClose}>N/A</MenuItem>
+					<MenuItem onClick={handleClose}>{state.username}</MenuItem>
 					<MenuItem>Logout</MenuItem>
 				</Menu>
 		</Toolbar>
