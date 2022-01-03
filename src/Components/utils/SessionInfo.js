@@ -32,6 +32,28 @@ export default function SessionInfo() {
 		setAnchorEl(null)
 	}
 
+	const handleLogout = () => {
+		fetch("/api/v1/logout", {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization': 'Bearer ' + Cookies.get('token')
+			}
+		})
+		.then(response => {
+			if (response.status === 403){
+				history.push('login')
+			}
+			return response.json()
+		})
+		.then(response => {
+			if (response.statusCode === 200){
+				history.push('login')
+			}
+		})
+	}
+
 	React.useEffect(() => {
 		let unmounted = false
 		fetch("/api/v1/fetchSessionInfo", {
@@ -83,7 +105,7 @@ export default function SessionInfo() {
 				transformOrigin={{ vertical: "top", horizontal:"center" }}
 				onClose={handleClose}>
 					<MenuItem onClick={handleClose}>{state.username}</MenuItem>
-					<MenuItem>Logout</MenuItem>
+					<MenuItem onClick={handleLogout}>Logout</MenuItem>
 				</Menu>
 		</Toolbar>
 	)
