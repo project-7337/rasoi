@@ -49,48 +49,44 @@ export default function Customer() {
 	const classes = useStyles()
 	const history = useHistory()
 
-	const [restaurantData, setRestaurantData] = React.useState({
-		details: []
-	})
+    const [restaurantData, setRestaurantData] = React.useState({
+        details: []
+    })
 
-	React.useEffect(() => {
-		fetch("/api/v1/fetchRestaurantData", {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			}
-		}).then(response => {
-			if (response.status === 403) {
-				history.push('login')
-			}
-			return response.json()
-		}).then(resp => {
-			setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
-		})
+    React.useEffect(() => {
+           	fetch("/api/v1/fetchRestaurantData", { 
+			   method: 'GET'
+			   }).then(response => {
+				   if (response.status === 403) {
+					   console.log(response)
+					   history.push('login')
+				   }
+				   return response.json()
+			   }).then(resp => {
+				setRestaurantData(restaurantData => ({...restaurantData, details: resp.data}))
+			   })
+        
+    }, [history])
 
-	}, [history])
-
-	return (
-		<div className={classes.root}>
-			<Carousel
-				navButtonsAlwaysVisible={true}
-				animation="slide">
-				{
-					items.map((item, index) => {
-						return <Banner item={item} key={index} contentPosition={item.contentPosition} />
-					})
-				}
-			</Carousel>
-			{undefined !== restaurantData &&
-				restaurantData.details.map((data, index) => (
-					<RestaurantData
-						fullData={data}
-						menuItems={data.menuItems}
-					/>))}
-		</div>
-	)
+    return (
+        <div className={classes.root}>
+            <Carousel
+                navButtonsAlwaysVisible={true}
+                animation="slide">
+                {
+                    items.map((item, index) => {
+                        return <Banner item={item} key={index} contentPosition={item.contentPosition}/>
+                    })
+                }
+            </Carousel>
+            {undefined !== restaurantData &&
+            restaurantData.details.map((data, index) => (
+                <RestaurantData
+                    fullData={data}
+                    menuItems={data.menuItems}
+                />))}
+        </div>
+    )
 }
 
 const Banner = (props) => {

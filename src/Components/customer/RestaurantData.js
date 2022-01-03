@@ -43,8 +43,8 @@ export default function RestaurantData(props) {
     return (
         <div className={classes.root}>
             <div className={classes.paperDiv}>
-                <Grid container spacing={3}>
-                    <Grid item xs={3}>
+                <Grid container spacing={3} >
+                    <Grid item xs={12} sm={6} md={3} >
                         <Typography variant='h5'>{props.fullData.restaurantName}</Typography>
                         <Typography variant='subtitle1'>{props.fullData.restaurantAddress}</Typography>
                         <Typography variant='subtitle1'>{props.fullData.type}</Typography>
@@ -58,7 +58,7 @@ export default function RestaurantData(props) {
                         </Box>
                     </Grid>
                     {undefined !== props.menuItems && props.menuItems.map((data, index) => (
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm={6} md={3} >
                             <MenuItem
                                 menuData={data}/>
                         </Grid>
