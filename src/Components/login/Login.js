@@ -19,9 +19,7 @@ export default function Login() {
 	const history = useHistory()
 
 	const onGoogleSuccess = (response) => {
-		console.log(response)
 		const access_token = response.tokenId;
-		console.log(access_token)
 		fetch(
 			'/googleLogin', {
 			method: 'POST',
