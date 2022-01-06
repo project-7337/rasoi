@@ -31,6 +31,10 @@ export default function SessionInfo() {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
+	const routeChange = () =>{ 
+		handleClose();
+		history.push('UserProfile')
+	  }
 
 	const handleLogout = () => {
 		fetch("/api/v1/logout", {
@@ -104,7 +108,7 @@ export default function SessionInfo() {
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				transformOrigin={{ vertical: "top", horizontal:"center" }}
 				onClose={handleClose}>
-					<MenuItem onClick={handleClose}>{state.username}</MenuItem>
+					<MenuItem onClick={routeChange}>{state.username}</MenuItem>
 					<MenuItem onClick={handleLogout}>Logout</MenuItem>
 				</Menu>
 		</Toolbar>

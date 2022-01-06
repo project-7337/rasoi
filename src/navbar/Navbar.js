@@ -11,7 +11,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
 import SessionInfo from '../Components/utils/SessionInfo';
-import { useHistory ,Redirect} from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -85,16 +85,13 @@ const useStyles = makeStyles(theme => ({
 export default function Navbar() {
 	const classes = useStyles()
 	const history = useHistory()
-	const routeChange = () =>{ 
-		let path = `UserProfile`; 
-		history.push('UserProfile')
-	  }
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed">
 				<Toolbar>
 					<Typography variant="caption" sx={{ flexGrow: 1 }}>
-						<img src={Logo} className={classes.logo} width="90" height="70" />
+						<a href="/">	<img src={Logo} className={classes.logo} width="90" height="70" /></a>
 					</Typography>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
@@ -123,7 +120,7 @@ export default function Navbar() {
 						</Typography>
 					</div>
 					<div className={classes.notifications}>
-						<IconButton aria-label="show 17 new notifications" color="inherit" onClick={routeChange}>
+						<IconButton aria-label="show 17 new notifications" color="inherit" onClick={null}>
 							<Badge badgeContent={17} color="secondary">
 								<NotificationsIcon />
 							</Badge>

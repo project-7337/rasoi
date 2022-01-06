@@ -1,18 +1,30 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, CardMedia, Grid, Paper, Typography } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import Navbar from '../../navbar/Navbar';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+
+	},
+	paper: {
+		padding: theme.spacing(2),
+		width: '80%',
+		justifyContent: 'center',
+		margin: 'auto',
+		backgroundImage: `url(https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?size=626&ext=jpg)`
+
 	},
 	align: {
 		textAlign: 'center'
@@ -56,7 +68,6 @@ export default function UserProfile() {
 	})
 
 	React.useEffect(() => {
-
 		fetch("/api/v1/addUser", {
 			method: 'GET',
 			headers: {
@@ -77,15 +88,28 @@ export default function UserProfile() {
 	}, [history])
 
 	return (
-		<Container>
-			<Row>
-				<Col>
-					<img src={userData.user.profilePicture} alt="profils pic" />
-					<p>
-						{userData.user.userName}
-					</p>
-				</Col>
-			</Row>
-		</Container>
+		<div>
+			<Navbar />
+			<Paper elevation={3} className={classes.paper}>
+				<Grid container>
+					<Grid item xs={12} md={8}>
+						<img src={userData.user.profilePicture} alt="profils pic" />
+						<p>
+							{userData.user.userName}
+							{userData.user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+						</p>
+						<p>
+							{userData.user.userEmail}
+						</p>
+					</Grid>
+					<Grid item >
+						<Button variant='contained' startIcon={<EditIcon  />}>
+							Edit Profile
+						</Button>
+					</Grid>
+				</Grid>
+			</Paper>
+
+		</div>
 	)
 }

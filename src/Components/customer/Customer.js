@@ -59,7 +59,6 @@ export default function Customer() {
 			headers: { 'Content-Type': 'application/json', 
 			'Authorization': 'Bearer ' + Cookies.get('token') },
 		}).then(response => {
-			console.log(response.data)
 			if (response.status === 403) {
 				console.log(response)
 				history.push('login')
