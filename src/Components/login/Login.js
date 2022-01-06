@@ -1,8 +1,4 @@
 import React from 'react'
-import axios from 'axios';
-import Cookie from 'js-cookie';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Button from '@material-ui/core/Button';
 import { GoogleLogin } from 'react-google-login';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -27,10 +23,6 @@ export default function Login() {
 			body: JSON.stringify({ tokenId: access_token })
 		}
 		).then((res) => {
-			//const { user, token } = res.data;
-			//console.log(user)
-			// Save the JWT inside a cookie
-			//Cookie.set('token', token);
 			if (res.status === 200) {
 				history.push('/')
 			} else {
