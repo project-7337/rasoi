@@ -47,7 +47,7 @@ export default function Login() {
 			}
 			return res.json()
 		}).then((resp)=>{
-			if(resp.isCompleted){
+			if(resp.data.isCompleted){
 				history.push('/')
 			}else{
 				history.push('/completeprofile')
