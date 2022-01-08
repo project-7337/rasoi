@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Card, CardContent, CardMedia, Grid, Paper, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Tab, Tabs, Grid, Paper, Typography, Divider } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 import { red } from '@material-ui/core/colors';
@@ -15,44 +15,27 @@ import EditIcon from '@material-ui/icons/Edit';
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		padding: theme.spacing(2),
+		padding: theme.spacing(1),
 
 	},
 	paper: {
 		padding: theme.spacing(2),
-		width: '80%',
+		width: '70%',
 		justifyContent: 'center',
 		margin: 'auto',
-		backgroundImage: `url(https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?size=626&ext=jpg)`
+		backgroundImage:'url(https://img.onmanorama.com/content/dam/mm/en/food/features/images/2022/1/2/kids-food.jpg)'
+	},
+	tab: {
+		width: '90%',
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+		display: 'flex',
+		height: 224,
 
 	},
-	align: {
-		textAlign: 'center'
-	},
-	title: {
-		fontFamily: 'Roboto',
-		margin: 'auto',
-		fontSize: '30'
-	},
-	divider: {
-		margin: theme.spacing(3, 0)
-	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
-	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	avatar: {
-		backgroundColor: red[500],
+	tabs: {
+		
+		borderRight: `1px solid ${theme.palette.divider}`,
 	},
 }))
 
@@ -62,13 +45,17 @@ const useStyles = makeStyles(theme => ({
 export default function UserProfile() {
 	const classes = useStyles()
 	const history = useHistory()
+	const [value, setValue] = React.useState(0);
 
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 	const [userData, setUserData] = React.useState({
 		user: {}
 	})
 
 	React.useEffect(() => {
-		fetch("/api/v1/addUser", {
+		fetch("/api/v1/getUser", {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -94,22 +81,36 @@ export default function UserProfile() {
 				<Grid container>
 					<Grid item xs={12} md={8}>
 						<img src={userData.user.profilePicture} alt="profils pic" />
-						<p>
+						<h3>
 							{userData.user.userName}
 							{userData.user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
-						</p>
-						<p>
+						</h3>
+						<h3>
 							{userData.user.userEmail}
-						</p>
+						</h3>
 					</Grid>
 					<Grid item >
-						<Button variant='contained' startIcon={<EditIcon  />}>
+						<Button variant='contained' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
 							Edit Profile
 						</Button>
 					</Grid>
 				</Grid>
 			</Paper>
-
+			<div className={classes.tab}>
+				<Tabs
+					orientation="vertical"
+					variant="scrollable"
+					value={value}
+					onChange={handleChange}
+					aria-label="Vertical tabs example"
+					className={classes.tabs}
+				>
+					<Tab label="Wallet" />
+					<Tab label="Order History" />
+					<Tab label="My Addresses" />
+					<Tab label="Settings" />
+				</Tabs>
+			</div>
 		</div>
 	)
 }

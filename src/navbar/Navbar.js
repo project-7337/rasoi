@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { AppBar, Badge, IconButton, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Badge, IconButton, Toolbar, Typography,Avatar } from "@material-ui/core"
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	content: {
 		flexGrow: 1,
-		padding: theme.spacing(8),
+		padding: theme.spacing(6),
 		maxWidth: '100%'
 	},
 	sectionDesktop: {
@@ -119,13 +119,7 @@ export default function Navbar() {
 							Kalkaji Double storey new delhi
 						</Typography>
 					</div>
-					<div className={classes.notifications}>
-						<IconButton aria-label="show 17 new notifications" color="inherit" onClick={null}>
-							<Badge badgeContent={17} color="secondary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
-					</div>
+					
 					<div className={classes.sessionInfo}>
 						<SessionInfo />
 					</div>

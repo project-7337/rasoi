@@ -1,4 +1,4 @@
-import { Icon, IconButton, Menu, MenuItem, Toolbar } from '@material-ui/core';
+import { Icon, IconButton, Menu, MenuItem, Toolbar ,Avatar} from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -25,6 +25,7 @@ export default function SessionInfo() {
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
 	const handleProfileMenuOption = event => {
+		console.log(state.profilePic);
 		setAnchorEl(event.currentTarget)
 	}
 
@@ -96,7 +97,7 @@ export default function SessionInfo() {
 					aria-controls="primary-search-account-name"
 					aria-haspopup="true"
 					color="inherit">
-						<AccountCircleIcon/>
+						<Avatar alt={state.username} src={state.profilePic} />
 					</IconButton>
 			</MenuItem>
 			<Menu
