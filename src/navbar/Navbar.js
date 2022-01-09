@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { AppBar, Badge, IconButton, Toolbar, Typography,Avatar } from "@material-ui/core"
+import { AppBar, Badge, IconButton, Toolbar, Typography, Button } from "@material-ui/core"
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -12,6 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
 import SessionInfo from '../Components/utils/SessionInfo';
 import { useHistory, Redirect } from 'react-router-dom'
+import { ThemeContext, themes } from '../Themes/theme';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -77,15 +78,15 @@ const useStyles = makeStyles(theme => ({
 		right: '10%'
 	},
 	sessionInfo: {
-		position: 'fixed',
-		right: '1%'
+		// position: 'fixed',
+		// right: '1%'
 	}
 }))
 
 export default function Navbar() {
 	const classes = useStyles()
 	const history = useHistory()
-
+	const [darkMode, setDarkMode] = React.useState(true);
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed">
@@ -112,6 +113,7 @@ export default function Navbar() {
 							aria-label="account of current user"
 							aria-haspopup="true"
 							color="inherit"
+
 						>
 							<MyLocationIcon />
 						</IconButton>
@@ -119,7 +121,22 @@ export default function Navbar() {
 							Kalkaji Double storey new delhi
 						</Typography>
 					</div>
-					
+					<div>
+						<ThemeContext.Consumer>
+							{({ changeTheme }) => (
+								<IconButton
+									color="link"
+									onClick={() => {
+										setDarkMode(!darkMode);
+										changeTheme(darkMode ? themes.light : themes.dark);
+									}}
+								>
+									<i className={darkMode ? 'fas fa-sun' : 'fas fa-moon'}></i>
+									<span className="d-lg-none d-md-block"></span>
+								</IconButton>
+							)}
+						</ThemeContext.Consumer>
+					</div>
 					<div className={classes.sessionInfo}>
 						<SessionInfo />
 					</div>

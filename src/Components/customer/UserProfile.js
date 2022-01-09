@@ -11,6 +11,8 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import Navbar from '../../navbar/Navbar';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser } from '../../Redux/UserReducer'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -46,13 +48,11 @@ export default function UserProfile() {
 	const classes = useStyles()
 	const history = useHistory()
 	const [value, setValue] = React.useState(0);
-
+	const user = useSelector((state) => state.user.user)
+	const dispatch = useDispatch()
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	const [userData, setUserData] = React.useState({
-		user: {}
-	})
 
 	React.useEffect(() => {
 		fetch("/api/v1/getUser", {
@@ -62,15 +62,13 @@ export default function UserProfile() {
 				'Authorization': 'Bearer ' + Cookies.get('token')
 			},
 		}).then((response) => {
-			console.log(response)
 			if (response.status === 403) {
 				console.log(response)
 				history.push('customer')
 			}
 			return response.json()
 		}).then(resp => {
-			console.log(resp.data)
-			setUserData(userData => ({ ...userData, user: resp.data }))
+			dispatch(setUser(resp.data))
 		});
 	}, [history])
 
@@ -80,13 +78,13 @@ export default function UserProfile() {
 			<Paper elevation={3} className={classes.paper}>
 				<Grid container>
 					<Grid item xs={12} md={8}>
-						<img src={userData.user.profilePicture} alt="profils pic" />
+						<img src={user.profilePicture} alt="profils pic" />
 						<h3>
-							{userData.user.userName}
-							{userData.user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+							{user.userName}
+							{user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
 						</h3>
 						<h3>
-							{userData.user.userEmail}
+							{user.userEmail}
 						</h3>
 					</Grid>
 					<Grid item >

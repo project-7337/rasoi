@@ -5,7 +5,9 @@ import Navbar from '../../navbar/Navbar';
 import { Button, Card, CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
 import Cookies from 'js-cookie';
 import { Alert } from '@material-ui/lab'
-// import TextField from '@mui/material/TextField';
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser } from '../../Redux/UserReducer'
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -33,16 +35,17 @@ const useStyles = makeStyles(theme => ({
 export default function CompleteProfile() {
 	const classes = useStyles()
 	const history = useHistory()
-
-	const [name, setName] = useState('shivam')
-	const [email, setEmail] = useState('shiv.ahuja1494@gmail.com')
-	const [address, setAddress] = useState('')
-	const [mobileNumber, setMobileNumber] = useState('')
+	const user = useSelector((state) => state.user.user)
+	const dispatch = useDispatch()
+	const [name, setName] = useState(user.userName)
+	const [email, setEmail] = useState(user.userEmail)
+	const [address, setAddress] = useState(user.address)
+	const [mobileNumber, setMobileNumber] = useState(user.mobileNumber)
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();
 	const [isLoading, setLoader] = useState(false);
-
+	
 
 	const phoneValidate = (mobileNumber) => {
 		if (mobileNumber.length == 0 || mobileNumber.length == 10) {
@@ -80,7 +83,7 @@ export default function CompleteProfile() {
 					
 					setTimeout(() => window.location.reload(), 3000)
 				} else {
-					setTimeout(() => history.push('/'), 3000)
+					setTimeout(() => history.push('/UserProfile'), 3000)
 				}
 			});
 		}
