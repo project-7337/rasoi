@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { AppBar, Badge, IconButton, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Badge, IconButton, Toolbar, Typography, Button } from "@material-ui/core"
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -11,7 +11,8 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
 import SessionInfo from '../Components/utils/SessionInfo';
-import { useHistory ,Redirect} from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
+import { ThemeContext, themes } from '../Themes/theme';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	content: {
 		flexGrow: 1,
-		padding: theme.spacing(8),
+		padding: theme.spacing(6),
 		maxWidth: '100%'
 	},
 	sectionDesktop: {
@@ -77,24 +78,21 @@ const useStyles = makeStyles(theme => ({
 		right: '10%'
 	},
 	sessionInfo: {
-		position: 'fixed',
-		right: '1%'
+		// position: 'fixed',
+		// right: '1%'
 	}
 }))
 
 export default function Navbar() {
 	const classes = useStyles()
 	const history = useHistory()
-	const routeChange = () =>{ 
-		let path = `UserProfile`; 
-		history.push('UserProfile')
-	  }
+	const [darkMode, setDarkMode] = React.useState(true);
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed">
 				<Toolbar>
 					<Typography variant="caption" sx={{ flexGrow: 1 }}>
-						<img src={Logo} className={classes.logo} width="90" height="70" />
+						<a href="/">	<img src={Logo} className={classes.logo} width="90" height="70" /></a>
 					</Typography>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
@@ -115,6 +113,7 @@ export default function Navbar() {
 							aria-label="account of current user"
 							aria-haspopup="true"
 							color="inherit"
+
 						>
 							<MyLocationIcon />
 						</IconButton>
@@ -122,12 +121,21 @@ export default function Navbar() {
 							Kalkaji Double storey new delhi
 						</Typography>
 					</div>
-					<div className={classes.notifications}>
-						<IconButton aria-label="show 17 new notifications" color="inherit" onClick={routeChange}>
-							<Badge badgeContent={17} color="secondary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
+					<div>
+						<ThemeContext.Consumer>
+							{({ changeTheme }) => (
+								<IconButton
+									color="link"
+									onClick={() => {
+										setDarkMode(!darkMode);
+										changeTheme(darkMode ? themes.light : themes.dark);
+									}}
+								>
+									<i className={darkMode ? 'fas fa-sun' : 'fas fa-moon'}></i>
+									<span className="d-lg-none d-md-block"></span>
+								</IconButton>
+							)}
+						</ThemeContext.Consumer>
 					</div>
 					<div className={classes.sessionInfo}>
 						<SessionInfo />

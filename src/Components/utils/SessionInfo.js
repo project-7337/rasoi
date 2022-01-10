@@ -1,4 +1,4 @@
-import { Icon, IconButton, Menu, MenuItem, Toolbar } from '@material-ui/core';
+import { Icon, IconButton, Menu, MenuItem, Toolbar ,Avatar} from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -25,12 +25,17 @@ export default function SessionInfo() {
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
 	const handleProfileMenuOption = event => {
+		console.log(state.profilePic);
 		setAnchorEl(event.currentTarget)
 	}
 
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
+	const routeChange = () =>{ 
+		handleClose();
+		history.push('UserProfile')
+	  }
 
 	const handleLogout = () => {
 		fetch("/api/v1/logout", {
@@ -92,7 +97,7 @@ export default function SessionInfo() {
 					aria-controls="primary-search-account-name"
 					aria-haspopup="true"
 					color="inherit">
-						<AccountCircleIcon/>
+						<Avatar alt={state.username} src={state.profilePic} />
 					</IconButton>
 			</MenuItem>
 			<Menu
@@ -104,7 +109,7 @@ export default function SessionInfo() {
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				transformOrigin={{ vertical: "top", horizontal:"center" }}
 				onClose={handleClose}>
-					<MenuItem onClick={handleClose}>{state.username}</MenuItem>
+					<MenuItem onClick={routeChange}>{state.username}</MenuItem>
 					<MenuItem onClick={handleLogout}>Logout</MenuItem>
 				</Menu>
 		</Toolbar>

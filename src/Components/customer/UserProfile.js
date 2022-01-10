@@ -1,46 +1,43 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Tab, Tabs, Grid, Paper, Typography, Divider } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import Navbar from '../../navbar/Navbar';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import EditIcon from '@material-ui/icons/Edit';
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser } from '../../Redux/UserReducer'
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		padding: theme.spacing(2)
+		padding: theme.spacing(1),
+
 	},
-	align: {
-		textAlign: 'center'
-	},
-	title: {
-		fontFamily: 'Roboto',
+	paper: {
+		padding: theme.spacing(2),
+		width: '70%',
+		justifyContent: 'center',
 		margin: 'auto',
-		fontSize: '30'
+		backgroundImage:'url(https://img.onmanorama.com/content/dam/mm/en/food/features/images/2022/1/2/kids-food.jpg)'
 	},
-	divider: {
-		margin: theme.spacing(3, 0)
+	tab: {
+		width: '90%',
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+		display: 'flex',
+		height: 224,
+
 	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
-	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	avatar: {
-		backgroundColor: red[500],
+	tabs: {
+		
+		borderRight: `1px solid ${theme.palette.divider}`,
 	},
 }))
 
@@ -50,42 +47,68 @@ const useStyles = makeStyles(theme => ({
 export default function UserProfile() {
 	const classes = useStyles()
 	const history = useHistory()
-
-	const [userData, setUserData] = React.useState({
-		user: {}
-	})
+	const [value, setValue] = React.useState(0);
+	const user = useSelector((state) => state.user.user)
+	const dispatch = useDispatch()
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 
 	React.useEffect(() => {
-
-		fetch("/api/v1/addUser", {
+		fetch("/api/v1/getUser", {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + Cookies.get('token')
 			},
 		}).then((response) => {
-			console.log(response)
 			if (response.status === 403) {
 				console.log(response)
 				history.push('customer')
 			}
 			return response.json()
 		}).then(resp => {
-			console.log(resp.data)
-			setUserData(userData => ({ ...userData, user: resp.data }))
+			dispatch(setUser(resp.data))
 		});
 	}, [history])
 
 	return (
-		<Container>
-			<Row>
-				<Col>
-					<img src={userData.user.profilePicture} alt="profils pic" />
-					<p>
-						{userData.user.userName}
-					</p>
-				</Col>
-			</Row>
-		</Container>
+		<div>
+			<Navbar />
+			<Paper elevation={3} className={classes.paper}>
+				<Grid container>
+					<Grid item xs={12} md={8}>
+						<img src={user.profilePicture} alt="profils pic" />
+						<h3>
+							{user.userName}
+							{user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+						</h3>
+						<h3>
+							{user.userEmail}
+						</h3>
+					</Grid>
+					<Grid item >
+						<Button variant='contained' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
+							Edit Profile
+						</Button>
+					</Grid>
+				</Grid>
+			</Paper>
+			<div className={classes.tab}>
+				<Tabs
+					orientation="vertical"
+					variant="scrollable"
+					value={value}
+					onChange={handleChange}
+					aria-label="Vertical tabs example"
+					className={classes.tabs}
+				>
+					<Tab label="Wallet" />
+					<Tab label="Order History" />
+					<Tab label="My Addresses" />
+					<Tab label="Settings" />
+				</Tabs>
+			</div>
+		</div>
 	)
 }
