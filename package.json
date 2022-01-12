@@ -21,6 +21,7 @@
     "react": "^16.9.0",
     "react-bootstrap": "^2.1.0",
     "react-dom": "^16.9.0",
+    "react-geocode": "^0.2.3",
     "react-google-login": "^5.2.2",
     "react-material-ui-carousel": "v2",
     "react-redux": "^7.2.6",

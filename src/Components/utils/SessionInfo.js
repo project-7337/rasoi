@@ -25,7 +25,6 @@ export default function SessionInfo() {
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
 	const handleProfileMenuOption = event => {
-		console.log(state.profilePic);
 		setAnchorEl(event.currentTarget)
 	}
 
