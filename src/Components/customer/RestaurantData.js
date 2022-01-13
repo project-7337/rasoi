@@ -50,10 +50,10 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: 'green',
 		borderRadius: 5,
 		justifyContent: 'center',
-		padding: '1px'
+		padding: '1px',
 	},
 	media: {
-		height: 160,
+		height: 200,
 		borderRadius: 10,
 		margin: theme.spacing(1)
 	},
@@ -66,7 +66,7 @@ export default function RestaurantData(props) {
 	return (
 		<div className={classes.root}>
 			<div className={classes.paperDiv}>
-				<Grid container spacing={3} >
+				<Grid container spacing={5} >
 					{undefined !== props.data && props.data.map((data, index) => (
 
 						<Grid item xs={12} sm={6} md={4} >
