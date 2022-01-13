@@ -8,6 +8,7 @@ import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import RestaurantData from './RestaurantData';
+import { SearchBar } from './SearchBar';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -56,8 +57,10 @@ export default function Customer() {
 	React.useEffect(() => {
 		fetch("/api/v1/fetchRestaurantData", {
 			method: 'GET',
-			headers: { 'Content-Type': 'application/json', 
-			'Authorization': 'Bearer ' + Cookies.get('token') },
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + Cookies.get('token')
+			},
 		}).then(response => {
 			if (response.status === 403) {
 				console.log(response)
@@ -65,6 +68,7 @@ export default function Customer() {
 			}
 			return response.json()
 		}).then(resp => {
+			console.log(resp.data)
 			setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
 		})
 
@@ -81,12 +85,9 @@ export default function Customer() {
 					})
 				}
 			</Carousel>
-			{undefined !== restaurantData &&
-				restaurantData.details.map((data, index) => (
-					<RestaurantData
-						fullData={data}
-						menuItems={data.menuItems}
-					/>))}
+			<SearchBar/>
+			<RestaurantData
+				data={restaurantData.details} />
 		</div>
 	)
 }

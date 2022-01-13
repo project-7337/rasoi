@@ -55,6 +55,7 @@ export default function CompleteProfile() {
 			setMessage('Invalid Mobile Number')
 			setErrorMobileNumber(true)
 			setOpen(true)
+			setLoader(false)
 			return false;
 		}
 	}
@@ -105,7 +106,7 @@ export default function CompleteProfile() {
 						<TextField id="address" label="Address" placeholder="Enter you home address" defaultValue={address} variant="outlined" onChange={(e) => { setAddress(e.target.value) }} multiline className={classes.textField} />
 					</Grid>
 					<Grid item xs={12} sm={12} md={6} >
-						<TextField id="mobileNumber" error={ErrorMobile} label="Contact number" type='number' variant="outlined" defaultValue={mobileNumber} onChange={(e) => { setMobileNumber(e.target.value) }} className={classes.textField} />
+						<TextField id="mobileNumber" error={ErrorMobile} label="Contact number" type='number'  variant="outlined" defaultValue={mobileNumber} onChange={(e) => { setMobileNumber(e.target.value) }} className={classes.textField} />
 					</Grid>
 					<Snackbar open={open} autoHideDuration={6000}>
 						<Alert severity="info">{message}</Alert>
