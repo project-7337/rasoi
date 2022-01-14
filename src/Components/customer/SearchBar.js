@@ -9,7 +9,7 @@ import { InputAdornment, Paper } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
 	searchBar: {
 		padding: '0px',
-		margin: theme.spacing(2)
+		margin: theme.spacing(2),
 	},
 	textField: {
 		border: "none",

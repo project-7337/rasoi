@@ -39,8 +39,8 @@ export default function CompleteProfile() {
 	const dispatch = useDispatch()
 	const [name, setName] = useState(user.userName)
 	const [email, setEmail] = useState(user.userEmail)
-	const [address, setAddress] = useState(user.address)
-	const [mobileNumber, setMobileNumber] = useState(user.mobileNumber)
+	const [address, setAddress] = useState(user.address[0].address??'')
+	const [mobileNumber, setMobileNumber] = useState(user.mobileNumber??'')
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();

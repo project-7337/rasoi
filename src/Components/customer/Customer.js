@@ -85,9 +85,19 @@ export default function Customer() {
 					})
 				}
 			</Carousel>
-			<SearchBar/>
-			<RestaurantData
-				data={restaurantData.details} />
+			<SearchBar />
+			<Grid container spacing={3} >
+				<Grid item xs={2} sm={2} md={1}>
+
+				</Grid>
+				<Grid item xs={8} sm={8} md={10}>
+					<RestaurantData
+						data={restaurantData.details} />
+				</Grid>
+				<Grid item xs={2} sm={2} md={1}>
+
+				</Grid>
+			</Grid>
 		</div>
 	)
 }
