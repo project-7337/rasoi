@@ -138,7 +138,6 @@ export default function Navbar() {
 							edge="end"
 							aria-label="account of current user"
 							aria-haspopup="true"
-							color="inherit"
 							onClick={componentDidMount}
 						>
 							<MyLocationIcon />

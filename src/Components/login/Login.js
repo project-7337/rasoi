@@ -56,6 +56,7 @@ export default function Login() {
 				history.push('/completeprofile')
 			}
 		}).catch((err) => {
+			console.log(err)
 			throw new Error(err);
 		})
 	}

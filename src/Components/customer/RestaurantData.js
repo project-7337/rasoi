@@ -69,7 +69,7 @@ export default function RestaurantData(props) {
 				<Grid container spacing={5} >
 					{undefined !== props.data && props.data.map((data, index) => (
 
-						<Grid item xs={12} sm={6} md={4} >
+						<Grid item xs={12} sm={6} md={4} key={index} >
 							<Card className={classes.card}>
 								<CardMedia
 									className={classes.media}
