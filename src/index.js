@@ -12,6 +12,8 @@ import ThemeContextWrapper from './Themes/themeWrapper';
 
 require('dotenv').config()
 
+{/** Routing performed here is on the comlpete App Level */}
+
 render((
 
 	<BrowserRouter>
@@ -20,6 +22,7 @@ render((
 			<Switch>
 
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/login"} component={Login} />
+				{/** move these routes to the Main.js */}
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/UserProfile"} component={UserProfile} />
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/completeprofile"} component={CompleteProfile} />
 				<Route component={App} />

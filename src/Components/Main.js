@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 import Customer from './customer/Customer'
 import Seller from "./seller/Seller";
 
+{/** Routing performed here is on the sub-app level, where the componenets having the Navbar need to be routed from here, so that we do no re render the navbar in the componenets */}
+
 export default function Main() {
     return <main>
         <Switch>

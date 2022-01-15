@@ -22,8 +22,7 @@ const useStyles = makeStyles(theme => ({
 		rounded: true,
 		padding: theme.spacing(2),
 		opacity: 0.8,
-		margin: 'auto',
-		marginTop: 4
+		margin: 'auto'
 	},
 	textField: {
 		padding: theme.spacing(1), margin: 'auto'

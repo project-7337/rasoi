@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: 'center',
 		flexGrow: 1,
 		margin: 'auto',
-		marginTop: 4,
 		borderRadius: 20
 	},
 	tabPaper: {
