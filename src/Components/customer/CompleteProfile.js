@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 		paddingBottom: 20,
 		// backgroundColor:'yellow'
+		
 	},
 	paper: {
 		height: '80%',
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(2),
 		opacity: 0.8,
 		margin: 'auto',
+		marginTop: 4
 	},
 	textField: {
 		padding: theme.spacing(1), margin: 'auto'

@@ -63,7 +63,6 @@ export default function Customer() {
 			},
 		}).then(response => {
 			if (response.status === 403) {
-				console.log(response)
 				history.push('login')
 			}
 			return response.json()
@@ -85,7 +84,6 @@ export default function Customer() {
 					})
 				}
 			</Carousel>
-			<SearchBar />
 			<Grid container spacing={3} >
 				<Grid item xs={2} sm={2} md={1}>
 

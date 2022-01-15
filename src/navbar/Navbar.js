@@ -1,12 +1,14 @@
 import React from 'react'
 import clsx from 'clsx'
-import { AppBar, Badge, IconButton, Toolbar, Typography, Button } from "@material-ui/core"
+import { AppBar, Badge, IconButton, Toolbar, Menu, MenuItem, Typography } from "@material-ui/core"
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Main from "../Components/Main";
 import UserProfile from '../Components/customer/UserProfile';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
+import MailIcon from '@material-ui/icons/Mail';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
@@ -14,36 +16,30 @@ import SessionInfo from '../Components/utils/SessionInfo';
 import { useHistory, Redirect } from 'react-router-dom'
 import { ThemeContext, themes } from '../Themes/theme';
 import Geocode from "react-geocode";
+import { SearchBar } from '../Components/customer/SearchBar';
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-		width: '100%'
-	},
-	content: {
+	grow: {
 		flexGrow: 1,
-		padding: theme.spacing(6),
-		maxWidth: '100%'
 	},
-	sectionDesktop: {
-		position: 'fixed',
-		right: '1%'
+	menuButton: {
+		marginRight: theme.spacing(2),
 	},
-	location: {
-		margin: 'auto',
-		position: 'center'
+	title: {
+		display: 'none',
+		[theme.breakpoints.up('sm')]: {
+			display: 'block',
+		},
 	},
 	search: {
+		flexGrow: 1,
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
-		'&:hover': {
-			backgroundColor: alpha(theme.palette.common.white, 0.25),
-		},
+		marginRight: theme.spacing(2),
 		marginLeft: 0,
 		width: '100%',
 		[theme.breakpoints.up('sm')]: {
-			marginLeft: theme.spacing(1),
+			marginLeft: theme.spacing(3),
 			width: 'auto',
 		},
 	},
@@ -65,23 +61,22 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
 		transition: theme.transitions.create('width'),
 		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			width: '12ch',
-			'&:focus': {
-				width: '20ch',
-			},
+		[theme.breakpoints.up('md')]: {
+			width: '20ch',
 		},
 	},
-	logo: {
+	sectionDesktop: {
+		display: 'none',
+		[theme.breakpoints.up('md')]: {
+			display: 'flex',
+		},
 	},
-	notifications: {
-		position: 'fixed',
-		right: '10%'
+	sectionMobile: {
+		display: 'flex',
+		[theme.breakpoints.up('md')]: {
+			display: 'none',
+		},
 	},
-	sessionInfo: {
-		// position: 'fixed',
-		// right: '1%'
-	}
 }))
 
 export default function Navbar() {
@@ -94,79 +89,83 @@ export default function Navbar() {
 	Geocode.setRegion("es");
 	Geocode.setLocationType("ROOFTOP");
 	Geocode.enableDebug();
-	
-	const componentDidMount = () => {
-		navigator.geolocation.getCurrentPosition(
-			function (position) {
-				Geocode.fromLatLng(position.coords.latitude, position.coords.longitude).then(
-					(response) => {
-					  const address = response.results[0].formatted_address;
-					  console.log(address);
-					},
-					(error) => {
-					  console.error(error);
-					}
-				  );
-			},
-			function (error) {
-				console.error("Error Code = " + error.code + " - " + error.message);
-			}
-		);
-	}
+
+
+	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+	const handleMobileMenuClose = () => {
+		setMobileMoreAnchorEl(null);
+	};
+
+	const handleMobileMenuOpen = (event) => {
+		setMobileMoreAnchorEl(event.currentTarget);
+	};
+
+	const mobileMenuId = 'primary-search-account-menu-mobile';
+	const renderMobileMenu = (
+		<Menu
+			anchorEl={mobileMoreAnchorEl}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+			id={mobileMenuId}
+			keepMounted
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+			open={isMobileMenuOpen}
+			onClose={handleMobileMenuClose}
+		>
+			<MenuItem>
+				<SessionInfo />
+			</MenuItem>
+		</Menu>
+	);
+
+
 	return (
-		<div className={classes.root}>
-			<AppBar position="fixed">
+		<div className={classes.gow}>
+			<AppBar position="static" color='transparent'>
 				<Toolbar>
-					<Typography variant="caption" sx={{ flexGrow: 1 }}>
-						<a href="/">	<img src={Logo} className={classes.logo} width="90" height="70" /></a>
+
+					{/* <Grid container spacing={3}>
+						<Grid item xs={1} sm={1}>
+							<a href="/">
+								<img src={Logo} className={classes.logo} width="90" height="70" />
+							</a>
+						</Grid>
+						<Grid item xs={10} sm={10}>
+							<SearchBar />
+						</Grid>
+						<Grid item xs={1} sm={1}>
+							<SessionInfo />
+						</Grid>
+					</Grid> */ }
+					<Typography className={classes.title} variant="h6" noWrap>
+						<a href="/">
+							<img src={Logo} className={classes.logo} width="90" height="70" />
+						</a>
 					</Typography>
-					{/* <div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</div> */}
-					<div className={classes.location}>
-						<IconButton
-							edge="end"
-							aria-label="account of current user"
-							aria-haspopup="true"
-							onClick={componentDidMount}
-						>
-							<MyLocationIcon />
-						</IconButton>
-						&nbsp;<Typography variant="caption" sx={{ flexGrow: 1 }}>
-							Kalkaji Double storey new delhi
-						</Typography>
+					<div className={classes.search}>
+						<SearchBar />
 					</div>
-					<div>
-						<ThemeContext.Consumer>
-							{({ changeTheme }) => (
-								<IconButton
-									color="link"
-									onClick={() => {
-										setDarkMode(!darkMode);
-										changeTheme(darkMode ? themes.light : themes.dark);
-									}}
-								>
-									<i className={darkMode ? 'fas fa-sun' : 'fas fa-moon'}></i>
-									<span className="d-lg-none d-md-block"></span>
-								</IconButton>
-							)}
-						</ThemeContext.Consumer>
-					</div>
-					<div className={classes.sessionInfo}>
+					<div className={classes.grow} />
+					<div className={classes.sectionDesktop}>
 						<SessionInfo />
+					</div>
+					<div className={classes.sectionMobile}>
+						<IconButton
+							aria-label="show more"
+							aria-controls={mobileMenuId}
+							aria-haspopup="true"
+							onClick={handleMobileMenuOpen}
+							color="inherit"
+						>
+							<MoreIcon />
+						</IconButton>
 					</div>
 				</Toolbar>
 			</AppBar>
+			{renderMobileMenu}
 			<main className={clsx(classes.content)}>
 				<Main />
 			</main>
