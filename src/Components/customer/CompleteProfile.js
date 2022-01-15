@@ -38,6 +38,12 @@ export default function CompleteProfile() {
 	const history = useHistory()
 	const user = useSelector((state) => state.user.user)
 	const dispatch = useDispatch()
+	cosnt [data, setData] = React.useState({
+		name: '',
+		email: '',
+		address: [],
+		mobileNumber: ''
+	})
 	const [name, setName] = useState(user.userName)
 	const [email, setEmail] = useState(user.userEmail)
 	const [address, setAddress] = useState((user.address.length > 0) ? user.address[0].address : [] )
@@ -90,6 +96,16 @@ export default function CompleteProfile() {
 			});
 		}
 	}
+
+	// use this instead of each field setters
+	const onChangeHandler = (option) => event => {
+		setData({
+			...data,
+			[option]: event.target.value
+		})
+	}
+
+
 	return (<div className={classes.root} >
 		<Navbar />
 

@@ -37,7 +37,7 @@
 }
 .Banner .Content {
   color: white;
-  background-color: #771818;
+  background-color: #fbeeca;
   height: 100%;
   position: relative;
   cursor: pointer;
@@ -45,27 +45,27 @@
   transition: 300ms;
 }
 .Banner .Content:hover, .Banner .Content:active {
-  background-color: #571111;
+  background-color: #fbeeca;
 }
 .Banner .Content:hover .ViewButton, .Banner .Content:active .ViewButton {
   background-color: #f1f1f1;
-  color: #771818;
+  color: #fbeeca;
 }
 .Banner .Content .Title {
   font-size: 30px;
   font-weight: 500;
-  color: white;
+  color: black;
 }
 .Banner .Content .Caption {
   margin-top: 10px;
   font-size: 18px;
-  color: white;
+  color: black;
 }
 .Banner .Content .ViewButton {
   margin-top: 40px;
-  color: white;
+  color: black;
   font-size: 25px;
-  border: 3px solid white;
+  border: 3px solid black;
   text-transform: capitalize;
   transition: 200ms;
 }

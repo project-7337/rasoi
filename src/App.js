@@ -3,6 +3,7 @@ import './App.css'
 import Navbar from "./navbar/Navbar"
 import {makeStyles} from '@material-ui/core/styles'
 import Customer from './Components/customer/Customer'
+import { MuiThemeProvider, createTheme } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -11,12 +12,23 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: "#ffe01b",
+			contrastText: "#fff"
+		}
+	}
+})
+
 function App() {
     const classes = useStyles()
     return (
-        <div className={classes.root}>
-            <Navbar/>
-        </div>
+		<MuiThemeProvider theme={theme}>
+			<div className={classes.root}>
+				<Navbar/>
+			</div>
+		</MuiThemeProvider>
     );
 }
 

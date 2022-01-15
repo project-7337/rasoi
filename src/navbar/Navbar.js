@@ -20,7 +20,7 @@ import { SearchBar } from '../Components/customer/SearchBar';
 
 const useStyles = makeStyles(theme => ({
 	grow: {
-		flexGrow: 1,
+		flexGrow: 1
 	},
 	menuButton: {
 		marginRight: theme.spacing(2),
@@ -123,23 +123,9 @@ export default function Navbar() {
 
 
 	return (
-		<div className={classes.gow}>
-			<AppBar position="static" color='transparent'>
+		<div className={classes.grow}>
+			<AppBar position="sticky" color='primary'>
 				<Toolbar>
-
-					{/* <Grid container spacing={3}>
-						<Grid item xs={1} sm={1}>
-							<a href="/">
-								<img src={Logo} className={classes.logo} width="90" height="70" />
-							</a>
-						</Grid>
-						<Grid item xs={10} sm={10}>
-							<SearchBar />
-						</Grid>
-						<Grid item xs={1} sm={1}>
-							<SessionInfo />
-						</Grid>
-					</Grid> */ }
 					<Typography className={classes.title} variant="h6" noWrap>
 						<a href="/">
 							<img src={Logo} className={classes.logo} width="90" height="70" />

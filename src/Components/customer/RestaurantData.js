@@ -65,6 +65,11 @@ export default function RestaurantData(props) {
 	const history = useHistory()
 	let iconStyles = { color: "white", fontSize: "1rem" };
 
+	const onCardClick = (cardData) => event => {
+		event.preventDefault()
+		history.push({ pathname: 'RestaurantDetails', state: { inputData: cardData } })
+	}
+
 	return (
 		<div className={classes.root}>
 			<div className={classes.paperDiv}>
@@ -73,7 +78,7 @@ export default function RestaurantData(props) {
 
 						<Grid item xs={12} sm={6} md={4} key={index} >
 							<Card className={classes.card} >
-								<CardActionArea href='/RestaurantDetails'>
+								<CardActionArea onClick={onCardClick(data)}>
 									<CardMedia
 										className={classes.media}
 										image={data.image_url}

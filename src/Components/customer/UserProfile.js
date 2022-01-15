@@ -60,9 +60,6 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-
-
-
 export default function UserProfile() {
 	const classes = useStyles()
 	const history = useHistory()
