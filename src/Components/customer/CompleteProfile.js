@@ -38,7 +38,7 @@ export default function CompleteProfile() {
 	const history = useHistory()
 	const user = useSelector((state) => state.user.user)
 	const dispatch = useDispatch()
-	cosnt [data, setData] = React.useState({
+	const [data, setData] = React.useState({
 		name: '',
 		email: '',
 		address: [],
