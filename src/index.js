@@ -9,6 +9,7 @@ import CompleteProfile from './Components/customer/CompleteProfile'
 import { store } from './Redux/store'
 import { Provider } from 'react-redux'
 import ThemeContextWrapper from './Themes/themeWrapper';
+import RestaurantDetails from './Components/customer/RestaurantDetails';
 
 require('dotenv').config()
 
@@ -22,6 +23,8 @@ render((
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/login"} component={Login} />
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/UserProfile"} component={UserProfile} />
 				<Route path={process.env.REACT_APP_PUBLIC_URL + "/completeprofile"} component={CompleteProfile} />
+				<Route path={process.env.REACT_APP_PUBLIC_URL + "/RestaurantDetails"} component={RestaurantDetails} />
+
 				<Route component={App} />
 
 			</Switch>

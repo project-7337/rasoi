@@ -63,7 +63,6 @@ export default function Customer() {
 			},
 		}).then(response => {
 			if (response.status === 403) {
-				console.log(response)
 				history.push('login')
 			}
 			return response.json()
