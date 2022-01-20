@@ -6,14 +6,11 @@ import { Button, Card, CircularProgress, Grid, Paper, Typography, TextField, Sna
 import Cookies from 'js-cookie';
 import { Alert } from '@material-ui/lab'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../../Redux/UserReducer'
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 		paddingBottom: 20,
-		// backgroundColor:'yellow'
-		
 	},
 	paper: {
 		height: '80%',
@@ -37,6 +34,7 @@ export default function CompleteProfile() {
 	const classes = useStyles()
 	const history = useHistory()
 	const user = useSelector((state) => state.user.user)
+	const cart = useSelector((state)=>state.cart)
 	const dispatch = useDispatch()
 	const [data, setData] = React.useState({
 		name: '',
@@ -107,8 +105,6 @@ export default function CompleteProfile() {
 
 
 	return (<div className={classes.root} >
-		<Navbar />
-
 		<Paper elevation={3} className={classes.paper}>
 			<Typography classNames={classes.root} gutterBottom={true} variant='h5' >Please Complete your Profile</Typography>
 			<form onSubmit={handleSubmit} >

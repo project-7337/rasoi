@@ -1,20 +1,16 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Card, CardContent, Tab, Tabs, Grid, Paper, Typography, Divider, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
-import Carousel from "react-material-ui-carousel";
+import { Button, Card, CardContent, Tab, Tabs, Grid, Paper, Typography, Divider, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl,RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import '../../styles/styles.css';
-import { red } from '@material-ui/core/colors';
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Container, Row, Col, Form } from 'react-bootstrap';
-import Navbar from '../../navbar/Navbar';
+import { Container} from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../../Redux/UserReducer'
+import { setUser,SetAddressList } from '../../Redux/UserReducer'
 import PropTypes from 'prop-types';
-import { Add, Apartment, Hotel, House, PinDrop, Work } from '@material-ui/icons';
+import { Add, House, Work } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -67,23 +63,56 @@ export default function UserProfile() {
 	const [open, setOpen] = React.useState(false);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
-	const [addressType, setAddressType] = React.useState('Home');
-	const handleRadioChange = (event) => {
-		setValue(event.target.value);
-	};
 	const user = useSelector((state) => state.user.user)
+	const addList = useSelector((state) => state.user.address)
+	const [address, setAddress] = React.useState({
+		email: '',
+		type: 'Home',
+		completeAddress: '',
+		floor: '',
+		landmark: ''
+	})
+	const handleRadioChange = (event) => {
+		setAddress({
+			completeAddress: address.completeAddress,
+			email: user.userEmail,
+			floor: address.floor,
+			landmark: address.landmark,
+			type: event.target.value
+		})
+		console.log(address.type);
+	};
+
 	const dispatch = useDispatch()
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-
 	const handleClose = () => {
+		addList.map((data,index)=>console.log(data))
 		setOpen(false);
 	};
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		fetch('/api/v1/addAddress', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + Cookies.get('token')
+			}, body: JSON.stringify({
+				address
+			})
+		}).then((res) => { return res.json() }).then((response) => {
+			console.log(response)
+			if (response.status == 500) {
+				setTimeout(() => window.location.reload(), 3000)
+			} else {
+				setTimeout(() => history.push('/'), 3000)
+			}
+		});
+	}
 	React.useEffect(() => {
 		fetch("/api/v1/getUser", {
 			method: 'GET',
@@ -98,13 +127,14 @@ export default function UserProfile() {
 			}
 			return response.json()
 		}).then(resp => {
-			dispatch(setUser(resp.data))
+			console.log(resp.data.address);
+			dispatch(setUser(resp.data.user))
+			dispatch(SetAddressList(resp.data.address))
 		});
 	}, [history])
 
 	return (
 		<div>
-			<Navbar />
 			<Paper elevation={3} className={classes.paper}>
 				<Grid container>
 					<Grid item xs={12} sm={3} md={3}>
@@ -212,7 +242,7 @@ export default function UserProfile() {
 							<h3>My Addresses</h3>
 							<Paper elevation={3} className={classes.tabPaper}>
 
-								{undefined !== user.address && user.address.map((data, index) => (
+								{undefined !== addList && addList.map((data, index) => (
 									<List className={classes.list}>
 										<ListItem>
 											<ListItemAvatar>
@@ -220,7 +250,7 @@ export default function UserProfile() {
 													{data.type === 'home' ? <House /> : <Work />}
 												</Avatar>
 											</ListItemAvatar>
-											<ListItemText primary={data.type} secondary={data.address} />
+											<ListItemText primary={data.type} secondary={data.completeAddress} />
 										</ListItem>
 									</List>
 								))}
@@ -234,58 +264,81 @@ export default function UserProfile() {
 									aria-labelledby="responsive-dialog-title"
 								>
 									<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
-									<DialogContent>
 
-										<form  >
+									<form onSubmit={handleSubmit}>
+										<DialogContent>
 											<Grid container spacing={3} >
 												<Grid item xs={12} sm={12} md={12} >
-													<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => { }} className={classes.textField} />
+													<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
+														setAddress({
+															completeAddress: e.target.value,
+															email: user.userEmail,
+															type: address.type,
+															floor: address.floor,
+															landmark: address.landmark
+														})
+													}} className={classes.textField} />
 												</Grid>
 												<Grid item xs={12} sm={12} md={12} >
-													<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => { }} className={classes.textField} />
+													<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
+														setAddress({
+															completeAddress: address.completeAddress,
+															email: user.userEmail,
+															type: address.type,
+															landmark: address.landmark,
+															floor: e.target.value
+														})
+													}} className={classes.textField} />
 												</Grid>
 												<Grid item xs={12} sm={12} md={12} >
-													<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => { }} className={classes.textField} />
+													<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
+														setAddress({
+															completeAddress: address.completeAddress,
+															email: user.userEmail,
+															type: address.type,
+															floor: address.floor,
+															landmark: e.target.value
+														})
+													}} className={classes.textField} />
 												</Grid>
 												<Grid item xs={12} sm={12} md={12}>
 													<FormControl component="fieldset">
-														<RadioGroup row aria-label="addressType" name="addressType" value={addressType} onChange={handleRadioChange}>
+														<RadioGroup row aria-label="addressType" name="addressType" value={address.type} onChange={handleRadioChange}>
 															<FormControlLabel
 																value="Home"
-																control={<Radio color="primary" icon={<House />} />}
+																control={<Radio color="primary" />}
 																label="Home"
-
 															/>
 															<FormControlLabel
 																value="Office"
-																control={<Radio color="primary" icon={<Work />} />}
+																control={<Radio color="primary" />}
 																label="Office"
 															/>
 															<FormControlLabel
 																value="Hotel"
-																control={<Radio color="primary" icon={<Apartment />} />}
+																control={<Radio color="primary" />}
 																label="Hotel" />
 															<FormControlLabel
 																value="Other"
-																control={<Radio color="primary" icon={<PinDrop />} />}
+																control={<Radio color="primary" />}
 																label="Other"
 															/>
 														</RadioGroup>
 													</FormControl>
 												</Grid>
 											</Grid>
-										</form>
-
-									</DialogContent>
-									<DialogActions>
-										<Button autoFocus onClick={handleClose} color="primary">
-											Later
-										</Button>
-										<Button onClick={handleClose} color="primary" autoFocus>
-											Add
-										</Button>
-									</DialogActions>
+										</DialogContent>
+										<DialogActions>
+											<Button autoFocus onClick={handleClose} color="textColor">
+												Later
+											</Button>
+											<Button type='submit' color="textColor" autoFocus>
+												Add
+											</Button>
+										</DialogActions>
+									</form>
 								</Dialog>
+
 							</Paper>
 
 						</TabPanel>

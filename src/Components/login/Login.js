@@ -49,6 +49,7 @@ export default function Login() {
 			}
 			return res.json()
 		}).then((resp)=>{
+			console.log(resp.data);
 			dispatch(setUser(resp.data))
 			if(resp.data.isCompleted){
 				history.push('/')
@@ -76,7 +77,7 @@ export default function Login() {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				backgroundColor: "#151a30",
+				backgroundColor: "#ffe01b",
 				color: "white",
 			}}
 		>
