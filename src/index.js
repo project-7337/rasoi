@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from './Components/login/Login'
-import { store } from './Redux/store'
+import {productStore} from './Redux/store'
 import { Provider } from 'react-redux'
 import ThemeContextWrapper from './Themes/themeWrapper';
 
@@ -15,7 +15,7 @@ require('dotenv').config()
 render((
 
 	<BrowserRouter>
-		<Provider store={store}>
+		<Provider store={productStore}>
 		<ThemeContextWrapper>
 			<Switch>
 

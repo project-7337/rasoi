@@ -12,6 +12,7 @@ import {
 	IconButton
 } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -60,9 +61,11 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default function RestaurantData(props) {
+export default function RestaurantData() {
 	const classes = useStyles()
 	const history = useHistory()
+	let restaurant = useSelector((state) => state.allProducts.products);
+
 	let iconStyles = { color: "white", fontSize: "1rem" };
 
 	const onCardClick = (cardData) => event => {
@@ -74,8 +77,7 @@ export default function RestaurantData(props) {
 		<div className={classes.root}>
 			<div className={classes.paperDiv}>
 				<Grid container spacing={5} >
-					{undefined !== props.data && props.data.map((data, index) => (
-
+					{Object.keys(restaurant).length != 0 && restaurant.map((data, index) => (
 						<Grid item xs={12} sm={6} md={4} key={index} >
 							<Card className={classes.card} >
 								<CardActionArea onClick={onCardClick(data)}>

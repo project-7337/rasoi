@@ -8,7 +8,7 @@ import { Container} from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser,SetAddressList } from '../../Redux/UserReducer'
+import UserReducer from '../../Redux/Reducers/UserReducer'
 import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 
@@ -63,8 +63,8 @@ export default function UserProfile() {
 	const [open, setOpen] = React.useState(false);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
-	const user = useSelector((state) => state.user.user)
-	const addList = useSelector((state) => state.user.address)
+	const user = useSelector((state) => state.user.user.payload)
+	const addList = useSelector((state) => state.user.payload.address)
 	const [address, setAddress] = React.useState({
 		email: '',
 		type: 'Home',
@@ -128,8 +128,8 @@ export default function UserProfile() {
 			return response.json()
 		}).then(resp => {
 			console.log(resp.data.address);
-			dispatch(setUser(resp.data.user))
-			dispatch(SetAddressList(resp.data.address))
+			dispatch(UserReducer(resp.data.user))
+			// dispatch(SetAddressList(resp.data.address))
 		});
 	}, [history])
 
@@ -242,7 +242,7 @@ export default function UserProfile() {
 							<h3>My Addresses</h3>
 							<Paper elevation={3} className={classes.tabPaper}>
 
-								{undefined !== addList && addList.map((data, index) => (
+								{undefined !== addList && addList.length>0 && addList.map((data, index) => (
 									<List className={classes.list}>
 										<ListItem>
 											<ListItemAvatar>
