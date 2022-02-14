@@ -9,6 +9,8 @@ export const UserReducer = (state = initialState, payload) => {
 	return { ...state, user: payload };
 }
 
+export default UserReducer;
+
 // export const userSlice = createSlice({
 // 	name: 'user',
 // 	initialState,

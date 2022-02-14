@@ -14,7 +14,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
 import { useDispatch } from 'react-redux'
-import {UserReducer}  from '../../Redux/Reducers/UserReducer'
+import UserReducer  from '../../Redux/Reducers/UserReducer'
 const useStyles = makeStyles((theme) => ({
 	GAuthButton: {
 		padding: theme.spacing(2),
