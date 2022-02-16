@@ -8,11 +8,8 @@ import { red } from '@material-ui/core/colors';
 import Cookies from 'js-cookie';
 import RestaurantData from './RestaurantData';
 import { useDispatch, useSelector } from "react-redux";
-import {
-	selectedProduct,
-	removeSelectedProduct,
-	setProducts,
-} from "../../Redux/Actions/productActions";
+import allActions from '../../Redux/actions';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -52,7 +49,9 @@ const useStyles = makeStyles(theme => ({
 export default function Customer() {
 	const classes = useStyles()
 	const history = useHistory()
-	let restaurant = useSelector((state) => state.allProducts.products);
+	const restaurant = useSelector((state) => state.productReducer);
+
+	console.log(restaurant)
 	const dispatch = useDispatch();
 	// const [restaurantData, setRestaurantData] = React.useState({
 	// 	details: []
@@ -75,13 +74,13 @@ export default function Customer() {
 				return response.json()
 			}).then(resp => {
 				console.log(resp.data)
-				dispatch(setProducts(resp.data));
+				dispatch(allActions.productActions.setProducts(resp.data));
 				// setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
 			})
 		} else {
 			console.log("second load, reload to referesh")
 		}
-	})
+	}, [])
 
 	return (
 		<div className={classes.root}>
@@ -99,7 +98,7 @@ export default function Customer() {
 
 				</Grid>
 				<Grid item xs={8} sm={8} md={10}>
-					{Object.keys(restaurant).length === 0 ? (
+					{Object.keys(restaurant.products).length === 0 ? (
 						<div>...Loading</div>
 					) :
 						<RestaurantData />

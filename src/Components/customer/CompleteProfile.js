@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default function CompleteProfile() {
 	const classes = useStyles()
 	const history = useHistory()
-	const user = useSelector((state) => state.user.user)
+	const user = useSelector((state) => state.userReducer)
 	const cart = useSelector((state)=>state.cart)
 	const dispatch = useDispatch()
 	const [data, setData] = React.useState({
@@ -42,10 +42,10 @@ export default function CompleteProfile() {
 		address: [],
 		mobileNumber: ''
 	})
-	const [name, setName] = useState(user.userName)
-	const [email, setEmail] = useState(user.userEmail)
-	const [address, setAddress] = useState((user.address.length > 0) ? user.address[0].address : [] )
-	const [mobileNumber, setMobileNumber] = useState(user.mobileNumber??'')
+	const [name, setName] = useState(user.userData.userName)
+	const [email, setEmail] = useState(user.userData.userEmail)
+	const [address, setAddress] = useState((user.userData.address.length > 0) ? user.userData.address[0].address : [] )
+	const [mobileNumber, setMobileNumber] = useState(user.userData.mobileNumber??'')
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();

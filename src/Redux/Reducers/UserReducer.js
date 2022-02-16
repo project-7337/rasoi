@@ -1,15 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { ActionTypes } from '../constants/action-types';
 
 const initialState = {
 	user: {},
-	address: []
+	address: [],
+	userData: {}
 }
 
-export const UserReducer = (state = initialState, payload) => {
-	return { ...state, user: payload };
+const userReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case "POST_SIGNIN_SUCCESS":
+			return {
+				...state,
+				userData: action.payload
+			}
+		default:
+			return state
+	}
 }
 
-export default UserReducer;
+export default userReducer;
 
 // export const userSlice = createSlice({
 // 	name: 'user',

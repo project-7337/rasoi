@@ -8,7 +8,8 @@ import { Container} from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import UserReducer from '../../Redux/Reducers/UserReducer'
+import userReducer from '../../Redux/reducers/userReducer'
+import allActions from '../../Redux/actions';
 import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 
@@ -60,11 +61,14 @@ export default function UserProfile() {
 	const classes = useStyles()
 	const history = useHistory()
 	const theme = useTheme();
+
 	const [open, setOpen] = React.useState(false);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
-	const user = useSelector((state) => state.user.user.payload)
-	const addList = useSelector((state) => state.user.payload.address)
+	const user = useSelector((state) => state.userReducer)
+	console.log(user)
+	const addList = user.userData.address
+	console.log(addList)
 	const [address, setAddress] = React.useState({
 		email: '',
 		type: 'Home',
@@ -72,10 +76,11 @@ export default function UserProfile() {
 		floor: '',
 		landmark: ''
 	})
+	
 	const handleRadioChange = (event) => {
 		setAddress({
 			completeAddress: address.completeAddress,
-			email: user.userEmail,
+			email: user.userData.userEmail,
 			floor: address.floor,
 			landmark: address.landmark,
 			type: event.target.value
@@ -114,6 +119,7 @@ export default function UserProfile() {
 		});
 	}
 	React.useEffect(() => {
+		console.log("useeffect")
 		fetch("/api/v1/getUser", {
 			method: 'GET',
 			headers: {
@@ -127,8 +133,9 @@ export default function UserProfile() {
 			}
 			return response.json()
 		}).then(resp => {
-			console.log(resp.data.address);
-			dispatch(UserReducer(resp.data.user))
+			console.log(resp.data);
+			dispatch(allActions.userAction.setUser(resp.data));
+			// dispatch(userReducer(resp.data.user))
 			// dispatch(SetAddressList(resp.data.address))
 		});
 	}, [history])
@@ -139,10 +146,10 @@ export default function UserProfile() {
 				<Grid container>
 					<Grid item xs={12} sm={3} md={3}>
 						<Container fixed >
-							<Avatar alt={user.userName} src={user.profilePicture} className={classes.avatar} text />
+							<Avatar alt={user.userData.userName} src={user.userData.profilePicture} className={classes.avatar} text />
 							<h4>
-								{user.userName}
-								{user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+								{user.userData.userName}
+								{user.userData.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
 							</h4>
 							<div className={classes.tab}>
 								<Tabs
@@ -185,7 +192,7 @@ export default function UserProfile() {
 											id="name"
 											label='Name'
 											fullWidth
-											defaultValue={user.userName}
+											defaultValue={user.userData.userName}
 											variant="standard"
 											disableUnderline={false}
 											className={classes.textField}
@@ -199,7 +206,7 @@ export default function UserProfile() {
 										<TextField
 											label='Email'
 											fullWidth
-											defaultValue={user.userEmail}
+											defaultValue={user.userData.userEmail}
 											variant="standard"
 											disableUnderline={false}
 											className={classes.textField}
@@ -214,7 +221,7 @@ export default function UserProfile() {
 										<TextField
 											label='Phone Number'
 											fullWidth
-											defaultValue={user.mobileNumber}
+											defaultValue={user.userData.mobileNumber}
 											variant="standard"
 											disableUnderline={false}
 											className={classes.textField}
@@ -272,7 +279,7 @@ export default function UserProfile() {
 													<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: e.target.value,
-															email: user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															floor: address.floor,
 															landmark: address.landmark
@@ -283,7 +290,7 @@ export default function UserProfile() {
 													<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: address.completeAddress,
-															email: user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															landmark: address.landmark,
 															floor: e.target.value
@@ -294,7 +301,7 @@ export default function UserProfile() {
 													<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: address.completeAddress,
-															email: user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															floor: address.floor,
 															landmark: e.target.value

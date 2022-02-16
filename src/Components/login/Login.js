@@ -14,7 +14,8 @@ import {
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
 import { useDispatch } from 'react-redux'
-import UserReducer  from '../../Redux/Reducers/UserReducer'
+import allActions from '../../Redux/actions';
+
 const useStyles = makeStyles((theme) => ({
 	GAuthButton: {
 		padding: theme.spacing(2),
@@ -50,7 +51,7 @@ export default function Login() {
 			return res.json()
 		}).then((resp)=>{
 			console.log(resp.data);
-			dispatch(UserReducer(resp.data))
+			dispatch(allActions.userAction.setUser(resp.data));
 			if(resp.data.isCompleted){
 				history.push('/')
 			}else{

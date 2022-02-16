@@ -1,9 +1,8 @@
-import { combineReducers } from "redux";
-import { productsReducer, selectedProductsReducer } from "./productReducer";
-import UserReducer from "./UserReducer";
-const reducers = combineReducers({
-  allProducts: productsReducer,
-  product: selectedProductsReducer,
-  user: UserReducer
+import {combineReducers} from "redux";
+import productReducer from "./productReducer";
+import userReducer from "./userReducer";
+
+export default combineReducers({
+	userReducer,
+	productReducer
 });
-export default reducers;

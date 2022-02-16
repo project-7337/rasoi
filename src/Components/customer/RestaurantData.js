@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 export default function RestaurantData() {
 	const classes = useStyles()
 	const history = useHistory()
-	let restaurant = useSelector((state) => state.allProducts.products);
+	let restaurant = useSelector((state) => state.productReducer.products);
 
 	let iconStyles = { color: "white", fontSize: "1rem" };
 

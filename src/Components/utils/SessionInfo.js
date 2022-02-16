@@ -59,7 +59,7 @@ export default function SessionInfo() {
 	}
 
 	React.useEffect(() => {
-		let unmounted = false
+		/* let unmounted = false */
 		fetch("/api/v1/fetchSessionInfo", {
 			method: 'GET',
 			headers: {
@@ -74,18 +74,18 @@ export default function SessionInfo() {
 			return response.json()
 		})
 		.then(response => {
-			if (!unmounted) {
+			//if (!unmounted) {
 				setState(state => ({
 					...state,
 					username: response.username,
 					email: response.email,
 					profilePic: response.profilePic
 				}))
-			}
+			//}
 		})
-		return () => {
+		/* return () => {
 			unmounted = true
-		}
+		} */
 	}, [])
 
 	return (

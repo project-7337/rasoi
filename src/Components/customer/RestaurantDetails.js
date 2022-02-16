@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart, addItem, removeItem, setCart } from '../../Redux/cartReducer'
+import { clearCart, addItem, removeItem, setCart } from '../../Redux/reducers/cartReducer'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
