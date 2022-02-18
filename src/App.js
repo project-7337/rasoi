@@ -2,7 +2,6 @@ import React from 'react'
 import './App.css'
 import Navbar from "./navbar/Navbar"
 import {makeStyles} from '@material-ui/core/styles'
-import Customer from './Components/customer/Customer'
 import { MuiThemeProvider, createTheme } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({

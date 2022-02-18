@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { ActionTypes } from '../constants/action-types';
+
 
 const initialState = {
 	user: {},

@@ -1,5 +1,4 @@
-import { Icon, IconButton, Menu, MenuItem, Toolbar ,Avatar} from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {  IconButton, Menu, MenuItem, Toolbar ,Avatar} from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {makeStyles} from "@material-ui/core/styles";
@@ -90,7 +89,7 @@ export default function SessionInfo() {
 
 	return (
 		<Toolbar>
-			<MenuItem onClick={handleProfileMenuOption} className={classes.toolbarIcon}>
+			<div onClick={handleProfileMenuOption} className={classes.toolbarIcon}>
 				<IconButton
 					aria-label="account of current user"
 					aria-controls="primary-search-account-name"
@@ -98,7 +97,7 @@ export default function SessionInfo() {
 					color="inherit">
 						<Avatar alt={state.username} src={state.profilePic} />
 					</IconButton>
-			</MenuItem>
+			</div>
 			<Menu
 				id="simple-menu"
 				anchorEl={anchorEl}

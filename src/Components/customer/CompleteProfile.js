@@ -1,8 +1,7 @@
-import React, { useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import Navbar from '../../navbar/Navbar';
-import { Button, Card, CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
+import { Button,  CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
 import Cookies from 'js-cookie';
 import { Alert } from '@material-ui/lab'
 import { useSelector, useDispatch } from 'react-redux'
@@ -34,8 +33,8 @@ export default function CompleteProfile() {
 	const classes = useStyles()
 	const history = useHistory()
 	const user = useSelector((state) => state.userReducer)
-	const cart = useSelector((state)=>state.cart)
-	const dispatch = useDispatch()
+	// const cart = useSelector((state)=>state.cart)
+	// const dispatch = useDispatch()
 	const [data, setData] = React.useState({
 		name: '',
 		email: '',
@@ -53,7 +52,7 @@ export default function CompleteProfile() {
 	
 
 	const phoneValidate = (mobileNumber) => {
-		if (mobileNumber.length == 0 || mobileNumber.length == 10) {
+		if (mobileNumber.length === 0 || mobileNumber.length === 10) {
 			console.log("valid mobileNUmber")
 			return true;
 		} else {
@@ -85,7 +84,7 @@ export default function CompleteProfile() {
 				console.log(response.message)
 				setMessage(response.message)
 				setOpen(true)
-				if (response.status == 500) {
+				if (response.status === 500) {
 					
 					setTimeout(() => window.location.reload(), 3000)
 				} else {

@@ -14,7 +14,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
 import { useDispatch } from 'react-redux'
-import allActions from '../../Redux/actions';
+import allActions from '../../Redux/Actions';
 
 const useStyles = makeStyles((theme) => ({
 	GAuthButton: {
@@ -52,7 +52,7 @@ export default function Login() {
 		}).then((resp)=>{
 			console.log(resp.data);
 			dispatch(allActions.userAction.setUser(resp.data));
-			if(resp.data.isCompleted){
+			if(resp.data.user.isCompleted){
 				history.push('/')
 			}else{
 				history.push('/completeprofile')

@@ -1,20 +1,12 @@
 import React from 'react'
 import clsx from 'clsx'
-import { AppBar, Badge, IconButton, Toolbar, Menu, MenuItem, Typography } from "@material-ui/core"
-import { alpha, makeStyles } from '@material-ui/core/styles'
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { AppBar, IconButton, Toolbar, Menu, MenuItem, Typography } from "@material-ui/core"
+import { makeStyles } from '@material-ui/core/styles'
 import Main from "../Components/Main";
-import UserProfile from '../Components/customer/UserProfile';
-import MyLocationIcon from '@material-ui/icons/MyLocation';
-import MailIcon from '@material-ui/icons/Mail';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import Logo from '../images/rasoi.svg'
 import SessionInfo from '../Components/utils/SessionInfo';
-import { useHistory, Redirect } from 'react-router-dom'
-import { ThemeContext, themes } from '../Themes/theme';
+import { useHistory } from 'react-router-dom'
 import Geocode from "react-geocode";
 import { SearchBar } from '../Components/customer/SearchBar';
 
