@@ -8,7 +8,7 @@ import { Container} from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import allActions from '../../Redux/Actions';
+import allActions from '../../Redux/actions';
 import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 
@@ -192,7 +192,6 @@ export default function UserProfile() {
 											fullWidth
 											defaultValue={user.userData.user.userName}
 											variant="standard"
-											disableUnderline={false}
 											className={classes.textField}
 
 											InputProps={{
@@ -206,7 +205,6 @@ export default function UserProfile() {
 											fullWidth
 											defaultValue={user.userData.user.userEmail}
 											variant="standard"
-											disableUnderline={false}
 											className={classes.textField}
 											disabled
 											InputProps={{
@@ -221,7 +219,6 @@ export default function UserProfile() {
 											fullWidth
 											defaultValue={user.userData.user.mobileNumber}
 											variant="standard"
-											disableUnderline={false}
 											className={classes.textField}
 											disabled
 											InputProps={{
@@ -379,8 +376,8 @@ function TabPanel(props) {
 			{...other}
 		>
 			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
+				<Box>
+					<Typography component={'span'}>{children}</Typography>
 				</Box>
 			)}
 		</div>

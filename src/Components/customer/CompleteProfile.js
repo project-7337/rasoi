@@ -105,7 +105,7 @@ export default function CompleteProfile() {
 
 	return (<div className={classes.root} >
 		<Paper elevation={3} className={classes.paper}>
-			<Typography classNames={classes.root} gutterBottom={true} variant='h5' >Please Complete your Profile</Typography>
+			<Typography className={classes.root} gutterBottom={true} variant='h5' >Please Complete your Profile</Typography>
 			<form onSubmit={handleSubmit} >
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={6} >

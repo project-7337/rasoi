@@ -14,7 +14,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
 import { useDispatch } from 'react-redux'
-import allActions from '../../Redux/Actions';
+import allActions from '../../Redux/actions';
 
 const useStyles = makeStyles((theme) => ({
 	GAuthButton: {
