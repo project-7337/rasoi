@@ -56,11 +56,11 @@ export default function Customer() {
 	// const [restaurantData, setRestaurantData] = React.useState({
 	// 	details: []
 	// })
-	const isInitialMount = useRef(true);
+	// const isInitialMount = useRef(true);
 
 	React.useEffect(() => {
-		if (undefined===restaurant) {
-			isInitialMount.current = false;
+		if ( restaurant.products.length === 0 ) {
+			// isInitialMount.current = false;
 			fetch("/api/v1/fetchRestaurantData", {
 				method: 'GET',
 				headers: {

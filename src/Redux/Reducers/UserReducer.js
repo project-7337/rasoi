@@ -1,5 +1,3 @@
-
-
 const initialState = {
 	user: {},
 	address: [],
@@ -11,7 +9,13 @@ const userReducer = (state = initialState, action) => {
 		case "POST_SIGNIN_SUCCESS":
 			return {
 				...state,
-				userData: action.payload
+				userData: action.payload.user,
+				address: action.payload.address
+			}
+		case "ADDRESS_UPDATE":
+			return {
+				...state,
+				address: action.payload
 			}
 		default:
 			return state
@@ -19,20 +23,3 @@ const userReducer = (state = initialState, action) => {
 }
 
 export default userReducer;
-
-// export const userSlice = createSlice({
-// 	name: 'user',
-// 	initialState,
-// 	reducers: {
-// 		setUser: (state, user) => {
-// 			state.user = user.payload
-// 		},
-// 		SetAddressList: (state, address) => {
-// 			// console.log(address.payload)
-// 			state.address = address.payload
-// 		}
-// 	},
-// })
-
-// export const { setUser, SetAddressList } = userSlice.actions
-// export default userSlice.reducer

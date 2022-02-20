@@ -12,6 +12,16 @@ import allActions from '../../Redux/actions';
 import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 
+const checkIfEmpty = (obj) => {
+	for(var prop in obj) {
+		if(Object.prototype.hasOwnProperty.call(obj, prop)) {
+			return false;
+		}
+	}
+	return JSON.stringify(obj) === JSON.stringify({});
+}
+
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -66,7 +76,7 @@ export default function UserProfile() {
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
 	//console.log(user)
-	const addList = user.userData.address
+	const addList = user.address
 	//console.log(addList)
 	const [address, setAddress] = React.useState({
 		email: '',
@@ -79,7 +89,7 @@ export default function UserProfile() {
 	const handleRadioChange = (event) => {
 		setAddress({
 			completeAddress: address.completeAddress,
-			email: user.userData.user.userEmail,
+			email: user.userData.userEmail,
 			floor: address.floor,
 			landmark: address.landmark,
 			type: event.target.value
@@ -108,12 +118,15 @@ export default function UserProfile() {
 			}, body: JSON.stringify({
 				address
 			})
-		}).then((res) => { return res.json() }).then((response) => {
+		})
+		.then((res) => { return res.json() })
+		.then((response) => {
 			//console.log(response)
 			if (response.status === 500) {
 				setTimeout(() => window.location.reload(), 3000)
 			} else {
-				setTimeout(() => history.push('/'), 3000)
+				dispatch(allActions.userAction.updateAddress(response.data))
+				//setTimeout(() => history.push('/'), 3000)
 			}
 		});
 	}
@@ -142,15 +155,15 @@ export default function UserProfile() {
 
 	return (
 		<div>
-			{undefined === user.userData.user ?<CircularProgress/>:
+			{ checkIfEmpty(user.userData) ?<CircularProgress/>:
 			<Paper elevation={3} className={classes.paper}>
 				<Grid container>
 					<Grid item xs={12} sm={3} md={3}>
 						<Container fixed="true" >
-							<Avatar alt={user.userData.user.userName} src={user.userData.user.profilePicture} className={classes.avatar}  />
+							<Avatar alt={user.userData.userName} src={user.userData.profilePicture} className={classes.avatar}  />
 							<h4>
-								{user.userData.user.userName}
-								{user.userData.user.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+								{user.userData.userName}
+								{user.userData.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
 							</h4>
 							<div className={classes.tab}>
 								<Tabs 
@@ -191,7 +204,7 @@ export default function UserProfile() {
 											id="name"
 											label='Name'
 											fullWidth
-											defaultValue={user.userData.user.userName}
+											defaultValue={user.userData.userName}
 											variant="standard"
 											className={classes.textField}
 
@@ -204,7 +217,7 @@ export default function UserProfile() {
 										<TextField
 											label='Email'
 											fullWidth
-											defaultValue={user.userData.user.userEmail}
+											defaultValue={user.userData.userEmail}
 											variant="standard"
 											className={classes.textField}
 											disabled
@@ -218,7 +231,7 @@ export default function UserProfile() {
 										<TextField
 											label='Phone Number'
 											fullWidth
-											defaultValue={user.userData.user.mobileNumber}
+											defaultValue={user.userData.mobileNumber}
 											variant="standard"
 											className={classes.textField}
 											disabled
@@ -246,7 +259,7 @@ export default function UserProfile() {
 							<Paper elevation={3} className={classes.tabPaper}>
 
 								{undefined !== addList && addList.length>0 && addList.map((data, index) => (
-									<List  key={data.completeAddress} className={classes.list}>
+									<List  key={data._id} className={classes.list}>
 										<ListItem>
 											<ListItemAvatar>
 												<Avatar>
@@ -275,7 +288,7 @@ export default function UserProfile() {
 													<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: e.target.value,
-															email: user.userData.user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															floor: address.floor,
 															landmark: address.landmark
@@ -286,7 +299,7 @@ export default function UserProfile() {
 													<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: address.completeAddress,
-															email: user.userData.user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															landmark: address.landmark,
 															floor: e.target.value
@@ -297,7 +310,7 @@ export default function UserProfile() {
 													<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
 														setAddress({
 															completeAddress: address.completeAddress,
-															email: user.userData.user.userEmail,
+															email: user.userData.userEmail,
 															type: address.type,
 															floor: address.floor,
 															landmark: e.target.value

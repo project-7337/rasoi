@@ -5,6 +5,14 @@ const setUser = (userObj) => {
 	}
 };
 
+const updateAddress = (userObj) => {
+	return {
+		type: "ADDRESS_UPDATE",
+		payload: userObj
+	}
+};
+
 export default {
-	setUser
+	setUser,
+	updateAddress
 };

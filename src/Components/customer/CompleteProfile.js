@@ -41,10 +41,10 @@ export default function CompleteProfile() {
 		address: [],
 		mobileNumber: ''
 	}) */
-	const [name, setName] = useState(user.userData.user.userName)
-	const [email, setEmail] = useState(user.userData.user.userEmail)
-	const [address, setAddress] = useState((user.userData.address.length > 0) ? user.userData.address[0].address : [] )
-	const [mobileNumber, setMobileNumber] = useState(user.userData.user.mobileNumber??'')
+	const [name, setName] = useState(user.userData.userName)
+	const [email, setEmail] = useState(user.userData.userEmail)
+	const [address, setAddress] = useState((user.address.length > 0) ? user.address[0].completeAddress : [] )
+	const [mobileNumber, setMobileNumber] = useState(user.userData.mobileNumber??'')
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();
