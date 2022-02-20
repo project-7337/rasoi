@@ -6,10 +6,7 @@ import {
 	TextField,
 	Grid,
 	Paper,
-	AppBar,
 	Typography,
-	Toolbar,
-	Link,
 } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
@@ -50,7 +47,7 @@ export default function Login() {
 			}
 			return res.json()
 		}).then((resp)=>{
-			console.log(resp.data);
+			// console.log(resp.data);
 			dispatch(allActions.userAction.setUser(resp.data));
 			if(resp.data.user.isCompleted){
 				history.push('/')
@@ -97,7 +94,7 @@ export default function Login() {
 							className="login-background"
 						>
 							<div className={classes.logo}>
-								<img src={Logo}  width='100'  />
+								<img alt="" src={Logo}  width='100'  />
 							</div>
 							<Grid item className={classes.root}>
 								<Typography component="h1" variant="h5">

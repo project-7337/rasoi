@@ -6,7 +6,7 @@ import Main from "../Components/Main";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Logo from '../images/rasoi.svg'
 import SessionInfo from '../Components/utils/SessionInfo';
-import { useHistory } from 'react-router-dom'
+//import { useHistory } from 'react-router-dom'
 import Geocode from "react-geocode";
 import { SearchBar } from '../Components/customer/SearchBar';
 
@@ -73,8 +73,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Navbar() {
 	const classes = useStyles()
-	const history = useHistory()
-	const [darkMode, setDarkMode] = React.useState(true);
+	//const history = useHistory()
+	//const [darkMode, setDarkMode] = React.useState(true);
 	//location service
 	Geocode.setApiKey(""); // Add api key to enable location service
 	Geocode.setLanguage("en");
@@ -120,7 +120,7 @@ export default function Navbar() {
 				<Toolbar>
 					<Typography className={classes.title} variant="h6" noWrap>
 						<a href="/">
-							<img src={Logo} className={classes.logo} width="90" height="70" />
+							<img alt="" src={Logo} className={classes.logo} width="90" height="70" />
 						</a>
 					</Typography>
 					<div className={classes.search}>

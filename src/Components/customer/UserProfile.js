@@ -65,9 +65,9 @@ export default function UserProfile() {
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
-	console.log(user)
+	//console.log(user)
 	const addList = user.userData.address
-	console.log(addList)
+	//console.log(addList)
 	const [address, setAddress] = React.useState({
 		email: '',
 		type: 'Home',
@@ -84,7 +84,7 @@ export default function UserProfile() {
 			landmark: address.landmark,
 			type: event.target.value
 		})
-		console.log(address.type);
+		//console.log(address.type);
 	};
 
 	const dispatch = useDispatch()
@@ -109,7 +109,7 @@ export default function UserProfile() {
 				address
 			})
 		}).then((res) => { return res.json() }).then((response) => {
-			console.log(response)
+			//console.log(response)
 			if (response.status === 500) {
 				setTimeout(() => window.location.reload(), 3000)
 			} else {
@@ -118,7 +118,7 @@ export default function UserProfile() {
 		});
 	}
 	React.useEffect(() => {
-		console.log("useeffect")
+		//console.log("useeffect")
 		fetch("/api/v1/getUser", {
 			method: 'GET',
 			headers: {
@@ -127,17 +127,17 @@ export default function UserProfile() {
 			},
 		}).then((response) => {
 			if (response.status === 403) {
-				console.log(response)
+				//console.log(response)
 				history.push('customer')
 			}
 			return response.json()
 		}).then(resp => {
-			console.log(resp.data);
+			//console.log(resp.data);
 			dispatch(allActions.userAction.setUser(resp.data));
 			// dispatch(userReducer(resp.data.user))
 			// dispatch(SetAddressList(resp.data.address))
 		});
-	}, [history])
+	}, [history, dispatch])
 
 	return (
 		<div>
@@ -331,10 +331,10 @@ export default function UserProfile() {
 											</Grid>
 										</DialogContent>
 										<DialogActions>
-											<Button autoFocus onClick={handleClose} color="textColor">
+											<Button autoFocus onClick={handleClose} variant="outlined">
 												Later
 											</Button>
-											<Button type='submit' color="textColor" autoFocus>
+											<Button type='submit' variant="outlined" autoFocus>
 												Add
 											</Button>
 										</DialogActions>

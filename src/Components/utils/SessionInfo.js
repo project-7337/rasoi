@@ -85,7 +85,7 @@ export default function SessionInfo() {
 		/* return () => {
 			unmounted = true
 		} */
-	}, [])
+	}, [history])
 
 	return (
 		<Toolbar>

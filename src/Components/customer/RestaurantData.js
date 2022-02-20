@@ -5,11 +5,8 @@ import Rating from "@material-ui/icons/StarRate";
 import {
 	Box,
 	Grid,
-	Chip,
 	Typography,
-	Card, CardActionArea, CardMedia, CardActions, CardContent, Button,
-	Paper,
-	IconButton
+	Card, CardActionArea, CardMedia, CardContent,
 } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -77,7 +74,7 @@ export default function RestaurantData() {
 		<div className={classes.root}>
 			<div className={classes.paperDiv}>
 				<Grid container spacing={5} >
-					{Object.keys(restaurant).length != 0 && restaurant.map((data, index) => (
+					{Object.keys(restaurant).length !== 0 && restaurant.map((data, index) => (
 						<Grid item xs={12} sm={6} md={4} key={index} >
 							<Card className={classes.card} >
 								<CardActionArea onClick={onCardClick(data)}>

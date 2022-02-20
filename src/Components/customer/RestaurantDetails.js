@@ -1,7 +1,7 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import React from 'react'
 import { Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import {  useDispatch } from 'react-redux';
 import {  addItem } from '../../Redux/reducers/cartReducer'
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function RestaurantDetails(props) {
 	const data = props.location.state.inputData;
-	console.log(data)
+	//console.log(data)
 	const classes = useStyles(props)
 	// const history = useHistory()
 	const dispatch = useDispatch()

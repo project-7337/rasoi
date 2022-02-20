@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button,  CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
 import Cookies from 'js-cookie';
 import { Alert } from '@material-ui/lab'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,25 +35,24 @@ export default function CompleteProfile() {
 	const user = useSelector((state) => state.userReducer)
 	// const cart = useSelector((state)=>state.cart)
 	// const dispatch = useDispatch()
-	const [data, setData] = React.useState({
+	/* const [data, setData] = React.useState({
 		name: '',
 		email: '',
 		address: [],
 		mobileNumber: ''
-	})
-	const [name, setName] = useState(user.userData.userName)
-	const [email, setEmail] = useState(user.userData.userEmail)
+	}) */
+	const [name, setName] = useState(user.userData.user.userName)
+	const [email, setEmail] = useState(user.userData.user.userEmail)
 	const [address, setAddress] = useState((user.userData.address.length > 0) ? user.userData.address[0].address : [] )
-	const [mobileNumber, setMobileNumber] = useState(user.userData.mobileNumber??'')
+	const [mobileNumber, setMobileNumber] = useState(user.userData.user.mobileNumber??'')
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();
 	const [isLoading, setLoader] = useState(false);
-	
 
 	const phoneValidate = (mobileNumber) => {
 		if (mobileNumber.length === 0 || mobileNumber.length === 10) {
-			console.log("valid mobileNUmber")
+			//console.log("valid mobileNUmber")
 			return true;
 		} else {
 			setMessage('Invalid Mobile Number')
@@ -81,11 +80,10 @@ export default function CompleteProfile() {
 					mobileNumber: mobileNumber
 				})
 			}).then((res) => { return res.json() }).then((response) => {
-				console.log(response.message)
+				//console.log(response.message)
 				setMessage(response.message)
 				setOpen(true)
 				if (response.status === 500) {
-					
 					setTimeout(() => window.location.reload(), 3000)
 				} else {
 					setTimeout(() => history.push('/UserProfile'), 3000)
@@ -95,12 +93,12 @@ export default function CompleteProfile() {
 	}
 
 	// use this instead of each field setters
-	const onChangeHandler = (option) => event => {
+	/* const onChangeHandler = (option) => event => {
 		setData({
 			...data,
 			[option]: event.target.value
 		})
-	}
+	} */
 
 
 	return (<div className={classes.root} >

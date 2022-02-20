@@ -10,7 +10,7 @@ import ThemeContextWrapper from './Themes/themeWrapper';
 
 require('dotenv').config()
 
-{/** Routing performed here is on the comlpete App Level */}
+/** Routing performed here is on the comlpete App Level */
 
 render((
 

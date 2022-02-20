@@ -51,7 +51,7 @@ export default function Customer() {
 	const history = useHistory()
 	const restaurant = useSelector((state) => state.productReducer);
 
-	console.log(restaurant)
+	//console.log(restaurant)
 	const dispatch = useDispatch();
 	// const [restaurantData, setRestaurantData] = React.useState({
 	// 	details: []
@@ -73,14 +73,14 @@ export default function Customer() {
 				}
 				return response.json()
 			}).then(resp => {
-				console.log(resp.data)
+				//console.log(resp.data)
 				dispatch(allActions.productActions.setProducts(resp.data));
 				// setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
 			})
 		} else {
 			console.log("second load, reload to referesh")
 		}
-	}, [])
+	}, [history, dispatch])
 
 	return (
 		<div className={classes.root}>
