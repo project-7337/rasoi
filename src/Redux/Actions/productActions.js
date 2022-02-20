@@ -1,4 +1,5 @@
 const setProducts = (products) => {
+	console.log("Set product dispatched")
 	return {
 		type: "SET_PRODUCTS",
 		payload: products,

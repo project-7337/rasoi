@@ -52,6 +52,7 @@ export default function SessionInfo() {
 		})
 		.then(response => {
 			if (response.statusCode === 200){
+				
 				history.push('login')
 			}
 		})

@@ -119,24 +119,25 @@ export default function UserProfile() {
 	}
 	React.useEffect(() => {
 		//console.log("useeffect")
-		fetch("/api/v1/getUser", {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			},
-		}).then((response) => {
-			if (response.status === 403) {
-				//console.log(response)
-				history.push('customer')
-			}
-			return response.json()
-		}).then(resp => {
-			//console.log(resp.data);
-			dispatch(allActions.userAction.setUser(resp.data));
-			// dispatch(userReducer(resp.data.user))
-			// dispatch(SetAddressList(resp.data.address))
-		});
+		// fetch("/api/v1/getUser", {
+		// 	method: 'GET',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 		'Authorization': 'Bearer ' + Cookies.get('token')
+		// 	},
+		// }).then((response) => {
+		// 	if (response.status === 403) {
+		// 		//console.log(response)
+		// 		history.push('customer')
+		// 	}
+		// 	return response.json()
+		// }).then(resp => {
+		// 	//console.log(resp.data);
+		// 	dispatch(allActions.userAction.setUser(resp.data));
+		// 	// dispatch(userReducer(resp.data.user))
+		// 	// dispatch(SetAddressList(resp.data.address))
+		// });
+		console.log("User data persisted")
 	}, [history, dispatch])
 
 	return (

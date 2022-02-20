@@ -59,7 +59,7 @@ export default function Customer() {
 	const isInitialMount = useRef(true);
 
 	React.useEffect(() => {
-		if (isInitialMount.current) {
+		if (undefined===restaurant) {
 			isInitialMount.current = false;
 			fetch("/api/v1/fetchRestaurantData", {
 				method: 'GET',
@@ -78,7 +78,7 @@ export default function Customer() {
 				// setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
 			})
 		} else {
-			console.log("second load, reload to referesh")
+			console.log("Restaurant data persisted")
 		}
 	}, [history, dispatch])
 
@@ -98,7 +98,7 @@ export default function Customer() {
 
 				</Grid>
 				<Grid item xs={8} sm={8} md={10}>
-					{Object.keys(restaurant.products).length === 0 ? (
+					{undefined!== restaurant.products && restaurant.products.length === 0 ? (
 						<div>...Loading</div>
 					) :
 						<RestaurantData />

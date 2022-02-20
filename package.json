@@ -26,7 +26,8 @@
     "react-material-ui-carousel": "v2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.1.1",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "^3.3.0",
+    "redux-persist": "^6.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

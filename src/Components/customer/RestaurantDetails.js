@@ -43,7 +43,7 @@ export default function RestaurantDetails(props) {
 					{data.name}
 				</Typography>
 				{data !== undefined && data.menu_item.map((dish, index) => (
-					<Paper className={classes.paper}>
+					<Paper className={classes.paper} key={index}>
 						<Grid container spacing={3}>
 							<Grid item xs={2} sm={2} md={2} >
 								<Box style={{

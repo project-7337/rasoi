@@ -74,7 +74,7 @@ export default function RestaurantData() {
 		<div className={classes.root}>
 			<div className={classes.paperDiv}>
 				<Grid container spacing={5} >
-					{Object.keys(restaurant).length !== 0 && restaurant.map((data, index) => (
+					{undefined!== restaurant && Object.keys(restaurant).length !== 0 && restaurant.map((data, index) => (
 						<Grid item xs={12} sm={6} md={4} key={index} >
 							<Card className={classes.card} >
 								<CardActionArea onClick={onCardClick(data)}>
