@@ -1,20 +1,23 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl,RadioGroup, FormControlLabel, Radio, CircularProgress } from "@material-ui/core";
+import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, RadioGroup, FormControlLabel, Radio, CircularProgress, ListItemSecondaryAction, IconButton } from "@material-ui/core";
 import '../../styles/styles.css';
 import Cookies from 'js-cookie';
-import { Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
 import allActions from '../../Redux/actions';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
+import ApartmentIcon from '@material-ui/icons/Apartment';
+import ContactsIcon from '@material-ui/icons/Contacts';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const checkIfEmpty = (obj) => {
-	for(var prop in obj) {
-		if(Object.prototype.hasOwnProperty.call(obj, prop)) {
+	for (var prop in obj) {
+		if (Object.prototype.hasOwnProperty.call(obj, prop)) {
 			return false;
 		}
 	}
@@ -85,7 +88,7 @@ export default function UserProfile() {
 		floor: '',
 		landmark: ''
 	})
-	
+
 	const handleRadioChange = (event) => {
 		setAddress({
 			completeAddress: address.completeAddress,
@@ -97,18 +100,33 @@ export default function UserProfile() {
 		//console.log(address.type);
 	};
 
+	const renderIcon = (type) => {
+		switch (type) {
+			case "Home":
+				return <House />
+			case "Hotel":
+				return <ApartmentIcon />
+			case "Office":
+				return <Work />
+			default:
+				return <ContactsIcon />
+
+		}
+	}
+
 	const dispatch = useDispatch()
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
 	const handleClose = () => {
-		addList.map((data,index)=>console.log(data))
+		addList.map((data, index) => console.log(data))
 		setOpen(false);
 	};
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 	const handleSubmit = (event) => {
+		console.log("Adding address")
 		event.preventDefault()
 		fetch('/api/v1/addAddress', {
 			method: 'POST',
@@ -119,16 +137,40 @@ export default function UserProfile() {
 				address
 			})
 		})
-		.then((res) => { return res.json() })
-		.then((response) => {
-			//console.log(response)
-			if (response.status === 500) {
-				setTimeout(() => window.location.reload(), 3000)
-			} else {
-				dispatch(allActions.userAction.updateAddress(response.data))
-				//setTimeout(() => history.push('/'), 3000)
-			}
-		});
+			.then((res) => { return res.json() })
+			.then((response) => {
+				console.log(response)
+				if (response.status === 500) {
+					setTimeout(() => window.location.reload(), 3000)
+				} else {
+					dispatch(allActions.userAction.updateAddress(response.data))
+					//setTimeout(() => history.push('/'), 3000)
+				}
+			});
+	}
+
+	const deleteAddress = (event, address) => {
+		event.preventDefault()
+		console.log("Deleting address")
+		fetch('/api/v1/deleteAddress', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + Cookies.get('token')
+			}, body: JSON.stringify({
+				address
+			})
+		})
+			.then((res) => { return res.json() })
+			.then((response) => {
+				console.log(response)
+				if (response.status === 500) {
+					setTimeout(() => window.location.reload(), 3000)
+				} else {
+					dispatch(allActions.userAction.updateAddress(response.data))
+					//setTimeout(() => history.push('/'), 3000)
+				}
+			});
 	}
 	React.useEffect(() => {
 		//console.log("useeffect")
@@ -155,224 +197,236 @@ export default function UserProfile() {
 
 	return (
 		<div>
-			{ checkIfEmpty(user.userData) ?<CircularProgress/>:
-			<Paper elevation={3} className={classes.paper}>
-				<Grid container>
-					<Grid item xs={12} sm={3} md={3}>
-						<Container fixed="true" >
-							<Avatar alt={user.userData.userName} src={user.userData.profilePicture} className={classes.avatar}  />
-							<h4>
-								{user.userData.userName}
-								{user.userData.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
-							</h4>
-							<div className={classes.tab}>
-								<Tabs 
-								key={value}
-									orientation="vertical"
-									indicatorColor='primary'
-									textColor='primary'
-									value={value}
-									onChange={handleChange}
-									className={classes.tabs}
-								>
-									<Tab label="Account Details" />
-									<Tab label="Wallet" />
-									<Tab label="Order History" />
-									<Tab label="My Addresses" />
-									<Tab label="Settings" />
-								</Tabs>
-							</div>
-						</Container>
-					</Grid>
+			{checkIfEmpty(user.userData) ? <CircularProgress /> :
+				<Paper elevation={3} className={classes.paper}>
+					<Grid container>
+						<Grid item xs={12} sm={3} md={3}>
+							<Container fixed="true" >
+								<Avatar alt={user.userData.userName} src={user.userData.profilePicture} className={classes.avatar} />
+								<h4>
+									{user.userData.userName}
+									{user.userData.isCompleted ? <VerifiedUserIcon color='primary' /> : null}
+								</h4>
+								<div className={classes.tab}>
+									<Tabs
+										key={value}
+										orientation="vertical"
+										indicatorColor='primary'
+										textColor='primary'
+										value={value}
+										onChange={handleChange}
+										className={classes.tabs}
+									>
+										<Tab label="Account Details" />
+										<Tab label="Wallet" />
+										<Tab label="Order History" />
+										<Tab label="My Addresses" />
+										<Tab label="Settings" />
+									</Tabs>
+								</div>
+							</Container>
+						</Grid>
 
-					<Grid item xs={12} sm={9} md={9}>
-						<TabPanel value={value} index={0}>
-							<h3>My Profile</h3>
-							<Paper elevation={3} className={classes.tabPaper}>
-								<Grid container spacing={1}	>
-									<Grid item xs={6} sm={6} md={6}>
-										Account Information
-									</Grid>
-									<Grid item xs={6} sm={6} md={6} >
-										<Button variant='text' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
-											Edit Profile
-										</Button>
-									</Grid>
-									<Grid item xs={6} sm={6} md={6}>
-										<TextField
-											disabled
-											id="name"
-											label='Name'
-											fullWidth
-											defaultValue={user.userData.userName}
-											variant="standard"
-											className={classes.textField}
-
-											InputProps={{
-												disableUnderline: true,
-											}}
-										/>
-									</Grid>
-									<Grid item xs={6} sm={6} md={6} >
-										<TextField
-											label='Email'
-											fullWidth
-											defaultValue={user.userData.userEmail}
-											variant="standard"
-											className={classes.textField}
-											disabled
-											InputProps={{
-												disableUnderline: true,
-
-											}}
-										/>
-									</Grid>
-									<Grid item xs={6} sm={6} md={6} >
-										<TextField
-											label='Phone Number'
-											fullWidth
-											defaultValue={user.userData.mobileNumber}
-											variant="standard"
-											className={classes.textField}
-											disabled
-											InputProps={{
-												disableUnderline: true,
-
-											}}
-										/>
-									</Grid>
-								</Grid>
-							</Paper>
-						</TabPanel>
-						<TabPanel value={value} index={1}>
-							<h3>Wallet</h3>
-							<Paper elevation={3} className={classes.tabPaper}>
-							</Paper>
-						</TabPanel>
-						<TabPanel value={value} index={2}>
-							<h3>Order History</h3>
-							<Paper elevation={3} className={classes.tabPaper}>
-							</Paper>
-						</TabPanel>
-						<TabPanel value={value} index={3}>
-							<h3>My Addresses</h3>
-							<Paper elevation={3} className={classes.tabPaper}>
-
-								{undefined !== addList && addList.length>0 && addList.map((data, index) => (
-									<List  key={data._id} className={classes.list}>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>
-													{data.type === 'home' ? <House /> : <Work />}
-												</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary={data.type} secondary={data.completeAddress} />
-										</ListItem>
-									</List>
-								))}
-								<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
-									Add a new address
-								</Button>
-								<Dialog
-									fullScreen={fullScreen}
-									open={open}
-									onClose={handleClose}
-									aria-labelledby="responsive-dialog-title"
-								>
-									<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
-
-									<form onSubmit={handleSubmit}>
-										<DialogContent>
-											<Grid container spacing={3} >
-												<Grid item xs={12} sm={12} md={12} >
-													<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
-														setAddress({
-															completeAddress: e.target.value,
-															email: user.userData.userEmail,
-															type: address.type,
-															floor: address.floor,
-															landmark: address.landmark
-														})
-													}} className={classes.textField} />
-												</Grid>
-												<Grid item xs={12} sm={12} md={12} >
-													<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
-														setAddress({
-															completeAddress: address.completeAddress,
-															email: user.userData.userEmail,
-															type: address.type,
-															landmark: address.landmark,
-															floor: e.target.value
-														})
-													}} className={classes.textField} />
-												</Grid>
-												<Grid item xs={12} sm={12} md={12} >
-													<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
-														setAddress({
-															completeAddress: address.completeAddress,
-															email: user.userData.userEmail,
-															type: address.type,
-															floor: address.floor,
-															landmark: e.target.value
-														})
-													}} className={classes.textField} />
-												</Grid>
-												<Grid item xs={12} sm={12} md={12}>
-													<FormControl component="fieldset">
-														<RadioGroup row aria-label="addressType" name="addressType" value={address.type} onChange={handleRadioChange}>
-															<FormControlLabel
-																value="Home"
-																control={<Radio color="primary" />}
-																label="Home"
-															/>
-															<FormControlLabel
-																value="Office"
-																control={<Radio color="primary" />}
-																label="Office"
-															/>
-															<FormControlLabel
-																value="Hotel"
-																control={<Radio color="primary" />}
-																label="Hotel" />
-															<FormControlLabel
-																value="Other"
-																control={<Radio color="primary" />}
-																label="Other"
-															/>
-														</RadioGroup>
-													</FormControl>
-												</Grid>
-											</Grid>
-										</DialogContent>
-										<DialogActions>
-											<Button autoFocus onClick={handleClose} variant="outlined">
-												Later
+						<Grid item xs={12} sm={9} md={9}>
+							<TabPanel value={value} index={0}>
+								<h3>My Profile</h3>
+								<Paper elevation={3} className={classes.tabPaper}>
+									<Grid container spacing={1}	>
+										<Grid item xs={6} sm={6} md={6}>
+											Account Information
+										</Grid>
+										<Grid item xs={6} sm={6} md={6} >
+											<Button variant='text' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
+												Edit Profile
 											</Button>
-											<Button type='submit' variant="outlined" autoFocus>
-												Add
-											</Button>
-										</DialogActions>
-									</form>
-								</Dialog>
-							</Paper>
+										</Grid>
+										<Grid item xs={6} sm={6} md={6}>
+											<TextField
+												disabled
+												id="name"
+												label='Name'
+												fullWidth
+												defaultValue={user.userData.userName}
+												variant="standard"
+												className={classes.textField}
 
-						</TabPanel>
-						<TabPanel value={value} index={4}>
-							<h3>Settings</h3>
-							<Paper elevation={3} className={classes.tabPaper}>
+												InputProps={{
+													disableUnderline: true,
+												}}
+											/>
+										</Grid>
+										<Grid item xs={6} sm={6} md={6} >
+											<TextField
+												label='Email'
+												fullWidth
+												defaultValue={user.userData.userEmail}
+												variant="standard"
+												className={classes.textField}
+												disabled
+												InputProps={{
+													disableUnderline: true,
 
-							</Paper>
+												}}
+											/>
+										</Grid>
+										<Grid item xs={6} sm={6} md={6} >
+											<TextField
+												label='Phone Number'
+												fullWidth
+												defaultValue={user.userData.mobileNumber}
+												variant="standard"
+												className={classes.textField}
+												disabled
+												InputProps={{
+													disableUnderline: true,
 
-						</TabPanel>
-					</Grid>
-					{/* <Grid item >
+												}}
+											/>
+										</Grid>
+									</Grid>
+								</Paper>
+							</TabPanel>
+							<TabPanel value={value} index={1}>
+								<h3>Wallet</h3>
+								<Paper elevation={3} className={classes.tabPaper}>
+								</Paper>
+							</TabPanel>
+							<TabPanel value={value} index={2}>
+								<h3>Order History</h3>
+								<Paper elevation={3} className={classes.tabPaper}>
+								</Paper>
+							</TabPanel>
+							<TabPanel value={value} index={3}>
+								<h3>My Addresses</h3>
+								<Paper elevation={3} className={classes.tabPaper}>
+
+									{undefined !== addList && addList.length > 0 && addList.map((data, index) => (
+										// console.log(data)
+										<List key={data._id} className={classes.list}>
+											<ListItem>
+												<ListItemAvatar>
+													<Avatar>
+														{renderIcon(data.type)}
+													</Avatar>
+												</ListItemAvatar>
+												<ListItemText primary={data.type} secondary={data.completeAddress} />
+												<ListItemSecondaryAction>
+													<IconButton edge="end" aria-label="delete">
+														<EditIcon />
+													</IconButton>
+													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
+														<DeleteIcon />
+													</IconButton>
+												</ListItemSecondaryAction>
+
+											</ListItem>
+
+										</List>
+
+									))}
+									<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
+										Add a new address
+									</Button>
+									<Dialog
+										fullScreen={fullScreen}
+										open={open}
+										onClose={handleClose}
+										aria-labelledby="responsive-dialog-title"
+									>
+										<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
+
+										<form onSubmit={handleSubmit}>
+											<DialogContent>
+												<Grid container spacing={3} >
+													<Grid item xs={12} sm={12} md={12} >
+														<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
+															setAddress({
+																completeAddress: e.target.value,
+																email: user.userData.userEmail,
+																type: address.type,
+																floor: address.floor,
+																landmark: address.landmark
+															})
+														}} className={classes.textField} />
+													</Grid>
+													<Grid item xs={12} sm={12} md={12} >
+														<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
+															setAddress({
+																completeAddress: address.completeAddress,
+																email: user.userData.userEmail,
+																type: address.type,
+																landmark: address.landmark,
+																floor: e.target.value
+															})
+														}} className={classes.textField} />
+													</Grid>
+													<Grid item xs={12} sm={12} md={12} >
+														<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
+															setAddress({
+																completeAddress: address.completeAddress,
+																email: user.userData.userEmail,
+																type: address.type,
+																floor: address.floor,
+																landmark: e.target.value
+															})
+														}} className={classes.textField} />
+													</Grid>
+													<Grid item xs={12} sm={12} md={12}>
+														<FormControl component="fieldset">
+															<RadioGroup row aria-label="addressType" name="addressType" value={address.type} onChange={handleRadioChange}>
+																<FormControlLabel
+																	value="Home"
+																	control={<Radio color="primary" />}
+																	label="Home"
+																/>
+																<FormControlLabel
+																	value="Office"
+																	control={<Radio color="primary" />}
+																	label="Office"
+																/>
+																<FormControlLabel
+																	value="Hotel"
+																	control={<Radio color="primary" />}
+																	label="Hotel" />
+																<FormControlLabel
+																	value="Other"
+																	control={<Radio color="primary" />}
+																	label="Other"
+																/>
+															</RadioGroup>
+														</FormControl>
+													</Grid>
+												</Grid>
+											</DialogContent>
+											<DialogActions>
+												<Button autoFocus onClick={handleClose} variant="outlined">
+													Later
+												</Button>
+												<Button type='submit' variant="outlined" autoFocus>
+													Add
+												</Button>
+											</DialogActions>
+										</form>
+									</Dialog>
+								</Paper>
+
+							</TabPanel>
+							<TabPanel value={value} index={4}>
+								<h3>Settings</h3>
+								<Paper elevation={3} className={classes.tabPaper}>
+
+								</Paper>
+
+							</TabPanel>
+						</Grid>
+						{/* <Grid item >
 						<Button variant='contained' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
 							Edit Profile
 						</Button>
 					</Grid> */}
-				</Grid>
-			</Paper>
-}
+					</Grid>
+				</Paper>
+			}
 		</div>
 	)
 }
