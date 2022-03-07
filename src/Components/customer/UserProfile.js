@@ -144,14 +144,14 @@ export default function UserProfile() {
 					setTimeout(() => window.location.reload(), 3000)
 				} else {
 					dispatch(allActions.userAction.updateAddress(response.data))
-					//setTimeout(() => history.push('/'), 3000)
+					setOpen(false);
 				}
 			});
 	}
 
 	const deleteAddress = (event, address) => {
 		event.preventDefault()
-		console.log("Deleting address")
+		console.log("Deleting address ")
 		fetch('/api/v1/deleteAddress', {
 			method: 'DELETE',
 			headers: {
@@ -311,7 +311,7 @@ export default function UserProfile() {
 												</ListItemAvatar>
 												<ListItemText primary={data.type} secondary={data.completeAddress} />
 												<ListItemSecondaryAction>
-													<IconButton edge="end" aria-label="delete">
+													<IconButton edge="end" aria-label="delete" >
 														<EditIcon />
 													</IconButton>
 													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
