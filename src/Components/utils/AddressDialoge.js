@@ -1,28 +1,12 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, RadioGroup, FormControlLabel, Radio, CircularProgress, ListItemSecondaryAction, IconButton } from "@material-ui/core";
+import { Button, Grid, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import '../../styles/styles.css';
-import Cookies from 'js-cookie';
-import { Container } from 'react-bootstrap';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import allActions from '../../Redux/actions';
-import PropTypes, { func } from 'prop-types';
-import { Add, House, Work } from '@material-ui/icons';
+import { House, Work } from '@material-ui/icons';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import ContactsIcon from '@material-ui/icons/Contacts';
-import DeleteIcon from '@material-ui/icons/Delete';
-const checkIfEmpty = (obj) => {
-	for (var prop in obj) {
-		if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-			return false;
-		}
-	}
-	return JSON.stringify(obj) === JSON.stringify({});
-}
-
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -68,18 +52,17 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default function AddressForm({isOpen}) {
+export default function AddressDialog(props) {
 	const classes = useStyles()
-	const history = useHistory()
+	//const history = useHistory()
 	const theme = useTheme();
 
-	const [open, setOpen] = React.useState(isOpen);
+	const { onClose, open, handleSubmit } = props;
+
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
-	//console.log(user)
 	const addList = user.address
-	//console.log(addList)
 	const [address, setAddress] = React.useState({
 		email: '',
 		type: 'Home',
@@ -114,63 +97,14 @@ export default function AddressForm({isOpen}) {
 	}
 
 	const dispatch = useDispatch()
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+	
 	const handleClose = () => {
-		addList.map((data, index) => console.log(data))
-		setOpen(false);
+		onClose();
 	};
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	const handleSubmit = (event) => {
-		console.log("Adding address")
-		event.preventDefault()
-		fetch('/api/v1/addAddress', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			}, body: JSON.stringify({
-				address
-			})
-		})
-			.then((res) => { return res.json() })
-			.then((response) => {
-				console.log(response)
-				if (response.status === 500) {
-					setTimeout(() => window.location.reload(), 3000)
-				} else {
-					dispatch(allActions.userAction.updateAddress(response.data))
-					setOpen(false);
-				}
-			});
-	}
 
-	const deleteAddress = (event, address) => {
-		event.preventDefault()
-		console.log("Deleting address ")
-		fetch('/api/v1/deleteAddress', {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			}, body: JSON.stringify({
-				address
-			})
-		})
-			.then((res) => { return res.json() })
-			.then((response) => {
-				console.log(response)
-				if (response.status === 500) {
-					setTimeout(() => window.location.reload(), 3000)
-				} else {
-					dispatch(allActions.userAction.updateAddress(response.data))
-					//setTimeout(() => history.push('/'), 3000)
-				}
-			});
-	}
 	return <Dialog
 		fullScreen={fullScreen}
 		open={open}
@@ -179,7 +113,7 @@ export default function AddressForm({isOpen}) {
 	>
 		<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
 
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={(event) => handleSubmit(event, address)}>
 			<DialogContent>
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={12} >

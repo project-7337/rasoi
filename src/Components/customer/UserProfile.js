@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, RadioGroup, FormControlLabel, Radio, CircularProgress, ListItemSecondaryAction, IconButton } from "@material-ui/core";
+import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, CircularProgress, ListItemSecondaryAction, IconButton } from "@material-ui/core";
 import '../../styles/styles.css';
 import Cookies from 'js-cookie';
 import { Container } from 'react-bootstrap';
@@ -9,11 +9,12 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
 import allActions from '../../Redux/actions';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddressDialog from '../utils/AddressDialoge';
 
 const checkIfEmpty = (obj) => {
 	for (var prop in obj) {
@@ -75,7 +76,7 @@ export default function UserProfile() {
 	const theme = useTheme();
 
 	const [open, setOpen] = React.useState(false);
-	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+	//const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
 	//console.log(user)
@@ -89,7 +90,15 @@ export default function UserProfile() {
 		landmark: ''
 	})
 
-	const handleRadioChange = (event) => {
+	const handleClickOpen = () => {
+		setOpen(true);
+	  };
+	
+	  const handleClose = (value) => {
+		setOpen(false);
+	  };
+
+	/* const handleRadioChange = (event) => {
 		setAddress({
 			completeAddress: address.completeAddress,
 			email: user.userData.userEmail,
@@ -98,7 +107,7 @@ export default function UserProfile() {
 			type: event.target.value
 		})
 		//console.log(address.type);
-	};
+	}; */
 
 	const renderIcon = (type) => {
 		switch (type) {
@@ -115,38 +124,34 @@ export default function UserProfile() {
 	}
 
 	const dispatch = useDispatch()
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		addList.map((data, index) => console.log(data))
-		setOpen(false);
-	};
+
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	const handleSubmit = (event) => {
-		console.log("Adding address")
-		event.preventDefault()
-		fetch('/api/v1/addAddress', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			}, body: JSON.stringify({
-				address
+	const handleSubmit = (event, address) => {
+		console.log("Adding address: ", address);
+		if (undefined !== address) {
+			event.preventDefault()
+			fetch('/api/v1/addAddress', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + Cookies.get('token')
+				}, body: JSON.stringify({
+					address
+				})
 			})
-		})
-			.then((res) => { return res.json() })
-			.then((response) => {
-				console.log(response)
-				if (response.status === 500) {
-					setTimeout(() => window.location.reload(), 3000)
-				} else {
-					dispatch(allActions.userAction.updateAddress(response.data))
-					setOpen(false);
-				}
-			});
+				.then((res) => { return res.json() })
+				.then((response) => {
+					console.log(response)
+					if (response.status === 500) {
+						setTimeout(() => window.location.reload(), 3000)
+					} else {
+						dispatch(allActions.userAction.updateAddress(response.data))
+						setOpen(false);
+					}
+				});
+		}
 	}
 
 	const deleteAddress = (event, address) => {
@@ -327,7 +332,8 @@ export default function UserProfile() {
 									<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
 										Add a new address
 									</Button>
-									<Dialog
+									<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} />
+									{/* <Dialog
 										fullScreen={fullScreen}
 										open={open}
 										onClose={handleClose}
@@ -407,7 +413,7 @@ export default function UserProfile() {
 												</Button>
 											</DialogActions>
 										</form>
-									</Dialog>
+									</Dialog> */}
 								</Paper>
 
 							</TabPanel>
