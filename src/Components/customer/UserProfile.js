@@ -92,22 +92,11 @@ export default function UserProfile() {
 
 	const handleClickOpen = () => {
 		setOpen(true);
-	  };
-	
-	  const handleClose = (value) => {
-		setOpen(false);
-	  };
+	};
 
-	/* const handleRadioChange = (event) => {
-		setAddress({
-			completeAddress: address.completeAddress,
-			email: user.userData.userEmail,
-			floor: address.floor,
-			landmark: address.landmark,
-			type: event.target.value
-		})
-		//console.log(address.type);
-	}; */
+	const handleClose = (value) => {
+		setOpen(false);
+	};
 
 	const renderIcon = (type) => {
 		switch (type) {
@@ -316,8 +305,9 @@ export default function UserProfile() {
 												</ListItemAvatar>
 												<ListItemText primary={data.type} secondary={data.completeAddress} />
 												<ListItemSecondaryAction>
-													<IconButton edge="end" aria-label="delete" >
+													<IconButton edge="end" aria-label="edit" onClick={handleClickOpen} >
 														<EditIcon />
+														<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} completeAddress={"data.compeleteAddress"} />
 													</IconButton>
 													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
 														<DeleteIcon />
@@ -332,90 +322,8 @@ export default function UserProfile() {
 									<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
 										Add a new address
 									</Button>
-									<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} />
-									{/* <Dialog
-										fullScreen={fullScreen}
-										open={open}
-										onClose={handleClose}
-										aria-labelledby="responsive-dialog-title"
-									>
-										<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
-
-										<form onSubmit={handleSubmit}>
-											<DialogContent>
-												<Grid container spacing={3} >
-													<Grid item xs={12} sm={12} md={12} >
-														<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
-															setAddress({
-																completeAddress: e.target.value,
-																email: user.userData.userEmail,
-																type: address.type,
-																floor: address.floor,
-																landmark: address.landmark
-															})
-														}} className={classes.textField} />
-													</Grid>
-													<Grid item xs={12} sm={12} md={12} >
-														<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => {
-															setAddress({
-																completeAddress: address.completeAddress,
-																email: user.userData.userEmail,
-																type: address.type,
-																landmark: address.landmark,
-																floor: e.target.value
-															})
-														}} className={classes.textField} />
-													</Grid>
-													<Grid item xs={12} sm={12} md={12} >
-														<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => {
-															setAddress({
-																completeAddress: address.completeAddress,
-																email: user.userData.userEmail,
-																type: address.type,
-																floor: address.floor,
-																landmark: e.target.value
-															})
-														}} className={classes.textField} />
-													</Grid>
-													<Grid item xs={12} sm={12} md={12}>
-														<FormControl component="fieldset">
-															<RadioGroup row aria-label="addressType" name="addressType" value={address.type} onChange={handleRadioChange}>
-																<FormControlLabel
-																	value="Home"
-																	control={<Radio color="primary" />}
-																	label="Home"
-																/>
-																<FormControlLabel
-																	value="Office"
-																	control={<Radio color="primary" />}
-																	label="Office"
-																/>
-																<FormControlLabel
-																	value="Hotel"
-																	control={<Radio color="primary" />}
-																	label="Hotel" />
-																<FormControlLabel
-																	value="Other"
-																	control={<Radio color="primary" />}
-																	label="Other"
-																/>
-															</RadioGroup>
-														</FormControl>
-													</Grid>
-												</Grid>
-											</DialogContent>
-											<DialogActions>
-												<Button autoFocus onClick={handleClose} variant="outlined">
-													Later
-												</Button>
-												<Button type='submit' variant="outlined" autoFocus>
-													Add
-												</Button>
-											</DialogActions>
-										</form>
-									</Dialog> */}
+									<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} completeAddress={undefined}/>
 								</Paper>
-
 							</TabPanel>
 							<TabPanel value={value} index={4}>
 								<h3>Settings</h3>
@@ -425,11 +333,7 @@ export default function UserProfile() {
 
 							</TabPanel>
 						</Grid>
-						{/* <Grid item >
-						<Button variant='contained' color='primary' onClick={() => history.push('/completeprofile')} startIcon={<EditIcon />}>
-							Edit Profile
-						</Button>
-					</Grid> */}
+
 					</Grid>
 				</Paper>
 			}

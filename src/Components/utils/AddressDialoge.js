@@ -1,12 +1,8 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, TextField, useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import '../../styles/styles.css';
 import { useSelector, useDispatch } from 'react-redux'
-import { House, Work } from '@material-ui/icons';
-import ApartmentIcon from '@material-ui/icons/Apartment';
-import ContactsIcon from '@material-ui/icons/Contacts';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -57,7 +53,7 @@ export default function AddressDialog(props) {
 	//const history = useHistory()
 	const theme = useTheme();
 
-	const { onClose, open, handleSubmit } = props;
+	const { onClose, open, handleSubmit, completeAddress } = props;
 
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
@@ -82,23 +78,8 @@ export default function AddressDialog(props) {
 		//console.log(address.type);
 	};
 
-	const renderIcon = (type) => {
-		switch (type) {
-			case "Home":
-				return <House />
-			case "Hotel":
-				return <ApartmentIcon />
-			case "Office":
-				return <Work />
-			default:
-				return <ContactsIcon />
-
-		}
-	}
-
-	const dispatch = useDispatch()
-	
 	const handleClose = () => {
+		console.log(completeAddress);
 		onClose();
 	};
 	const handleChange = (event, newValue) => {
@@ -112,12 +93,11 @@ export default function AddressDialog(props) {
 		aria-labelledby="responsive-dialog-title"
 	>
 		<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
-
 		<form onSubmit={(event) => handleSubmit(event, address)}>
 			<DialogContent>
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={12} >
-						<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => {
+						<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' defaultValue={undefined === completeAddress ? "Hello" : completeAddress} onChange={(e) => {
 							setAddress({
 								completeAddress: e.target.value,
 								email: user.userData.userEmail,
