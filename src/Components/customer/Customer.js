@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 import { red } from '@material-ui/core/colors';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import RestaurantData from './RestaurantData';
-import { SearchBar } from './SearchBar';
+import { useDispatch, useSelector } from "react-redux";
+import allActions from '../../Redux/Actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -49,30 +49,38 @@ const useStyles = makeStyles(theme => ({
 export default function Customer() {
 	const classes = useStyles()
 	const history = useHistory()
+	const restaurant = useSelector((state) => state.productReducer);
 
-	const [restaurantData, setRestaurantData] = React.useState({
-		details: []
-	})
+	//console.log(restaurant)
+	const dispatch = useDispatch();
+	// const [restaurantData, setRestaurantData] = React.useState({
+	// 	details: []
+	// })
+	// const isInitialMount = useRef(true);
 
 	React.useEffect(() => {
-		fetch("/api/v1/fetchRestaurantData", {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + Cookies.get('token')
-			},
-		}).then(response => {
-			if (response.status === 403) {
-				console.log(response)
-				history.push('login')
-			}
-			return response.json()
-		}).then(resp => {
-			console.log(resp.data)
-			setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
-		})
-
-	}, [history])
+		if ( restaurant.products.length === 0 ) {
+			// isInitialMount.current = false;
+			fetch("/api/v1/fetchRestaurantData", {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + Cookies.get('token')
+				},
+			}).then(response => {
+				if (response.status === 403) {
+					history.push('login')
+				}
+				return response.json()
+			}).then(resp => {
+				//console.log(resp.data)
+				dispatch(allActions.productActions.setProducts(resp.data));
+				// setRestaurantData(restaurantData => ({ ...restaurantData, details: resp.data }))
+			})
+		} else {
+			console.log("Restaurant data persisted")
+		}
+	}, [history, dispatch])
 
 	return (
 		<div className={classes.root}>
@@ -85,14 +93,16 @@ export default function Customer() {
 					})
 				}
 			</Carousel>
-			<SearchBar />
 			<Grid container spacing={3} >
 				<Grid item xs={2} sm={2} md={1}>
 
 				</Grid>
 				<Grid item xs={8} sm={8} md={10}>
-					<RestaurantData
-						data={restaurantData.details} />
+					{undefined!== restaurant.products && restaurant.products.length === 0 ? (
+						<div>...Loading</div>
+					) :
+						<RestaurantData />
+					}
 				</Grid>
 				<Grid item xs={2} sm={2} md={1}>
 

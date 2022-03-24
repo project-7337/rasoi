@@ -1,18 +1,15 @@
-import React, { useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles";
-import Navbar from '../../navbar/Navbar';
-import { Button, Card, CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
+import { Button,  CircularProgress, Grid, Paper, Typography, TextField, Snackbar } from "@material-ui/core";
 import Cookies from 'js-cookie';
 import { Alert } from '@material-ui/lab'
-import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../../Redux/UserReducer'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 		paddingBottom: 20,
-		// backgroundColor:'yellow'
 	},
 	paper: {
 		height: '80%',
@@ -21,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 		rounded: true,
 		padding: theme.spacing(2),
 		opacity: 0.8,
-		margin: 'auto',
+		margin: 'auto'
 	},
 	textField: {
 		padding: theme.spacing(1), margin: 'auto'
@@ -35,21 +32,27 @@ const useStyles = makeStyles(theme => ({
 export default function CompleteProfile() {
 	const classes = useStyles()
 	const history = useHistory()
-	const user = useSelector((state) => state.user.user)
-	const dispatch = useDispatch()
-	const [name, setName] = useState(user.userName)
-	const [email, setEmail] = useState(user.userEmail)
-	const [address, setAddress] = useState((user.address.length > 0) ? user.address[0].address : [] )
-	const [mobileNumber, setMobileNumber] = useState(user.mobileNumber??'')
+	const user = useSelector((state) => state.userReducer)
+	// const cart = useSelector((state)=>state.cart)
+	// const dispatch = useDispatch()
+	/* const [data, setData] = React.useState({
+		name: '',
+		email: '',
+		address: [],
+		mobileNumber: ''
+	}) */
+	const [name, setName] = useState(user.userData.userName)
+	const [email, setEmail] = useState(user.userData.userEmail)
+	const [address, setAddress] = useState((user.address.length > 0) ? user.address[0].completeAddress : [] )
+	const [mobileNumber, setMobileNumber] = useState(user.userData.mobileNumber??'')
 	const [ErrorMobile, setErrorMobileNumber] = useState(false)
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState();
 	const [isLoading, setLoader] = useState(false);
-	
 
 	const phoneValidate = (mobileNumber) => {
-		if (mobileNumber.length == 0 || mobileNumber.length == 10) {
-			console.log("valid mobileNUmber")
+		if (mobileNumber.length === 0 || mobileNumber.length === 10) {
+			//console.log("valid mobileNUmber")
 			return true;
 		} else {
 			setMessage('Invalid Mobile Number')
@@ -77,11 +80,10 @@ export default function CompleteProfile() {
 					mobileNumber: mobileNumber
 				})
 			}).then((res) => { return res.json() }).then((response) => {
-				console.log(response.message)
+				//console.log(response.message)
 				setMessage(response.message)
 				setOpen(true)
-				if (response.status == 500) {
-					
+				if (response.status === 500) {
 					setTimeout(() => window.location.reload(), 3000)
 				} else {
 					setTimeout(() => history.push('/UserProfile'), 3000)
@@ -89,11 +91,19 @@ export default function CompleteProfile() {
 			});
 		}
 	}
-	return (<div className={classes.root} >
-		<Navbar />
 
+	// use this instead of each field setters
+	/* const onChangeHandler = (option) => event => {
+		setData({
+			...data,
+			[option]: event.target.value
+		})
+	} */
+
+
+	return (<div className={classes.root} >
 		<Paper elevation={3} className={classes.paper}>
-			<Typography classNames={classes.root} gutterBottom={true} variant='h5' >Please Complete your Profile</Typography>
+			<Typography className={classes.root} gutterBottom={true} variant='h5' >Please Complete your Profile</Typography>
 			<form onSubmit={handleSubmit} >
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={6} >

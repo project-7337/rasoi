@@ -6,15 +6,13 @@ import {
 	TextField,
 	Grid,
 	Paper,
-	AppBar,
 	Typography,
-	Toolbar,
-	Link,
 } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 import Logo from '../../images/rasoi.svg'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../Redux/UserReducer'
+import allActions from '../../Redux/Actions';
+
 const useStyles = makeStyles((theme) => ({
 	GAuthButton: {
 		padding: theme.spacing(2),
@@ -49,8 +47,9 @@ export default function Login() {
 			}
 			return res.json()
 		}).then((resp)=>{
-			dispatch(setUser(resp.data))
-			if(resp.data.isCompleted){
+			// console.log(resp.data);
+			dispatch(allActions.userAction.setUser(resp.data));
+			if(resp.data.user.isCompleted){
 				history.push('/')
 			}else{
 				history.push('/completeprofile')
@@ -76,7 +75,7 @@ export default function Login() {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				backgroundColor: "#151a30",
+				backgroundColor: "#ffe01b",
 				color: "white",
 			}}
 		>
@@ -95,7 +94,7 @@ export default function Login() {
 							className="login-background"
 						>
 							<div className={classes.logo}>
-								<img src={Logo}  width='100'  />
+								<img alt="" src={Logo}  width='100'  />
 							</div>
 							<Grid item className={classes.root}>
 								<Typography component="h1" variant="h5">

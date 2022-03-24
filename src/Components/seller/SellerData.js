@@ -8,11 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import KitchenIcon from '@material-ui/icons/Kitchen';
 import {
     Avatar,
     Box, Chip,
-    Grid, IconButton,
+    Grid, 
     List,
     ListItem,
     ListItemAvatar,
