@@ -8,7 +8,7 @@ import { Container } from 'react-bootstrap';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSelector, useDispatch } from 'react-redux'
-import allActions from '../../Redux/actions';
+import allActions from '../../Redux/Actions';
 import PropTypes from 'prop-types';
 import { Add, House, Work } from '@material-ui/icons';
 import ApartmentIcon from '@material-ui/icons/Apartment';
@@ -95,7 +95,7 @@ export default function UserProfile() {
 		setOpen(true);
 	};
 	
-	const handleClose = (value) => {
+	const handleClose = () => {
 		console.log("CLose dialog")
 		setOpen(false);
 	};

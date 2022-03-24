@@ -8,7 +8,7 @@ import { red } from '@material-ui/core/colors';
 import Cookies from 'js-cookie';
 import RestaurantData from './RestaurantData';
 import { useDispatch, useSelector } from "react-redux";
-import allActions from '../../Redux/actions';
+import allActions from '../../Redux/Actions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

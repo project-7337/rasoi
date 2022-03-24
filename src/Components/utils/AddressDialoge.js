@@ -53,7 +53,7 @@ export default function AddressDialog(props) {
 	//const history = useHistory()
 	const theme = useTheme();
 
-	const {  open, onClose, handleSubmit, addressData } = props;
+	const { open, onClose, handleSubmit, addressData } = props;
 
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
@@ -78,22 +78,13 @@ export default function AddressDialog(props) {
 		//console.log(address.type);
 	};
 
-	const handleClose = () => {
-		console.log(addressData);
-		onClose();
-	};
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-
 	return <Dialog
 		fullScreen={fullScreen}
 		open={open}
-		onClose={handleClose}
+		onClose={onClose}
 		aria-labelledby="responsive-dialog-title"
 	>
 		<DialogTitle id="responsive-dialog-title" >{"Add new address"}</DialogTitle>
-		<form onSubmit={(event) => handleSubmit(event, address)}>
 			<DialogContent>
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={12} >
@@ -157,13 +148,12 @@ export default function AddressDialog(props) {
 				</Grid>
 			</DialogContent>
 			<DialogActions>
-				<Button autoFocus onClick={handleClose} variant="outlined">
+				<Button onClick={onClose} variant="outlined">
 					Later
 				</Button>
-				<Button type='submit' variant="outlined" autoFocus>
+				<Button onClick={(event) => handleSubmit(event, address)} variant="outlined">
 					Add
 				</Button>
 			</DialogActions>
-		</form>
 	</Dialog>
 }
