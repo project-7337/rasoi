@@ -53,7 +53,7 @@ export default function AddressDialog(props) {
 	//const history = useHistory()
 	const theme = useTheme();
 
-	const { onClose, open, handleSubmit, completeAddress } = props;
+	const {  open, onClose, handleSubmit, addressData } = props;
 
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
@@ -79,7 +79,7 @@ export default function AddressDialog(props) {
 	};
 
 	const handleClose = () => {
-		console.log(completeAddress);
+		console.log(addressData);
 		onClose();
 	};
 	const handleChange = (event, newValue) => {
@@ -97,7 +97,7 @@ export default function AddressDialog(props) {
 			<DialogContent>
 				<Grid container spacing={3} >
 					<Grid item xs={12} sm={12} md={12} >
-						<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' defaultValue={undefined === completeAddress ? "Hello" : completeAddress} onChange={(e) => {
+						<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' defaultValue={undefined === addressData ? "Hello" : addressData} onChange={(e) => {
 							setAddress({
 								completeAddress: e.target.value,
 								email: user.userData.userEmail,

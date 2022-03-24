@@ -1,7 +1,7 @@
-import {  IconButton, Menu, MenuItem, Toolbar ,Avatar} from '@material-ui/core';
+import { IconButton, Menu, MenuItem, Toolbar, Avatar } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Cookies from 'js-cookie';
 
 const useStyles = makeStyles(theme => ({
@@ -30,10 +30,10 @@ export default function SessionInfo() {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
-	const routeChange = () =>{ 
+	const routeChange = () => {
 		handleClose();
 		history.push('UserProfile')
-	  }
+	}
 
 	const handleLogout = () => {
 		fetch("/api/v1/logout", {
@@ -44,18 +44,18 @@ export default function SessionInfo() {
 				'Authorization': 'Bearer ' + Cookies.get('token')
 			}
 		})
-		.then(response => {
-			if (response.status === 403){
-				history.push('login')
-			}
-			return response.json()
-		})
-		.then(response => {
-			if (response.statusCode === 200){
-				
-				history.push('login')
-			}
-		})
+			.then(response => {
+				if (response.status === 403) {
+					history.push('login')
+				}
+				return response.json()
+			})
+			.then(response => {
+				if (response.statusCode === 200) {
+
+					history.push('login')
+				}
+			})
 	}
 
 	React.useEffect(() => {
@@ -68,21 +68,21 @@ export default function SessionInfo() {
 				'Authorization': 'Bearer ' + Cookies.get('token')
 			}
 		})
-		.then(response => {
-			if (response.status === 403)
-				history.push('login')
-			return response.json()
-		})
-		.then(response => {
-			//if (!unmounted) {
+			.then(response => {
+				if (response.status === 403)
+					history.push('login')
+				return response.json()
+			})
+			.then(response => {
+				//if (!unmounted) {
 				setState(state => ({
 					...state,
 					username: response.username,
 					email: response.email,
 					profilePic: response.profilePic
 				}))
-			//}
-		})
+				//}
+			})
 		/* return () => {
 			unmounted = true
 		} */
@@ -96,8 +96,8 @@ export default function SessionInfo() {
 					aria-controls="primary-search-account-name"
 					aria-haspopup="true"
 					color="inherit">
-						<Avatar alt={state.username} src={state.profilePic} />
-					</IconButton>
+					<Avatar alt={state.username} src={state.profilePic} />
+				</IconButton>
 			</div>
 			<Menu
 				id="simple-menu"
@@ -106,11 +106,11 @@ export default function SessionInfo() {
 				open={Boolean(anchorEl)}
 				getContentAnchorEl={null}
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-				transformOrigin={{ vertical: "top", horizontal:"center" }}
+				transformOrigin={{ vertical: "top", horizontal: "center" }}
 				onClose={handleClose}>
-					<MenuItem onClick={routeChange}>{state.username}</MenuItem>
-					<MenuItem onClick={handleLogout}>Logout</MenuItem>
-				</Menu>
+				<MenuItem onClick={routeChange}>{state.username}</MenuItem>
+				<MenuItem onClick={handleLogout}>Logout</MenuItem>
+			</Menu>
 		</Toolbar>
 	)
 }

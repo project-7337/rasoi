@@ -76,6 +76,7 @@ export default function UserProfile() {
 	const theme = useTheme();
 
 	const [open, setOpen] = React.useState(false);
+
 	//const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
@@ -93,8 +94,9 @@ export default function UserProfile() {
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-
+	
 	const handleClose = (value) => {
+		console.log("CLose dialog")
 		setOpen(false);
 	};
 
@@ -307,7 +309,7 @@ export default function UserProfile() {
 												<ListItemSecondaryAction>
 													<IconButton edge="end" aria-label="edit" onClick={handleClickOpen} >
 														<EditIcon />
-														<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} completeAddress={"data.compeleteAddress"} />
+														<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} addressData={data.completeAddress} />
 													</IconButton>
 													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
 														<DeleteIcon />
@@ -322,7 +324,7 @@ export default function UserProfile() {
 									<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
 										Add a new address
 									</Button>
-									<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} completeAddress={undefined}/>
+									{/* <AddressDialog id={false} open={addopen} onClose={handleaddClose} handleSubmit={handleSubmit} /> */}
 								</Paper>
 							</TabPanel>
 							<TabPanel value={value} index={4}>
