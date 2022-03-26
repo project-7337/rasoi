@@ -14,7 +14,7 @@ import { Add, House, Work } from '@material-ui/icons';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddressDialog from '../utils/AddressDialoge';
+import AddressBox from '../utils/AddressBox';
 
 const checkIfEmpty = (obj) => {
 	for (var prop in obj) {
@@ -76,6 +76,7 @@ export default function UserProfile() {
 	const theme = useTheme();
 
 	const [open, setOpen] = React.useState(false);
+	const [operation, setOperation] = React.useState("");
 
 	//const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
@@ -91,12 +92,13 @@ export default function UserProfile() {
 		landmark: ''
 	})
 
-	const handleClickOpen = () => {
+	const handleClickOpen = (event, val) => {
+		event.preventDefault();
 		setOpen(true);
+		setOperation(val);
 	};
-	
+
 	const handleClose = () => {
-		console.log("CLose dialog")
 		setOpen(false);
 	};
 
@@ -119,6 +121,7 @@ export default function UserProfile() {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
 	const handleSubmit = (event, address) => {
 		console.log("Adding address: ", address);
 		if (undefined !== address) {
@@ -168,28 +171,6 @@ export default function UserProfile() {
 				}
 			});
 	}
-	React.useEffect(() => {
-		//console.log("useeffect")
-		// fetch("/api/v1/getUser", {
-		// 	method: 'GET',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 		'Authorization': 'Bearer ' + Cookies.get('token')
-		// 	},
-		// }).then((response) => {
-		// 	if (response.status === 403) {
-		// 		//console.log(response)
-		// 		history.push('customer')
-		// 	}
-		// 	return response.json()
-		// }).then(resp => {
-		// 	//console.log(resp.data);
-		// 	dispatch(allActions.userAction.setUser(resp.data));
-		// 	// dispatch(userReducer(resp.data.user))
-		// 	// dispatch(SetAddressList(resp.data.address))
-		// });
-		console.log("User data persisted")
-	}, [history, dispatch])
 
 	return (
 		<div>
@@ -222,7 +203,6 @@ export default function UserProfile() {
 								</div>
 							</Container>
 						</Grid>
-
 						<Grid item xs={12} sm={9} md={9}>
 							<TabPanel value={value} index={0}>
 								<h3>My Profile</h3>
@@ -295,9 +275,7 @@ export default function UserProfile() {
 							<TabPanel value={value} index={3}>
 								<h3>My Addresses</h3>
 								<Paper elevation={3} className={classes.tabPaper}>
-
 									{undefined !== addList && addList.length > 0 && addList.map((data, index) => (
-										// console.log(data)
 										<List key={data._id} className={classes.list}>
 											<ListItem>
 												<ListItemAvatar>
@@ -307,42 +285,34 @@ export default function UserProfile() {
 												</ListItemAvatar>
 												<ListItemText primary={data.type} secondary={data.completeAddress} />
 												<ListItemSecondaryAction>
-													<IconButton edge="end" aria-label="edit" onClick={handleClickOpen} >
+													<IconButton edge="end" aria-label="edit" onClick={(e) => handleClickOpen(e, "UPDATE")} >
 														<EditIcon />
-														<AddressDialog open={open} onClose={handleClose} handleSubmit={handleSubmit} addressData={data.completeAddress} />
 													</IconButton>
 													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
 														<DeleteIcon />
 													</IconButton>
 												</ListItemSecondaryAction>
-
 											</ListItem>
-
 										</List>
-
 									))}
-									<Button variant='text' color='primary' onClick={handleClickOpen} startIcon={<Add />}>
+									<Button variant='text' color='primary' onClick={(e) => handleClickOpen(e, "ADD")} startIcon={<Add />}>
 										Add a new address
 									</Button>
-									{/* <AddressDialog id={false} open={addopen} onClose={handleaddClose} handleSubmit={handleSubmit} /> */}
+									<AddressBox open={open} handleClose={handleClose} handleSubmit={handleSubmit} operation={operation} />
 								</Paper>
 							</TabPanel>
 							<TabPanel value={value} index={4}>
 								<h3>Settings</h3>
 								<Paper elevation={3} className={classes.tabPaper}>
-
 								</Paper>
-
 							</TabPanel>
 						</Grid>
-
 					</Grid>
 				</Paper>
 			}
 		</div>
 	)
 }
-
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;

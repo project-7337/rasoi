@@ -6,7 +6,7 @@ import Carousel from "react-material-ui-carousel";
 import '../../styles/styles.css';
 import { red } from '@material-ui/core/colors';
 import Cookies from 'js-cookie';
-import RestaurantData from './RestaurantData';
+import RestaurantData from '../restaurant/RestaurantData';
 import { useDispatch, useSelector } from "react-redux";
 import allActions from '../../Redux/Actions';
 

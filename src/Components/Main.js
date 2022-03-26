@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Customer from './customer/Customer'
-import RestaurantDetails from './customer/RestaurantDetails';
-import UserProfile from './customer/UserProfile';
-import CompleteProfile from './customer/CompleteProfile'
+import RestaurantDetails from './restaurant/RestaurantDetails';
+import UserProfile from './profile/UserProfile';
+import CompleteProfile from './profile/CompleteProfile'
 import Seller from "./seller/Seller";
 
 /** Routing performed here is on the sub-app level, where the componenets having the Navbar need to be routed from here, so that we do no re render the navbar in the componenets */
