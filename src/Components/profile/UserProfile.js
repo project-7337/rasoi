@@ -98,7 +98,11 @@ export default function UserProfile() {
 		setOperation(val);
 	};
 
-	const handleClose = () => {
+	const handleClose = (action, props) => {
+		if(action === 'submit') {
+			console.log(props)
+			handleSubmit()
+		}
 		setOpen(false);
 	};
 
@@ -112,7 +116,6 @@ export default function UserProfile() {
 				return <Work />
 			default:
 				return <ContactsIcon />
-
 		}
 	}
 
