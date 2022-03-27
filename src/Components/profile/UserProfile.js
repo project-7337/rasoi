@@ -1,20 +1,43 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tab, Tabs, Grid, Paper, Typography, Avatar, Box, List, ListItemAvatar, ListItem, ListItemText, TextField, useMediaQuery, useTheme, CircularProgress, ListItemSecondaryAction, IconButton } from "@material-ui/core";
-import '../../styles/styles.css';
 import Cookies from 'js-cookie';
 import { Container } from 'react-bootstrap';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import EditIcon from '@material-ui/icons/Edit';
-import { useSelector, useDispatch } from 'react-redux'
-import allActions from '../../Redux/Actions';
 import PropTypes from 'prop-types';
-import { Add, House, Work } from '@material-ui/icons';
-import ApartmentIcon from '@material-ui/icons/Apartment';
-import ContactsIcon from '@material-ui/icons/Contacts';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from "@material-ui/core/styles";
+import { 
+	Button,
+	Tab,
+	Tabs,
+	Grid,
+	Paper,
+	Typography,
+	Avatar,
+	Box,
+	List,
+	ListItemAvatar,
+	ListItem,
+	ListItemText,
+	TextField,
+	useTheme,
+	CircularProgress, 
+	ListItemSecondaryAction, 
+	IconButton
+} from "@material-ui/core";
+import { 
+	Add,
+	House,
+	Work,
+	VerifiedUser as VerifiedUserIcon,
+	Edit as EditIcon,
+	Apartment as ApartmentIcon,
+	Contacts as ContactsIcon,
+	Delete as DeleteIcon
+} from '@material-ui/icons';
+import allActions from '../../Redux/Actions';
 import AddressBox from '../utils/AddressBox';
+
+import '../../styles/styles.css';
 
 const checkIfEmpty = (obj) => {
 	for (var prop in obj) {
@@ -24,7 +47,6 @@ const checkIfEmpty = (obj) => {
 	}
 	return JSON.stringify(obj) === JSON.stringify({});
 }
-
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -77,30 +99,21 @@ export default function UserProfile() {
 
 	const [open, setOpen] = React.useState(false);
 	const [operation, setOperation] = React.useState("");
+	const [editData, setEditData] = React.useState();
 
-	//const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [value, setValue] = React.useState(0);
 	const user = useSelector((state) => state.userReducer)
-	//console.log(user)
 	const addList = user.address
-	//console.log(addList)
-	const [address, setAddress] = React.useState({
-		email: '',
-		type: 'Home',
-		completeAddress: '',
-		floor: '',
-		landmark: ''
-	})
 
-	const handleClickOpen = (event, val) => {
+	const handleClickOpen = (event, val, rowData) => {
 		event.preventDefault();
 		setOpen(true);
 		setOperation(val);
+		setEditData(rowData);
 	};
 
 	const handleClose = (action, props) => {
-		if(action === 'submit') {
-			console.log(props)
+		if (action === 'submit') {
 			handleSubmit()
 		}
 		setOpen(false);
@@ -125,35 +138,56 @@ export default function UserProfile() {
 		setValue(newValue);
 	};
 
-	const handleSubmit = (event, address) => {
-		console.log("Adding address: ", address);
+	const handleSubmit = (event, operation, address) => {
 		if (undefined !== address) {
 			event.preventDefault()
-			fetch('/api/v1/addAddress', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + Cookies.get('token')
-				}, body: JSON.stringify({
-					address
+
+			if (operation === 'UPDATE') {
+				fetch('/api/v1/updateAddress', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + Cookies.get('token')
+					}, body: JSON.stringify({
+						address
+					})
 				})
-			})
-				.then((res) => { return res.json() })
-				.then((response) => {
-					console.log(response)
-					if (response.status === 500) {
-						setTimeout(() => window.location.reload(), 3000)
-					} else {
-						dispatch(allActions.userAction.updateAddress(response.data))
-						setOpen(false);
-					}
-				});
+					.then((res) => { return res.json() })
+					.then((response) => {
+						if (response.status === 500) {
+							setTimeout(() => window.location.reload(), 3000)
+						} else {
+							dispatch(allActions.userAction.updateAddress(response.data))
+							setOpen(false);
+						}
+					});
+			} else if (operation === 'ADD') {
+				fetch('/api/v1/addAddress', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + Cookies.get('token')
+					}, body: JSON.stringify({
+						address
+					})
+				})
+					.then((res) => { return res.json() })
+					.then((response) => {
+						if (response.status === 500) {
+							setTimeout(() => window.location.reload(), 3000)
+						} else {
+							dispatch(allActions.userAction.updateAddress(response.data))
+							setOpen(false);
+						}
+					});
+			}
+			
+			
 		}
 	}
 
 	const deleteAddress = (event, address) => {
 		event.preventDefault()
-		console.log("Deleting address ")
 		fetch('/api/v1/deleteAddress', {
 			method: 'DELETE',
 			headers: {
@@ -165,12 +199,10 @@ export default function UserProfile() {
 		})
 			.then((res) => { return res.json() })
 			.then((response) => {
-				console.log(response)
 				if (response.status === 500) {
 					setTimeout(() => window.location.reload(), 3000)
 				} else {
 					dispatch(allActions.userAction.updateAddress(response.data))
-					//setTimeout(() => history.push('/'), 3000)
 				}
 			});
 	}
@@ -288,7 +320,7 @@ export default function UserProfile() {
 												</ListItemAvatar>
 												<ListItemText primary={data.type} secondary={data.completeAddress} />
 												<ListItemSecondaryAction>
-													<IconButton edge="end" aria-label="edit" onClick={(e) => handleClickOpen(e, "UPDATE")} >
+													<IconButton edge="end" aria-label="edit" onClick={(e) => handleClickOpen(e, "UPDATE", data)} >
 														<EditIcon />
 													</IconButton>
 													<IconButton edge="end" aria-label="delete" onClick={(e) => deleteAddress(e, data)}>
@@ -301,7 +333,7 @@ export default function UserProfile() {
 									<Button variant='text' color='primary' onClick={(e) => handleClickOpen(e, "ADD")} startIcon={<Add />}>
 										Add a new address
 									</Button>
-									<AddressBox open={open} handleClose={handleClose} handleSubmit={handleSubmit} operation={operation} />
+									<AddressBox open={open} handleClose={handleClose} handleSubmit={handleSubmit} operation={operation} email={user.userData.userEmail} editData={editData} />
 								</Paper>
 							</TabPanel>
 							<TabPanel value={value} index={4}>

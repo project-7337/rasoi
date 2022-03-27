@@ -15,14 +15,14 @@ import {
 
 export default function AddressBox(props) {
 
-	const { open, handleClose, handleSubmit, operation } = props;
+	const { open, handleClose, handleSubmit, operation, email, editData } = props;
 
 	const [formData, setFormData] = React.useState({
 		completeAddress: '',
 		floor: '',
 		landmark: '',
 		type: '',
-
+		email: email
 	})
 
 	const onClose = (event, action) => {
@@ -30,15 +30,15 @@ export default function AddressBox(props) {
 		handleClose(action, formData);
 	}
 
-	const onSubmit = () => {
-		handleSubmit();
-	}
-
 	const handleChange = (event, props) => {
 		setFormData({
 			...formData,
 			[props]: event.target.value
 		});
+	}
+
+	const onCLickSumbit = (event, action) => {
+		handleSubmit(event, action, formData);
 	}
 
 	return (
@@ -53,17 +53,17 @@ export default function AddressBox(props) {
 					<form>
 						<Grid container spacing={3} >
 							<Grid item xs={12} sm={12} md={12} >
-								<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' onChange={(e) => handleChange(e, 'completeAddress')} />
+								<TextField required fullWidth id="completeAddress" label="Complete Address" variant="outlined" type='input' value={undefined !== editData ? editData.completeAddress : formData.completeAddress} onChange={(e) => handleChange(e, 'completeAddress')} />
 							</Grid>
 							<Grid item xs={12} sm={12} md={12} >
-								<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' onChange={(e) => handleChange(e, 'floor')} />
+								<TextField id="Floor" fullWidth label="Floor (optional)" variant="outlined" type='input' value={undefined !== editData ? editData.floor : formData.floor} onChange={(e) => handleChange(e, 'floor')} />
 							</Grid>
 							<Grid item xs={12} sm={12} md={12} >
-								<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' onChange={(e) => handleChange(e, 'landmark')} />
+								<TextField id="Landmark" fullWidth label="Nearby Landmark (Optional)" variant="outlined" type='input' value={undefined !== editData ? editData.landmark : formData.landmark} onChange={(e) => handleChange(e, 'landmark')} />
 							</Grid>
 							<Grid item xs={12} sm={12} md={12} >
 								<FormControl component="fieldset">
-									<RadioGroup row aria-label="addressType" name="addressType" onChange={(e) => handleChange(e, 'type')}>
+									<RadioGroup row aria-label="addressType" name="addressType" value={undefined !== editData ? editData.type : formData.type} onChange={(e) => handleChange(e, 'type')}>
 										<FormControlLabel
 											value="Home"
 											control={<Radio color="primary" />}
@@ -93,8 +93,8 @@ export default function AddressBox(props) {
 					<Button onClick={(e) => onClose(e, 'close')} color="primary">
 						Later
 					</Button>
-					<Button onClick={(e) => onClose(e, 'submit')} color="primary">
-						Update
+					<Button onClick={(e) => onCLickSumbit(e, operation)} color="primary">
+						{operation == "ADD" ? "Add" : "Update"}
 					</Button>
 				</DialogActions>
 			</Dialog >
